@@ -59,7 +59,7 @@ categories: 技术
 - 微信mac版
 - Telegram for macOS
   - 需要配合🍅使用
-  - ssr下直接打开tg是登陆不了的，输入手机号后会timeout。解决方法是手动配置tg的proxy。模式选择socks5，地址127.0.0.1，端口在小火箭的advance preference里确认，一般默认1086端口。**设置proxy后重启tg，一定要重启，然后应该可以正常输入手机号码和验证码后登陆
+  - ssr下直接打开tg是登陆不了的，输入手机号后会timeout。解决方法是手动配置tg的proxy。模式选择socks5，地址127.0.0.1，端口在小火箭的advance preference里确认，一般默认1086端口。设置proxy后重启tg，一定要重启！然后应该可以正常输入手机号码和验证码后登陆
 
 ## 设置
 
