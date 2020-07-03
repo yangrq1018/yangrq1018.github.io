@@ -11,6 +11,8 @@ categories:
 
 在公司上班配了一台Windows 10台式机，戴尔的商业机，配置
 
+<!-- more -->
+
 - Intel i7 9700
 - Intel UHD630集显
 - AMD RX550集显
@@ -69,3 +71,26 @@ npm install
 如何在Win和Linux之间共享文件
 
 出于安全方面的考虑VMware默认是不打开文件共享
+
+
+
+
+
+软件列表
+
+- 微信
+- Anaconda
+- Pycharm
+- Vscode
+- Typora
+- MikTex
+- Lyx
+- Adobe Acrobat
+- Chrome
+- VMware and Ubuntu
+- SSR
+- Office 365
+- 7 zip
+- Telegram
+- 更纱黑体用于Powershell
+
