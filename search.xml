@@ -7,6 +7,85 @@
 ]]></content>
   </entry>
   <entry>
+    <title>千里之行，始于足下</title>
+    <url>/article/starter/</url>
+    <content><![CDATA[<h1 id="那就开始吧！⛽️"><a href="#那就开始吧！⛽️" class="headerlink" title="那就开始吧！⛽️"></a>那就开始吧！⛽️</h1><p>我是马赫东，英文名叫Martin。这是我的博客网站，受到前辈<a href="https://tingtalk.me/telegram/" target="_blank" rel="noopener">庭说</a>的博客启发，自建的网站。<br>第一篇博客，就放一段希望能激励我坚持更新博客的话吧。</p>
+<blockquote>
+<p>人缺的永远不是旺盛的好奇心，而是走出第一步的动量，和不懈坚持的热爱。</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>Windows 10的使用心得</title>
+    <url>/article/win-setup/</url>
+    <content><![CDATA[<p>在公司上班配了一台Windows 10台式机，戴尔的商业机，配置</p>
+<a id="more"></a>
+
+<ul>
+<li>Intel i7 9700</li>
+<li>Intel UHD630集显</li>
+<li>AMD RX550集显</li>
+<li>32G RAM</li>
+<li>512 Samsung SSD</li>
+<li>两块宏基2K屏</li>
+<li>NB双屏挂架</li>
+</ul>
+<h2 id="番茄问题"><a href="#番茄问题" class="headerlink" title="番茄问题"></a>番茄问题</h2><p><code>npm</code>下载缓慢问题</p>
+<p>Win下的ssr配置并不麻烦，但诸如Powershell, cmd的终端使用代理就很麻烦了，尤其是相比unix系统简单设置一下环境变量就搞定，windows的各种命令行软件接入互联网走的路径差异很大。<code>git</code>提高下载速度可以直接通过配置<code>git</code>的私有变量实现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 鼠标停留在状态栏的小火箭上会显示端口</span><br><span class="line">git config set http.proxy &#39;socks5:&#x2F;&#x2F;127.0.0.1:1080&#39;</span><br><span class="line">git config set https.proxy &#39;socks5:&#x2F;&#x2F;127.0.0.1:1080&#39;</span><br></pre></td></tr></table></figure>
+
+<p>而且直连socks，下载速度飞快。</p>
+<p><code>npm install</code>在ssr设置了全局代理的情况下还是会下载卡死，<code>npm config</code>配置代理实测并不能解决问题。可以配置淘宝源结局，如果已经设置了代理要<code>npm config edit</code>把代理相关的行删掉，再</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm config set registry http:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>然后</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>速度飞快</p>
+<h3 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h3><p>本科上C++的时候用过VirtualBox的Ubuntu，觉得不太好用。后来在Mac下就花钱买了个Parallel，体验好很多。这次尝试了VMware的虚拟机，VMware也是付费程序，不过由于不重视保护版权，激活码在网上并不难找到。有能力的话还是要支持正版。</p>
+<p>如何用VMware在Windows下安装Ubuntu，<a href="https://zhuanlan.zhihu.com/p/41940739" target="_blank" rel="noopener">手把手教程</a>。</p>
+<p>安装好Ubuntu虚拟机后，有个复杂的问题就是配置虚拟机的代理。即使在主系统上打开ssr，虚拟机上也是无法直接翻墙的。</p>
+<ul>
+<li>右键小火箭，选项设置</li>
+<li>勾选“允许来自局域网的连接”，端口设置为1079（跟小火箭里的局域网端口设置吻合）</li>
+<li>VMware的网络选择为NAT模式，注意不是桥接模式！</li>
+<li>在shell里<code>ipconfig</code>，VMnet8对应的一项就是NAT模式的网络，复制IPv4地址，比如我的是<code>192.168.121.1</code></li>
+<li>其实VMnet1的IP地址也是可以用的，但是不推荐。VMnet 1和8都是虚拟网卡，区别是VMnet 1是host-only，虚拟机只能和物理机通信</li>
+<li>切换到Ubuntu，Settings&gt;Network，Network Proxy设置为Manual</li>
+<li>所有Proxy都设置为<code>192.168.121.1:1079</code></li>
+</ul>
+<p>打开火狐浏览器测试google.com能否访问。</p>
+<p>除此之外，配置一下<code>apt-get</code>使用代理</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/apt/apt.conf</span><br></pre></td></tr></table></figure>
+
+<p>内容为<code>Acquire::http::proxy &quot;http://192.168.121.1:1079/&quot;</code></p>
+<p>如何在Win和Linux之间共享文件</p>
+<p>出于安全方面的考虑VMware默认是不打开文件共享</p>
+<p>软件列表</p>
+<ul>
+<li>微信</li>
+<li>Anaconda</li>
+<li>Pycharm</li>
+<li>Vscode</li>
+<li>Typora</li>
+<li>MikTex</li>
+<li>Lyx</li>
+<li>Adobe Acrobat</li>
+<li>Chrome</li>
+<li>VMware and Ubuntu</li>
+<li>SSR</li>
+<li>Office 365</li>
+<li>7 zip</li>
+<li>Telegram</li>
+<li>更纱黑体用于Powershell</li>
+</ul>
+<p>TODO:</p>
+<p>:white_check_mark: ​虚拟机<code>apt-get</code>代理配置</p>
+<p>:white_check_mark: Powershell字体变更为更纱黑体</p>
+<p>:white_check_mark:Linux和宿主之间共享文件</p>
+]]></content>
+  </entry>
+  <entry>
     <title>Hexo框架+NexT主题建设个人博客</title>
     <url>/article/hexo-blog/</url>
     <content><![CDATA[<h2 id="Hexo博客框架"><a href="#Hexo博客框架" class="headerlink" title="Hexo博客框架"></a>Hexo博客框架</h2><p>Hexo 是一个静态网页博客框架，简约而不简单，<a href="https://github.com/hexojs/hexo" target="_blank" rel="noopener">Github repo</a> 上已经有有30k星星。</p>
@@ -232,15 +311,6 @@
       </tags>
   </entry>
   <entry>
-    <title>千里之行，始于足下</title>
-    <url>/article/starter/</url>
-    <content><![CDATA[<h1 id="那就开始吧！⛽️"><a href="#那就开始吧！⛽️" class="headerlink" title="那就开始吧！⛽️"></a>那就开始吧！⛽️</h1><p>我是马赫东，英文名叫Martin。这是我的博客网站，受到前辈<a href="https://tingtalk.me/telegram/" target="_blank" rel="noopener">庭说</a>的博客启发，自建的网站。<br>第一篇博客，就放一段希望能激励我坚持更新博客的话吧。</p>
-<blockquote>
-<p>人缺的永远不是旺盛的好奇心，而是走出第一步的动量，和不懈坚持的热爱。</p>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
     <title>游记之夏日刺桐</title>
     <url>/article/quanzhou-trip/</url>
     <content><![CDATA[<p>四月去了趟惠州，没几天因为锘潼有急事就送她回去了。一晃眼已经五月中旬了，终于定下来去福建玩一趟。</p>
@@ -329,66 +399,5 @@
         <tag>泉州</tag>
         <tag>福建</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Windows 10的使用心得</title>
-    <url>/article/win-setup/</url>
-    <content><![CDATA[<p>在公司上班配了一台Windows 10台式机，戴尔的商业机，配置</p>
-<a id="more"></a>
-
-<ul>
-<li>Intel i7 9700</li>
-<li>Intel UHD630集显</li>
-<li>AMD RX550集显</li>
-<li>32G RAM</li>
-<li>512 Samsung SSD</li>
-<li>两块宏基2K屏</li>
-<li>NB双屏挂架</li>
-</ul>
-<h2 id="番茄问题"><a href="#番茄问题" class="headerlink" title="番茄问题"></a>番茄问题</h2><p><code>npm</code>下载缓慢问题</p>
-<p>Win下的ssr配置并不麻烦，但诸如Powershell, cmd的终端使用代理就很麻烦了，尤其是相比unix系统简单设置一下环境变量就搞定，windows的各种命令行软件接入互联网走的路径差异很大。<code>git</code>提高下载速度可以直接通过配置<code>git</code>的私有变量实现</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 鼠标停留在状态栏的小火箭上会显示端口</span><br><span class="line">git config set http.proxy &#39;socks5:&#x2F;&#x2F;127.0.0.1:1080&#39;</span><br><span class="line">git config set https.proxy &#39;socks5:&#x2F;&#x2F;127.0.01:1080&#39;</span><br></pre></td></tr></table></figure>
-
-<p>而且直连socks，下载速度飞快。</p>
-<p><code>npm install</code>在ssr设置了全局代理的情况下还是会下载卡死，<code>npm config</code>配置代理实测并不能解决问题。可以配置淘宝源结局，如果已经设置了代理要<code>npm config edit</code>把代理相关的行删掉，再</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm config set registry http:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-
-<p>然后</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
-
-<p>速度飞快</p>
-<h3 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h3><p>本科上C++的时候用过VirtualBox的Ubuntu，觉得不太好用。后来在Mac下就花钱买了个Parallel，体验好很多。这次尝试了VMware的虚拟机，VMware也是付费程序，不过由于不重视保护版权，激活码在网上并不难找到。有能力的话还是要支持正版。</p>
-<p>如何用VMware在Windows下安装Ubuntu，<a href="https://zhuanlan.zhihu.com/p/41940739" target="_blank" rel="noopener">手把手教程</a>。</p>
-<p>安装好Ubuntu虚拟机后，有个复杂的问题就是配置虚拟机的代理。即使在主系统上打开ssr，虚拟机上也是无法直接翻墙的。</p>
-<ul>
-<li>右键小火箭，选项设置</li>
-<li>勾选“允许来自局域网的连接”，端口设置为1080</li>
-<li>VMware的网络选择为NAT模式，注意不是桥接模式！</li>
-<li>在shell里<code>ipconfig</code>，VMnet8对应的一项就是NAT模式的网络，复制IPv4地址，比如我的是<code>192.168.43.1</code></li>
-<li>切换到Ubuntu，Settings&gt;Network，Network Proxy设置为Manual</li>
-<li>所有Proxy都是<code>192.168.43.1:1080</code></li>
-</ul>
-<p>打开火狐浏览器测试google.com能否访问。</p>
-<p>如何在Win和Linux之间共享文件</p>
-<p>出于安全方面的考虑VMware默认是不打开文件共享</p>
-<p>软件列表</p>
-<ul>
-<li>微信</li>
-<li>Anaconda</li>
-<li>Pycharm</li>
-<li>Vscode</li>
-<li>Typora</li>
-<li>MikTex</li>
-<li>Lyx</li>
-<li>Adobe Acrobat</li>
-<li>Chrome</li>
-<li>VMware and Ubuntu</li>
-<li>SSR</li>
-<li>Office 365</li>
-<li>7 zip</li>
-<li>Telegram</li>
-<li>更纱黑体用于Powershell</li>
-</ul>
-]]></content>
   </entry>
 </search>
