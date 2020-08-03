@@ -44,13 +44,17 @@
 <h3 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h3><p>本科上C++的时候用过VirtualBox的Ubuntu，觉得不太好用。后来在Mac下就花钱买了个Parallel，体验好很多。这次尝试了VMware的虚拟机，VMware也是付费程序，不过由于不重视保护版权，激活码在网上并不难找到。有能力的话还是要支持正版。</p>
 <p>如何用VMware在Windows下安装Ubuntu，<a href="https://zhuanlan.zhihu.com/p/41940739" target="_blank" rel="noopener">手把手教程</a>。</p>
 <h3 id="配置虚拟机的代理"><a href="#配置虚拟机的代理" class="headerlink" title="配置虚拟机的代理"></a>配置虚拟机的代理</h3><ul>
-<li>假设主机上梯子用的是<a href="https://github.com/Fndroid/clash_for_windows_pkg/releases" target="_blank" rel="noopener">Clash for win</a>，General &gt; 勾选Allow LAN（允许局域网的连接），记录下Port端口</li>
+<li>假设主机上梯子用的是<a href="https://github.com/Fndroid/clash_for_windows_pkg/releases" target="_blank" rel="noopener">Clash for win</a>，General &gt; 勾选Allow LAN（允许局域网的连接），记录下Port端口（默认7890）</li>
 <li>切换到Ubuntu，Settings&gt;Network，Network Proxy设置为Manual</li>
-<li>四个选项都设置为<code>&lt;主机ip&gt;:&lt;Port&gt;</code></li>
+<li>四个选项都设置为<code>&lt;主机ip&gt;:7890</code></li>
 </ul>
 <h3 id="配置apt-get使用代理"><a href="#配置apt-get使用代理" class="headerlink" title="配置apt-get使用代理"></a>配置<code>apt-get</code>使用代理</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/apt/apt.conf</span><br></pre></td></tr></table></figure>
 
-<p>内容为<code>Acquire::http::proxy &quot;http://&lt;主机ip&gt;:&lt;clash/ssr端口&gt;/&quot;</code></p>
+<p>内容为<code>Acquire::http::proxy &quot;http://&lt;主机ip&gt;:7890&quot;</code></p>
+<h3 id="配置Git使用代理"><a href="#配置Git使用代理" class="headerlink" title="配置Git使用代理"></a>配置Git使用代理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim ~&#x2F;.gitconfig</span><br><span class="line"># [http]</span><br><span class="line"># proxy &#x3D; http:&#x2F;&#x2F;&lt;主机ip&gt;:&lt;7890&gt;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="在Win和Linux之间共享文件"><a href="#在Win和Linux之间共享文件" class="headerlink" title="在Win和Linux之间共享文件"></a>在Win和Linux之间共享文件</h2><p>出于安全方面的考虑VMware默认是不打开文件共享，需要在VMware文件共享里打开。打开之后重启会导致共享的文件丢失在虚拟机的锚点，所以需要再次mount。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># VMware mount shared folder</span></span><br><span class="line"><span class="built_in">alias</span> mount=<span class="string">'/usr/bin/vmhgfs-fuse .host:/ /home/yangrq/share -o subtype=vmhgfs-fuse,allow_other'</span></span><br></pre></td></tr></table></figure>
 
