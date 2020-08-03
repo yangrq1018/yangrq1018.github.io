@@ -28,7 +28,7 @@
 <meta property="og:description" content="在公司上班配了一台Windows 10台式机，戴尔的商业机，配置">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-01T05:59:08.000Z">
-<meta property="article:modified_time" content="2020-07-16T06:13:19.000Z">
+<meta property="article:modified_time" content="2020-08-03T03:04:03.000Z">
 <meta property="article:author" content="马赫东">
 <meta name="twitter:card" content="summary">
 
@@ -225,7 +225,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-16 14:13:19" itemprop="dateModified" datetime="2020-07-16T14:13:19+08:00">2020-07-16</time>
+                <time title="修改时间：2020-08-03 11:04:03" itemprop="dateModified" datetime="2020-08-03T11:04:03+08:00">2020-08-03</time>
               </span>
 
           
@@ -285,25 +285,19 @@
 <p>速度飞快</p>
 <h3 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h3><p>本科上C++的时候用过VirtualBox的Ubuntu，觉得不太好用。后来在Mac下就花钱买了个Parallel，体验好很多。这次尝试了VMware的虚拟机，VMware也是付费程序，不过由于不重视保护版权，激活码在网上并不难找到。有能力的话还是要支持正版。</p>
 <p>如何用VMware在Windows下安装Ubuntu，<a href="https://zhuanlan.zhihu.com/p/41940739" target="_blank" rel="noopener">手把手教程</a>。</p>
-<p>安装好Ubuntu虚拟机后，有个复杂的问题就是配置虚拟机的代理。即使在主系统上打开ssr，虚拟机上也是无法直接翻墙的。</p>
-<ul>
-<li>右键小火箭，选项设置</li>
-<li>勾选“允许来自局域网的连接”，端口设置为1079（跟小火箭里的局域网端口设置吻合）</li>
-<li>VMware的网络选择为NAT模式，注意不是桥接模式！</li>
-<li>在shell里<code>ipconfig</code>，VMnet8对应的一项就是NAT模式的网络，复制IPv4地址，比如我的是<code>192.168.121.1</code></li>
-<li>其实VMnet1的IP地址也是可以用的，但是不推荐。VMnet 1和8都是虚拟网卡，区别是VMnet 1是host-only，虚拟机只能和物理机通信</li>
+<h3 id="配置虚拟机的代理"><a href="#配置虚拟机的代理" class="headerlink" title="配置虚拟机的代理"></a>配置虚拟机的代理</h3><ul>
+<li>假设主机上梯子用的是<a href="https://github.com/Fndroid/clash_for_windows_pkg/releases" target="_blank" rel="noopener">Clash for win</a>，General &gt; 勾选Allow LAN（允许局域网的连接），记录下Port端口</li>
 <li>切换到Ubuntu，Settings&gt;Network，Network Proxy设置为Manual</li>
-<li>所有Proxy都设置为<code>192.168.121.1:1079</code></li>
+<li>四个选项都设置为<code>&lt;主机ip&gt;:&lt;Port&gt;</code></li>
 </ul>
-<p>打开火狐浏览器测试google.com能否访问。</p>
-<p>除此之外，配置一下<code>apt-get</code>使用代理</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/apt/apt.conf</span><br></pre></td></tr></table></figure>
+<h3 id="配置apt-get使用代理"><a href="#配置apt-get使用代理" class="headerlink" title="配置apt-get使用代理"></a>配置<code>apt-get</code>使用代理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/apt.conf</span><br></pre></td></tr></table></figure>
 
-<p>内容为<code>Acquire::http::proxy &quot;http://192.168.121.1:1079/&quot;</code></p>
-<p>如何在Win和Linux之间共享文件</p>
-<p>出于安全方面的考虑VMware默认是不打开文件共享</p>
-<p>软件列表</p>
-<ul>
+<p>内容为<code>Acquire::http::proxy &quot;http://&lt;主机ip&gt;:&lt;clash/ssr端口&gt;/&quot;</code></p>
+<h2 id="在Win和Linux之间共享文件"><a href="#在Win和Linux之间共享文件" class="headerlink" title="在Win和Linux之间共享文件"></a>在Win和Linux之间共享文件</h2><p>出于安全方面的考虑VMware默认是不打开文件共享，需要在VMware文件共享里打开。打开之后重启会导致共享的文件丢失在虚拟机的锚点，所以需要再次mount。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># VMware mount shared folder</span></span><br><span class="line"><span class="built_in">alias</span> mount=<span class="string">'/usr/bin/vmhgfs-fuse .host:/ /home/yangrq/share -o subtype=vmhgfs-fuse,allow_other'</span></span><br></pre></td></tr></table></figure>
+
+<p>重启之后运行<code>mount</code>。</p>
+<h2 id="软件列表"><a href="#软件列表" class="headerlink" title="软件列表"></a>软件列表</h2><ul>
 <li>微信</li>
 <li>Anaconda</li>
 <li>Pycharm</li>
@@ -423,7 +417,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#番茄问题"><span class="nav-text">番茄问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux虚拟机"><span class="nav-text">Linux虚拟机</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#番茄问题"><span class="nav-text">番茄问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux虚拟机"><span class="nav-text">Linux虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置虚拟机的代理"><span class="nav-text">配置虚拟机的代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置apt-get使用代理"><span class="nav-text">配置apt-get使用代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Win和Linux之间共享文件"><span class="nav-text">在Win和Linux之间共享文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件列表"><span class="nav-text">软件列表</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
