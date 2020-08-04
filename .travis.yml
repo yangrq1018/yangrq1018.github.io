@@ -9,10 +9,6 @@ branches:
 script:
   - hexo generate # generate static files
 deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  keep-history: true
-  local-dir: public
-  target_branch: master
-  verbose: true
+  - type: 'git'
+  - repo: 'https://github.com/yangrq1018/yangrq1018.github.io.git'
+  - branch: master
