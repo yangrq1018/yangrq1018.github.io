@@ -86,7 +86,7 @@
   </entry>
   <entry>
     <title>Win/Linux虚拟环境使用笔记</title>
-    <url>/article/win-setup/</url>
+    <url>/article/work-notebook/</url>
     <content><![CDATA[<p>在公司搬砖用的环境是一台win台式机，i7+A卡，配上双屏，一屏竖着看代码一屏横着看网页，全都公司报销了。自己配了个Niz的82键配列静电容键盘，35g压力，打起来像戳棉花糖一样。</p>
 <a id="more"></a>
 
@@ -123,6 +123,16 @@
 <p>对于数据库架设在局域网内的环境，有这个内网穿透在家可以持续开发调试，还是很方便的。</p>
 <h2 id="Oracle数据库"><a href="#Oracle数据库" class="headerlink" title="Oracle数据库"></a>Oracle数据库</h2><p>因为现在写的东西可视化用的是eCharts（Python封装调用）+ Flask的组合，prototype当然要用一个开发足够快的数据库，选了non-SQL的数据库mongoDB，第一次使用非关系数据库，不过很好上手，eCharts本体又是个JS写的库（百度程序员很猛），这一套前后端交互用起来省不少心。</p>
 <p>等IT把Oracle数据库弄好，转债和股票的数据就上生产环境了。以前在工行实习的时候，学了python怎么开发Oracle数据库。Oracle那套东西体型太臃肿，80%的东西都是BAT这种体量的公司才用得上的。感谢我坑的DBM课，SQL还是会写一点的😤。</p>
+<ol>
+<li>图形化工具</li>
+</ol>
+<p>我推荐DBeaver，这是一个universal database manager，社区版本是免费的，可以连接所有支持jdbc接口的数据库。除了需要知道数据库的host, schema (username), password, service之外，还需要一个跟数据库版本对应的ojdbc包，我们公司的数据库是Oracle 11g，要用ojdbc6.jar，用更高级的会兼容不了。</p>
+<ol start="2">
+<li>python driver</li>
+</ol>
+<p><code>cx_Oracle</code>是Oracle的python封装借口，除了<code>pip install cx_Oracle</code>外呢，你还要在电脑上安装Oracle Instant Client（除非你的数据库是在自己电脑上），商用数据库就是这么事儿妈。不同系统的安装方法有所不同，参考<a href="https://www.oracle.com/database/technologies/instant-client/macos-intel-x86-downloads.html" target="_blank" rel="noopener">Oracle</a>。下载之后要让python能找到这个客户端，对于泛UNIX系统来说，在系统<code>$PATH</code>上建立软symlink是最方便的</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ln -s ~/instantclient_19_3/libclntsh.dylib /usr/<span class="built_in">local</span>/lib</span><br><span class="line">ln -s ~/instantclient_19_3/libclntsh.dylib.12.1 /usr/<span class="built_in">local</span>/lib</span><br></pre></td></tr></table></figure>
+
 ]]></content>
   </entry>
   <entry>
