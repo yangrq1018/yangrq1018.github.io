@@ -9,6 +9,12 @@ branches:
 script:
   - hexo generate # generate static files
 deploy:
-  - type: 'git'
-  - repo: 'https://github.com/yangrq1018/yangrq1018.github.io.git'
-  - branch: master
+  provider: pages
+  skip-cleanup: true
+  github-token: $GH_TOKEN
+  keep-history: true
+  committer_from_gh: true
+  target_branch: master # 部署到 master 分支
+  on:
+    branch: hexo
+  local-dir: public
