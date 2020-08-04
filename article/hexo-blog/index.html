@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/article/hexo-blog/blog_snapshoot.png">
 <meta property="article:published_time" content="2020-05-02T18:30:55.000Z">
-<meta property="article:modified_time" content="2020-08-04T04:38:26.305Z">
+<meta property="article:modified_time" content="2020-08-04T05:07:12.577Z">
 <meta property="article:author" content="马赫东">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="博客">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-04 04:38:26" itemprop="dateModified" datetime="2020-08-04T04:38:26+00:00">2020-08-04</time>
+                <time title="修改时间：2020-08-04 05:07:12" itemprop="dateModified" datetime="2020-08-04T05:07:12+00:00">2020-08-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,7 +254,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.9k</span>
+              <span>4.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -367,14 +367,18 @@
 <li>page - 页面 （如索引，自我介绍）</li>
 <li>draft - 草稿</li>
 </ul>
-<p>编辑<code>title.md</code>。Hexo会插入一个<code>front-matter</code>设置段落，控制这篇文章的meta-data。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: #文章题目</span><br><span class="line">toc:</span><br><span class="line">  number: #是否编号</span><br><span class="line">  enable: #是否显示TOC</span><br><span class="line">date: 2020-05-02 18:30:55</span><br><span class="line">tags: # 标签</span><br><span class="line">categories: # 分类</span><br><span class="line">permalink: # 文章的永久链接</span><br><span class="line">comments: # 是否加载评论插件</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>编辑<code>title.md</code>。Hexo会插入一个<code>front-matter</code>设置段落，控制这篇文章的meta-data。这个段落可以是yaml格式的，用triple dash结束；也可以是json，用三个分号结束</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">title: #文章题目</span><br><span class="line">toc:</span><br><span class="line">  number: #是否编号</span><br><span class="line">  enable: #是否显示TOC</span><br><span class="line">date: 2020-05-02 18:30:55</span><br><span class="line">tags: # 标签</span><br><span class="line">categories: # 分类</span><br><span class="line">permalink: # 文章的永久链接</span><br><span class="line">comments:</span><br></pre></td></tr></table></figure>
 
 <p>在<code>front-matter</code>的<code>---</code>以下编辑文章，可以使用Markdown支持的排版，包括emoji，可以插入本地照片或图床上的照片，本地照片会被Hexo打包在<code>public</code>目录中一同上传至托管系统。</p>
 <h2 id="部署博客"><a href="#部署博客" class="headerlink" title="部署博客"></a>部署博客</h2><p>写好文章后，下一部就是把博客真正地部署在互联网上，让所有人都能看到。</p>
 <p>先更新文章的HTML网页，生产文件放在<code>public</code>目录中</p>
 <p><code>hexo generate</code></p>
 <p>如果想要使用Gitub Pages部署博客。先在 Github上建立一个<code>&lt;example&gt;.github.io</code>的仓库，把<code>&lt;example&gt;</code>替换为你的Github id。</p>
+<p>部署到Pages上有两种方法</p>
+<ol>
+<li>在本地部署</li>
+</ol>
 <p>安装<code>hexo-deployer-git</code>插件，在站点目录中运行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
 
@@ -395,6 +399,11 @@
 <p>或者节约时间，Hexo支持缩写命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g <span class="comment"># 生成并部署</span></span><br></pre></td></tr></table></figure>
 
+<ol start="2">
+<li>Travis部署<br><code>Travis</code>是一个代码部署平台，可以与GitHub联动，监测github上某个仓库的某些分支，有commit后，寻找分支中的配置文件<code>.travis.yaml</code>，自动创建环境，允许指令部署。Travis有专门的Pages的部署选项，几个简单的配置之后就可以实现创作👉Push到仓库👉搞定。</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">...</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">provider:</span> <span class="string">pages</span></span><br><span class="line">  <span class="attr">skip-cleanup:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">github-token:</span> <span class="string">$GH_TOKEN</span></span><br><span class="line">  <span class="attr">keep-history:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">commiter_from_gh:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">target_branch:</span> <span class="string">master</span></span><br><span class="line">  <span class="attr">on:</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">hexo</span></span><br><span class="line">  <span class="attr">local-dir:</span> <span class="string">public</span></span><br></pre></td></tr></table></figure>
+<p>假设你的源代码存放在hexo分支，网站代码存放在master分支。需要生成一个有repo权限的token，设置在travis项目的环境变量里，叫<code>$GH_TOKEN</code>，让travis有权限写入master分支。</p>
 <h2 id="关联域名"><a href="#关联域名" class="headerlink" title="关联域名"></a>关联域名</h2><p>如果不喜欢<code>&lt;example&gt;.github.io</code>这样的二级域名，可以自己租用域名，然后链接到Github Page上。</p>
 <p>租用域名的平台很多，一个选择是<a href="https://wanwang.aliyun.com/" target="_blank" rel="noopener">阿里云</a>。</p>
 <p>假设租用<code>mydomain.com</code>，审核完成，到控制台/域名，找到刚刚购买的域名，配置解析，添加一条记录</p>
