@@ -13,7 +13,6 @@ deploy:
   skip-cleanup: true
   github-token: $GH_TOKEN
   keep-history: true
-  on:
-    branches:
-      only: master
   local-dir: public
+  target_branch: master
+  verbose: true
