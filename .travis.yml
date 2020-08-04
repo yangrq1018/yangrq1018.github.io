@@ -5,7 +5,7 @@ node_js:
 cache: npm
 branches:
   only:
-    - hexo # track blog-source branch only
+    - hexo # track blog-source
 script:
   - hexo generate # generate static files
 deploy:
