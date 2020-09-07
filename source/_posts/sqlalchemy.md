@@ -68,3 +68,40 @@ class BondDailyPrice(Base):
 如果在两个Column分别指定ForeignKey，`SQLAlchemy`会认为这是两个独立的ForeignKey限制，而不是一个composite key。Composite key
 
 `ForeignKeyConstraint([snapshot_date, security_code], [BondDailyPrice.timestamp, BondDailyPrice.bond_id])`写在`AlphaFactor`里的`__table_args__`里面，传递给model的Constructor。
+
+## 如何联表
+
+综合来说，`SQLAlchemy`有三种join table的方法
+
+1. 以上面这个`AlphaFactor` join `BondDailyPrice`的例子来说，如果我们在定义里声明了relationship，可以
+
+   ```python
+   session.query(AlphaFactor).outerjoin(BondDailyPrice).add_entity(BondDailyPrice).all()
+   ```
+
+   因为我们已经告诉了`SQLAlchemy`两个表之间的ForeignKey关系，所以可以直接`outerjoin()`。`add_entity`使最终查询到的是两个表而不是只有`AlphaFactor`一个。
+
+2. 或者
+
+   ```python
+   from sqlalchemy import and_
+   session.query(AlphaFactor).outerjoin(BondDailyPrice, and_(
+   		AlphaFactor.security_code == BondDailyPrice.bond_id,
+       AlphaFactor.snapshot_date == BondDailyPrice.timestamp
+   )).add_entity(BondDailyPrice).all()
+   ```
+
+   如果没有声明relationship，可以在`outerjoin`的时候提供`on` clause。
+
+3. 最原始的方法，Cartisian Product
+
+   ```python
+   session.query(AlphaFactor, BondDailyPrice).filter(
+     	and_(
+   				AlphaFactor.security_code == BondDailyPrice.bond_id,
+       		AlphaFactor.snapshot_date == BondDailyPrice.timestamp
+     	)
+   ).all()
+   ```
+
+   这样实际上是生成两个表的Cartisian product然后筛选结果，这实际上是一个inner join，而上面两个方法都是left outer join，如果对结果需要保留的行有要求的话，第三个方法可能不好用。
