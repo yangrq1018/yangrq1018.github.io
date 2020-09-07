@@ -138,6 +138,24 @@
 </blockquote>
 <p>如果在两个Column分别指定ForeignKey，<code>SQLAlchemy</code>会认为这是两个独立的ForeignKey限制，而不是一个composite key。Composite key</p>
 <p><code>ForeignKeyConstraint([snapshot_date, security_code], [BondDailyPrice.timestamp, BondDailyPrice.bond_id])</code>写在<code>AlphaFactor</code>里的<code>__table_args__</code>里面，传递给model的Constructor。</p>
+<h2 id="如何联表"><a href="#如何联表" class="headerlink" title="如何联表"></a>如何联表</h2><p>综合来说，<code>SQLAlchemy</code>有三种join table的方法</p>
+<ol>
+<li><p>以上面这个<code>AlphaFactor</code> join <code>BondDailyPrice</code>的例子来说，如果我们在定义里声明了relationship，可以</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">session.query(AlphaFactor).outerjoin(BondDailyPrice).add_entity(BondDailyPrice).all()</span><br></pre></td></tr></table></figure>
+
+<p>因为我们已经告诉了<code>SQLAlchemy</code>两个表之间的ForeignKey关系，所以可以直接<code>outerjoin()</code>。<code>add_entity</code>使最终查询到的是两个表而不是只有<code>AlphaFactor</code>一个。</p>
+</li>
+<li><p>或者</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> and_</span><br><span class="line">session.query(AlphaFactor).outerjoin(BondDailyPrice, and_(</span><br><span class="line">		AlphaFactor.security_code == BondDailyPrice.bond_id,</span><br><span class="line">    AlphaFactor.snapshot_date == BondDailyPrice.timestamp</span><br><span class="line">)).add_entity(BondDailyPrice).all()</span><br></pre></td></tr></table></figure>
+
+<p>如果没有声明relationship，可以在<code>outerjoin</code>的时候提供<code>on</code> clause。</p>
+</li>
+<li><p>最原始的方法，Cartisian Product</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">session.query(AlphaFactor, BondDailyPrice).filter(</span><br><span class="line">  	and_(</span><br><span class="line">				AlphaFactor.security_code == BondDailyPrice.bond_id,</span><br><span class="line">    		AlphaFactor.snapshot_date == BondDailyPrice.timestamp</span><br><span class="line">  	)</span><br><span class="line">).all()</span><br></pre></td></tr></table></figure>
+
+<p>这样实际上是生成两个表的Cartisian product然后筛选结果，这实际上是一个inner join，而上面两个方法都是left outer join，如果对结果需要保留的行有要求的话，第三个方法可能不好用。</p>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>coding</category>
