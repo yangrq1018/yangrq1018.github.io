@@ -96,6 +96,57 @@
       </tags>
   </entry>
   <entry>
+    <title>魔都六七月</title>
+    <url>/article/shanghai-july/</url>
+    <content><![CDATA[<p>在上海定居一月有余了。</p>
+<a id="more"></a>
+
+<p>以上海人的标准来看，我是个如假包换的外地人。之前从来没来过上海，甚至连路过转机都没有，北上广深，超一线城市，另外三个去的次数都不少了，唯独这有魔都之称的上海，在过去从未涉猎。至于原因么，我也说不上来，自从高考填志愿时在复旦和上交之间摇摆，却意外地通过了港大的面试，阴差阳错地成了留学生，之后便是一点去上海的理由都没有。</p>
+<p>在这之前。我其实不讨厌上海，甚至可以说有点喜欢。上大学的时候我坚定地把北京划掉了，觉得终究是个南方人适应不了北京的气候。那剩下的就只有上海的。也许旅游从来没把上海当作目的地，就是为了将来的现在，把家安在上海，从此长长久久地住到了这里。</p>
+<p>6月6日，从深圳坐东航的航班到浦东机场。这是今年第二次来浦东机场，上一次从英国跑毒回香港，上海浦东转机回深圳，坐机场的隔离大巴从T3转移到T2，路上看着空旷的浦东，还未想过自己真的会定居上海。</p>
+<p>在虹桥区租了房，在浦东上班，每天坐八号线转九号线。公司在一个有着很诗意名字的地铁站，叫芳甸路。芳草碧连天。来上海前最担心的是上班地铁会很挤，以前在车公庙实习的时候，一号线上挤得前胸贴后背。上海二号线会特别多人，八号线九号线都还好，浦东过了陆家嘴后，车厢竟空空荡荡的。</p>
+<p>房子租在虹口的一片老城区，两室一厅，月租不到六千。说是老城区，其实并不破旧，只是房子年纪比较大，是那种不到十层的无电梯的扁平小区。住在一楼，不用担心爬楼梯，家门口走一百米就有个菜市场和罗森。上海的便利店非常多，711、全家和罗森，这跟深圳很不一样。屋子背街的那一边有个围起来的小院子，之前的租客没收拾，长满了杂草，想着空闲下来了把院子整备一下。</p>
+<p>租房的时候没怎么注意，有天路过一个房产中介，发现家附近的房子个个强调是学区房。打开地图一看，呵！同济就在下个路口，同济、复旦和上财三个校区一字排开。</p>
+<p>六月刚来的时候，天气非常湿，衣服好几日也晾不干，赶紧下单了一台抽湿机，放在家里呼呼作响。还没入职的时候每日无所事事，每天有收不完的快递，也没办法出去游览一下。买了台索尼的4K电视，在亚马逊海外购订了个Xbox One X，从英国大老远寄过来，打打巫师和荒野大镖客一天过得很快。哦，宜家订家具的时候顺便买了套宜家的电钻套装，桌子凳子柜子躺椅自己摸索着装好了。其实耐心点看说明书，都不是很难。</p>
+<p>快要上班了，终于觉得至少要游客打个卡吧。去了外滩，看了东方明珠电视塔。在浦西看东方明珠，觉得普普通通，没想到后来在国金中心从底下看的时候，东方明珠是那么巨大一个。坐476路公交车回家，车上的上海话报站广播是那么有趣，每到一站忍不住要模仿一遍。交完最后一个考试，找了个酒吧喝一杯，没一会有人大打出手，从店里达到店外，酒吧的伙计都劝不住。</p>
+<p>上海有一个全国独一无二的东西：垃圾分类。干垃圾，湿垃圾，有害垃圾，可回收垃圾。厨房里放三个垃圾桶，习惯了会觉得不算麻烦，顺手就搞了。</p>
+<p>以前在深圳，觉得深圳是新贵城市，new money。来了上海，发现深圳是个土鳖。从来只有old money和no money。原先受电影电视影响，以为上海人是假洋气，好面子，有一天下班在公司楼下看到一家人牵着头羊驼在溜，佩服地不行，这哪里是小资情调，这是妥妥的old money啊。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>上海</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqlalchemy</title>
+    <url>/article/sqlalchemy/</url>
+    <content><![CDATA[<h2 id="SQLAlchemy使用笔记"><a href="#SQLAlchemy使用笔记" class="headerlink" title="SQLAlchemy使用笔记"></a>SQLAlchemy使用笔记</h2><p><code>SQLAlchemy</code>是一个Python的通用数据库接口库，支持市面上几乎所有的商用/开源数据库和Python的交互。支持SQL/ORM方式操作数据。<code>SQLAlchemy</code>的ORM模型的核心是declarative model class，用户继承<code>Base</code>类，自定义property后，每个类对应物理数据库中的一张表。通过<code>create_engine</code>方法生产一个<code>engine</code> 实例，指定物理数据库的位置和类型之后，<code>SQLAlchemy</code>将以Python代码表达的抽象逻辑编译为SQL语句，与数据库沟通执行。</p>
+<a id="more"></a>
+
+<p>下面是两个作为例子的类。<code>AlphaFactor</code>类对应Oracle数据库里的<code>alpha_factor</code>表，因为Oracle表是case-insensitive的，所以表叫做<code>ALPHA_FACTOR</code>，而Python类叫<code>AlphaFactor</code>，符合Python的命名规范。</p>
+<p><code>AlphaFactor</code>是计算出来的各种信号时间序列，对应证券代码<code>security_code</code>，信号名称<code>factor_name</code>，和算法版本<code>algo_version</code>。<code>BondDailyPrice</code>很简单，就是储存历史转债收盘数据（日频率）的全量数据表，每一行对应一只转债在一个交易日的收盘数据。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AlphaFactor</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'alpha_factor'</span></span><br><span class="line"></span><br><span class="line">    snapshot_date = Column(DateTime, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    factor_name = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    value = Column(Float)</span><br><span class="line">    error_code = Column(Integer)</span><br><span class="line">    error_msg = Column(VARCHAR(<span class="number">100</span>))</span><br><span class="line">    security_code = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    std_err = Column(Float)</span><br><span class="line">    algo_version = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    __table_args__ = (ForeignKeyConstraint([snapshot_date, security_code],</span><br><span class="line">                                           [BondDailyPrice.timestamp, BondDailyPrice.bond_id]),</span><br><span class="line">                      &#123;&#125;)</span><br><span class="line">    quote = relationship(<span class="string">"BondDailyPrice"</span>, back_populates=<span class="string">"alpha"</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BondDailyPrice</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'bar_daily_cb'</span></span><br><span class="line"></span><br><span class="line">    timestamp = Column(DateTime, index=<span class="literal">True</span>)</span><br><span class="line">    bond_id = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>, index=<span class="literal">True</span>)</span><br><span class="line">    open = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    high = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    low = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    close = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    pre_close = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    volume = Column(NUMBER(<span class="number">38</span>, <span class="number">0</span>, <span class="literal">False</span>))</span><br><span class="line">    amt = Column(Float)</span><br><span class="line">    pct_chg = Column(Float)</span><br><span class="line">    last_trade_day = Column(DateTime)</span><br><span class="line">    trade_status = Column(VARCHAR(<span class="number">100</span>))</span><br><span class="line">    unix_ts = Column(Float, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    alpha = relationship(<span class="string">"AlphaFactor"</span>, uselist=<span class="literal">False</span>)  <span class="comment"># One to one</span></span><br></pre></td></tr></table></figure>
+
+<p><code>SQLAlchemy</code>的ORM模型提供方便直观的联表方法。比如，很常见的一个操作是把信号表和转债价格表联起来，每天、每只转债的实际（收盘）价格，和这里作为信号的LSM价格对比。所以，<code>AlphaFactor</code> <strong>join</strong> <code>BondDailyPrice</code>的公共key一个是时间，一个是转债代码。</p>
+<p><code>SQLAlchemy</code>实际上只有一种方法指定composite foreign key，官方<a href="https://docs.sqlalchemy.org/en/13/core/constraints.html?highlight=check#metadata-foreignkeys" target="_blank" rel="noopener">文档</a>中说的很清楚</p>
+<blockquote>
+<p>It’s important to note that the <strong>ForeignKeyConstraint</strong> is the only way to define a composite foreign key. While we could also have placed individual ForeignKey objects on both the <code>invoice_item.invoice_id</code> and<code>invoice_item.ref_num</code> columns, SQLAlchemy would not be aware that these two values should be paired together - it would be two individual foreign key constraints instead of a single composite foreign key referencing two columns.</p>
+</blockquote>
+<p>如果在两个Column分别指定ForeignKey，<code>SQLAlchemy</code>会认为这是两个独立的ForeignKey限制，而不是一个composite key。Composite key</p>
+<p><code>ForeignKeyConstraint([snapshot_date, security_code], [BondDailyPrice.timestamp, BondDailyPrice.bond_id])</code>写在<code>AlphaFactor</code>里的<code>__table_args__</code>里面，传递给model的Constructor。</p>
+]]></content>
+      <categories>
+        <category>coding</category>
+      </categories>
+      <tags>
+        <tag>sqlalchemy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Win/Linux虚拟环境使用笔记</title>
     <url>/article/work-notebook/</url>
     <content><![CDATA[<p>在公司搬砖用的环境是一台win台式机，i7+A卡，配上双屏，一屏竖着看代码一屏横着看网页，全都公司报销了。自己配了个Niz的82键配列静电容键盘，35g压力，打起来像戳棉花糖一样。</p>
@@ -145,30 +196,6 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ln -s ~/instantclient_19_3/libclntsh.dylib /usr/<span class="built_in">local</span>/lib</span><br><span class="line">ln -s ~/instantclient_19_3/libclntsh.dylib.12.1 /usr/<span class="built_in">local</span>/lib</span><br></pre></td></tr></table></figure>
 
 ]]></content>
-  </entry>
-  <entry>
-    <title>魔都六七月</title>
-    <url>/article/shanghai-july/</url>
-    <content><![CDATA[<p>在上海定居一月有余了。</p>
-<a id="more"></a>
-
-<p>以上海人的标准来看，我是个如假包换的外地人。之前从来没来过上海，甚至连路过转机都没有，北上广深，超一线城市，另外三个去的次数都不少了，唯独这有魔都之称的上海，在过去从未涉猎。至于原因么，我也说不上来，自从高考填志愿时在复旦和上交之间摇摆，却意外地通过了港大的面试，阴差阳错地成了留学生，之后便是一点去上海的理由都没有。</p>
-<p>在这之前。我其实不讨厌上海，甚至可以说有点喜欢。上大学的时候我坚定地把北京划掉了，觉得终究是个南方人适应不了北京的气候。那剩下的就只有上海的。也许旅游从来没把上海当作目的地，就是为了将来的现在，把家安在上海，从此长长久久地住到了这里。</p>
-<p>6月6日，从深圳坐东航的航班到浦东机场。这是今年第二次来浦东机场，上一次从英国跑毒回香港，上海浦东转机回深圳，坐机场的隔离大巴从T3转移到T2，路上看着空旷的浦东，还未想过自己真的会定居上海。</p>
-<p>在虹桥区租了房，在浦东上班，每天坐八号线转九号线。公司在一个有着很诗意名字的地铁站，叫芳甸路。芳草碧连天。来上海前最担心的是上班地铁会很挤，以前在车公庙实习的时候，一号线上挤得前胸贴后背。上海二号线会特别多人，八号线九号线都还好，浦东过了陆家嘴后，车厢竟空空荡荡的。</p>
-<p>房子租在虹口的一片老城区，两室一厅，月租不到六千。说是老城区，其实并不破旧，只是房子年纪比较大，是那种不到十层的无电梯的扁平小区。住在一楼，不用担心爬楼梯，家门口走一百米就有个菜市场和罗森。上海的便利店非常多，711、全家和罗森，这跟深圳很不一样。屋子背街的那一边有个围起来的小院子，之前的租客没收拾，长满了杂草，想着空闲下来了把院子整备一下。</p>
-<p>租房的时候没怎么注意，有天路过一个房产中介，发现家附近的房子个个强调是学区房。打开地图一看，呵！同济就在下个路口，同济、复旦和上财三个校区一字排开。</p>
-<p>六月刚来的时候，天气非常湿，衣服好几日也晾不干，赶紧下单了一台抽湿机，放在家里呼呼作响。还没入职的时候每日无所事事，每天有收不完的快递，也没办法出去游览一下。买了台索尼的4K电视，在亚马逊海外购订了个Xbox One X，从英国大老远寄过来，打打巫师和荒野大镖客一天过得很快。哦，宜家订家具的时候顺便买了套宜家的电钻套装，桌子凳子柜子躺椅自己摸索着装好了。其实耐心点看说明书，都不是很难。</p>
-<p>快要上班了，终于觉得至少要游客打个卡吧。去了外滩，看了东方明珠电视塔。在浦西看东方明珠，觉得普普通通，没想到后来在国金中心从底下看的时候，东方明珠是那么巨大一个。坐476路公交车回家，车上的上海话报站广播是那么有趣，每到一站忍不住要模仿一遍。交完最后一个考试，找了个酒吧喝一杯，没一会有人大打出手，从店里达到店外，酒吧的伙计都劝不住。</p>
-<p>上海有一个全国独一无二的东西：垃圾分类。干垃圾，湿垃圾，有害垃圾，可回收垃圾。厨房里放三个垃圾桶，习惯了会觉得不算麻烦，顺手就搞了。</p>
-<p>以前在深圳，觉得深圳是新贵城市，new money。来了上海，发现深圳是个土鳖。从来只有old money和no money。原先受电影电视影响，以为上海人是假洋气，好面子，有一天下班在公司楼下看到一家人牵着头羊驼在溜，佩服地不行，这哪里是小资情调，这是妥妥的old money啊。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>上海</tag>
-      </tags>
   </entry>
   <entry>
     <title>Hexo框架+NexT主题建设个人博客</title>

@@ -20,21 +20,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="更新于2020年6月。">
+  <meta name="description" content="SQLAlchemy使用笔记SQLAlchemy是一个Python的通用数据库接口库，支持市面上几乎所有的商用&#x2F;开源数据库和Python的交互。支持SQL&#x2F;ORM方式操作数据。SQLAlchemy的ORM模型的核心是declarative model class，用户继承Base类，自定义property后，每个类对应物理数据库中的一张表。通过create_engine方法生产一个engine 实">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac程序环境初始设置指南">
-<meta property="og:url" content="http://yoursite.com/article/mac-setup/index.html">
+<meta property="og:title" content="sqlalchemy">
+<meta property="og:url" content="http://yoursite.com/article/sqlalchemy/index.html">
 <meta property="og:site_name" content="牛货">
-<meta property="og:description" content="更新于2020年6月。">
+<meta property="og:description" content="SQLAlchemy使用笔记SQLAlchemy是一个Python的通用数据库接口库，支持市面上几乎所有的商用&#x2F;开源数据库和Python的交互。支持SQL&#x2F;ORM方式操作数据。SQLAlchemy的ORM模型的核心是declarative model class，用户继承Base类，自定义property后，每个类对应物理数据库中的一张表。通过create_engine方法生产一个engine 实">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-06-21T00:06:20.000Z">
-<meta property="article:modified_time" content="2020-09-07T15:43:30.292Z">
+<meta property="article:published_time" content="2020-09-07T13:16:17.000Z">
+<meta property="article:modified_time" content="2020-09-07T15:43:30.340Z">
 <meta property="article:author" content="马赫东">
-<meta property="article:tag" content="Mac">
-<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="sqlalchemy">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/article/mac-setup/">
+<link rel="canonical" href="http://yoursite.com/article/sqlalchemy/">
 
 
 <script id="page-configurations">
@@ -47,7 +46,7 @@
   };
 </script>
 
-  <title>Mac程序环境初始设置指南 | 牛货</title>
+  <title>sqlalchemy | 牛货</title>
   
 
 
@@ -197,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/article/mac-setup/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/article/sqlalchemy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -210,7 +209,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Mac程序环境初始设置指南
+          sqlalchemy
         </h1>
 
         <div class="post-meta">
@@ -219,23 +218,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-06-21 00:06:20" itemprop="dateCreated datePublished" datetime="2020-06-21T00:06:20+00:00">2020-06-21</time>
+              <time title="创建时间：2020-09-07 13:16:17 / 修改时间：15:43:30" itemprop="dateCreated datePublished" datetime="2020-09-07T13:16:17+00:00">2020-09-07</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-07 15:43:30" itemprop="dateModified" datetime="2020-09-07T15:43:30+00:00">2020-09-07</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                  <a href="/categories/coding/" itemprop="url" rel="index"><span itemprop="name">coding</span></a>
                 </span>
             </span>
 
@@ -245,14 +238,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -264,63 +257,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>更新于2020年6月。</p>
+        <h2 id="SQLAlchemy使用笔记"><a href="#SQLAlchemy使用笔记" class="headerlink" title="SQLAlchemy使用笔记"></a>SQLAlchemy使用笔记</h2><p><code>SQLAlchemy</code>是一个Python的通用数据库接口库，支持市面上几乎所有的商用/开源数据库和Python的交互。支持SQL/ORM方式操作数据。<code>SQLAlchemy</code>的ORM模型的核心是declarative model class，用户继承<code>Base</code>类，自定义property后，每个类对应物理数据库中的一张表。通过<code>create_engine</code>方法生产一个<code>engine</code> 实例，指定物理数据库的位置和类型之后，<code>SQLAlchemy</code>将以Python代码表达的抽象逻辑编译为SQL语句，与数据库沟通执行。</p>
 <a id="more"></a>
 
-<h2 id="Python-Environment"><a href="#Python-Environment" class="headerlink" title="Python Environment"></a>Python Environment</h2><ul>
-<li>Anaconda distrbution<ul>
-<li>在Catalina的某一个版本后Dock里的Navigator就打不开了，因为Apple修改了第三方应用的权限，现在Anaconda无法放在用户根目录下的<code>~/Anaconda</code>，而只能在<code>~/opt</code>下，所以Dock里的快捷方式的目标失效了。不影响终端里调用任何Anaconda的功能，如何解决Dock图标的问题请谷歌</li>
-</ul>
-</li>
-<li>Tensforflow，通过pip安装，需要打开小火箭的Global mode</li>
-</ul>
-<h2 id="macOS-特色-IDE-编辑器"><a href="#macOS-特色-IDE-编辑器" class="headerlink" title="macOS 特色, IDE, 编辑器"></a>macOS 特色, IDE, 编辑器</h2><ul>
-<li>Homebrew</li>
-<li>JetBrains Pycharm</li>
-</ul>
-<h2 id="其他语言和工具"><a href="#其他语言和工具" class="headerlink" title="其他语言和工具"></a>其他语言和工具</h2><ul>
-<li>Node.js (以及打包的npm)</li>
-<li>博客：Hexo和Next</li>
-<li>Vscode</li>
-<li>Xcode：很多包，比如brew需要Xcode的command line tool，或者是需要完整的Xcode应用程序</li>
-<li>🍅：ShadowsocksX-NG-R8</li>
-<li>Oh-my-zsh：<code>zsh</code>已经预装在新的macOS上，而且是默认终端解释器</li>
-<li>终端美化: iTerm<ul>
-<li>推荐Pure的终端主题方案<ul>
-<li>需要在Oh-my-zsh里将默认主题更改为空，使Pure生效。<code>ZSH_THEME=&quot;&quot;</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>选装：Matlab，R</li>
-<li>选装：JetBrains Mono等线字体，替换终端的Monaco字体</li>
-</ul>
-<h2 id="办公"><a href="#办公" class="headerlink" title="办公"></a>办公</h2><ul>
-<li>高等院校提供的正版Office 365套装，包括Word，Excel和Outlook</li>
-<li>Chrome</li>
-<li>Typora：超好用的Markdown编辑器，比Word轻度文字工作</li>
-<li>选装：Latex (macTex distribution)<ul>
-<li>以及适配的WYSIWYM (What you see is what you mean) 编辑器 Lyx，编辑公式较多的Latex文章非常好用</li>
-</ul>
-</li>
-</ul>
-<h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
-<li>欧陆词典mac版，可以快捷键打开查词小窗口，一秒钟查到想要的词然后迅速切回原来的工作</li>
-</ul>
-<h2 id="通讯和娱乐"><a href="#通讯和娱乐" class="headerlink" title="通讯和娱乐"></a>通讯和娱乐</h2><ul>
-<li>QQ</li>
-<li>QQ音乐</li>
-<li>微信mac版</li>
-<li>Telegram for macOS<ul>
-<li>需要配合🍅使用</li>
-<li>ssr下直接打开tg是登陆不了的，输入手机号后会timeout。解决方法是手动配置tg的proxy。模式选择socks5，地址127.0.0.1，端口在小火箭的advance preference里确认，一般默认1086端口。设置proxy后重启tg，一定要重启！然后应该可以正常输入手机号码和验证码后登陆</li>
-</ul>
-</li>
-</ul>
-<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><p><code>~/.zshrc</code>里设置终端的端口使用ssr的端口。具体端口查看小火箭的设置，一般是1086。</p>
-<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ssr termimal proxy</span></span><br><span class="line"><span class="built_in">alias</span> proxy=<span class="string">'export all_proxy=socks5://127.0.0.1:1080'</span></span><br><span class="line"><span class="built_in">alias</span> unproxy=<span class="string">'unset all_proxy'</span></span><br><span class="line"><span class="built_in">alias</span> ip=<span class="string">'curl cip.cc'</span></span><br></pre></td></tr></table></figure>
+<p>下面是两个作为例子的类。<code>AlphaFactor</code>类对应Oracle数据库里的<code>alpha_factor</code>表，因为Oracle表是case-insensitive的，所以表叫做<code>ALPHA_FACTOR</code>，而Python类叫<code>AlphaFactor</code>，符合Python的命名规范。</p>
+<p><code>AlphaFactor</code>是计算出来的各种信号时间序列，对应证券代码<code>security_code</code>，信号名称<code>factor_name</code>，和算法版本<code>algo_version</code>。<code>BondDailyPrice</code>很简单，就是储存历史转债收盘数据（日频率）的全量数据表，每一行对应一只转债在一个交易日的收盘数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AlphaFactor</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'alpha_factor'</span></span><br><span class="line"></span><br><span class="line">    snapshot_date = Column(DateTime, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    factor_name = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    value = Column(Float)</span><br><span class="line">    error_code = Column(Integer)</span><br><span class="line">    error_msg = Column(VARCHAR(<span class="number">100</span>))</span><br><span class="line">    security_code = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    std_err = Column(Float)</span><br><span class="line">    algo_version = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    __table_args__ = (ForeignKeyConstraint([snapshot_date, security_code],</span><br><span class="line">                                           [BondDailyPrice.timestamp, BondDailyPrice.bond_id]),</span><br><span class="line">                      &#123;&#125;)</span><br><span class="line">    quote = relationship(<span class="string">"BondDailyPrice"</span>, back_populates=<span class="string">"alpha"</span>)</span><br></pre></td></tr></table></figure>
 
-<p>获得🍅能力之后，建议下载如Tensorflow之类的包的时候打开全局模式，解决源的速度慢的问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BondDailyPrice</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'bar_daily_cb'</span></span><br><span class="line"></span><br><span class="line">    timestamp = Column(DateTime, index=<span class="literal">True</span>)</span><br><span class="line">    bond_id = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>, index=<span class="literal">True</span>)</span><br><span class="line">    open = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    high = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    low = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    close = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    pre_close = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    volume = Column(NUMBER(<span class="number">38</span>, <span class="number">0</span>, <span class="literal">False</span>))</span><br><span class="line">    amt = Column(Float)</span><br><span class="line">    pct_chg = Column(Float)</span><br><span class="line">    last_trade_day = Column(DateTime)</span><br><span class="line">    trade_status = Column(VARCHAR(<span class="number">100</span>))</span><br><span class="line">    unix_ts = Column(Float, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    alpha = relationship(<span class="string">"AlphaFactor"</span>, uselist=<span class="literal">False</span>)  <span class="comment"># One to one</span></span><br></pre></td></tr></table></figure>
+
+<p><code>SQLAlchemy</code>的ORM模型提供方便直观的联表方法。比如，很常见的一个操作是把信号表和转债价格表联起来，每天、每只转债的实际（收盘）价格，和这里作为信号的LSM价格对比。所以，<code>AlphaFactor</code> <strong>join</strong> <code>BondDailyPrice</code>的公共key一个是时间，一个是转债代码。</p>
+<p><code>SQLAlchemy</code>实际上只有一种方法指定composite foreign key，官方<a href="https://docs.sqlalchemy.org/en/13/core/constraints.html?highlight=check#metadata-foreignkeys" target="_blank" rel="noopener">文档</a>中说的很清楚</p>
+<blockquote>
+<p>It’s important to note that the <strong>ForeignKeyConstraint</strong> is the only way to define a composite foreign key. While we could also have placed individual ForeignKey objects on both the <code>invoice_item.invoice_id</code> and<code>invoice_item.ref_num</code> columns, SQLAlchemy would not be aware that these two values should be paired together - it would be two individual foreign key constraints instead of a single composite foreign key referencing two columns.</p>
+</blockquote>
+<p>如果在两个Column分别指定ForeignKey，<code>SQLAlchemy</code>会认为这是两个独立的ForeignKey限制，而不是一个composite key。Composite key</p>
+<p><code>ForeignKeyConstraint([snapshot_date, security_code], [BondDailyPrice.timestamp, BondDailyPrice.bond_id])</code>写在<code>AlphaFactor</code>里的<code>__table_args__</code>里面，传递给model的Constructor。</p>
 
     </div>
 
@@ -345,8 +297,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Mac/" rel="tag"># Mac</a>
-              <a href="/tags/macOS/" rel="tag"># macOS</a>
+              <a href="/tags/sqlalchemy/" rel="tag"># sqlalchemy</a>
           </div>
 
         
@@ -355,13 +306,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/article/quanzhou-trip/" rel="prev" title="游记之夏日刺桐">
-      <i class="fa fa-chevron-left"></i> 游记之夏日刺桐
+    <a href="/article/london/" rel="prev" title="南肯辛顿和白城">
+      <i class="fa fa-chevron-left"></i> 南肯辛顿和白城
     </a></div>
-      <div class="post-nav-item">
-    <a href="/article/work-notebook/" rel="next" title="Win/Linux虚拟环境使用笔记">
-      Win/Linux虚拟环境使用笔记 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -427,7 +375,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-Environment"><span class="nav-text">Python Environment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#macOS-特色-IDE-编辑器"><span class="nav-text">macOS 特色, IDE, 编辑器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他语言和工具"><span class="nav-text">其他语言和工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#办公"><span class="nav-text">办公</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习"><span class="nav-text">学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通讯和娱乐"><span class="nav-text">通讯和娱乐</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置"><span class="nav-text">设置</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLAlchemy使用笔记"><span class="nav-text">SQLAlchemy使用笔记</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -561,9 +509,9 @@
 
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/article/mac-setup/";
-    this.page.identifier = "article/mac-setup/";
-    this.page.title = "Mac程序环境初始设置指南";
+    this.page.url = "http://yoursite.com/article/sqlalchemy/";
+    this.page.identifier = "article/sqlalchemy/";
+    this.page.title = "sqlalchemy";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
