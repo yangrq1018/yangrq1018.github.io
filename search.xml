@@ -120,51 +120,6 @@
       </tags>
   </entry>
   <entry>
-    <title>sqlalchemy</title>
-    <url>/article/sqlalchemy/</url>
-    <content><![CDATA[<h2 id="SQLAlchemy使用笔记"><a href="#SQLAlchemy使用笔记" class="headerlink" title="SQLAlchemy使用笔记"></a>SQLAlchemy使用笔记</h2><p><code>SQLAlchemy</code>是一个Python的通用数据库接口库，支持市面上几乎所有的商用/开源数据库和Python的交互。支持SQL/ORM方式操作数据。<code>SQLAlchemy</code>的ORM模型的核心是declarative model class，用户继承<code>Base</code>类，自定义property后，每个类对应物理数据库中的一张表。通过<code>create_engine</code>方法生产一个<code>engine</code> 实例，指定物理数据库的位置和类型之后，<code>SQLAlchemy</code>将以Python代码表达的抽象逻辑编译为SQL语句，与数据库沟通执行。</p>
-<a id="more"></a>
-
-<p>下面是两个作为例子的类。<code>AlphaFactor</code>类对应Oracle数据库里的<code>alpha_factor</code>表，因为Oracle表是case-insensitive的，所以表叫做<code>ALPHA_FACTOR</code>，而Python类叫<code>AlphaFactor</code>，符合Python的命名规范。</p>
-<p><code>AlphaFactor</code>是计算出来的各种信号时间序列，对应证券代码<code>security_code</code>，信号名称<code>factor_name</code>，和算法版本<code>algo_version</code>。<code>BondDailyPrice</code>很简单，就是储存历史转债收盘数据（日频率）的全量数据表，每一行对应一只转债在一个交易日的收盘数据。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AlphaFactor</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'alpha_factor'</span></span><br><span class="line"></span><br><span class="line">    snapshot_date = Column(DateTime, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    factor_name = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    value = Column(Float)</span><br><span class="line">    error_code = Column(Integer)</span><br><span class="line">    error_msg = Column(VARCHAR(<span class="number">100</span>))</span><br><span class="line">    security_code = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    std_err = Column(Float)</span><br><span class="line">    algo_version = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    __table_args__ = (ForeignKeyConstraint([snapshot_date, security_code],</span><br><span class="line">                                           [BondDailyPrice.timestamp, BondDailyPrice.bond_id]),</span><br><span class="line">                      &#123;&#125;)</span><br><span class="line">    quote = relationship(<span class="string">"BondDailyPrice"</span>, back_populates=<span class="string">"alpha"</span>)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BondDailyPrice</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'bar_daily_cb'</span></span><br><span class="line"></span><br><span class="line">    timestamp = Column(DateTime, index=<span class="literal">True</span>)</span><br><span class="line">    bond_id = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>, index=<span class="literal">True</span>)</span><br><span class="line">    open = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    high = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    low = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    close = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    pre_close = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    volume = Column(NUMBER(<span class="number">38</span>, <span class="number">0</span>, <span class="literal">False</span>))</span><br><span class="line">    amt = Column(Float)</span><br><span class="line">    pct_chg = Column(Float)</span><br><span class="line">    last_trade_day = Column(DateTime)</span><br><span class="line">    trade_status = Column(VARCHAR(<span class="number">100</span>))</span><br><span class="line">    unix_ts = Column(Float, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    alpha = relationship(<span class="string">"AlphaFactor"</span>, uselist=<span class="literal">False</span>)  <span class="comment"># One to one</span></span><br></pre></td></tr></table></figure>
-
-<p><code>SQLAlchemy</code>的ORM模型提供方便直观的联表方法。比如，很常见的一个操作是把信号表和转债价格表联起来，每天、每只转债的实际（收盘）价格，和这里作为信号的LSM价格对比。所以，<code>AlphaFactor</code> <strong>join</strong> <code>BondDailyPrice</code>的公共key一个是时间，一个是转债代码。</p>
-<p><code>SQLAlchemy</code>实际上只有一种方法指定composite foreign key，官方<a href="https://docs.sqlalchemy.org/en/13/core/constraints.html?highlight=check#metadata-foreignkeys" target="_blank" rel="noopener">文档</a>中说的很清楚</p>
-<blockquote>
-<p>It’s important to note that the <strong>ForeignKeyConstraint</strong> is the only way to define a composite foreign key. While we could also have placed individual ForeignKey objects on both the <code>invoice_item.invoice_id</code> and<code>invoice_item.ref_num</code> columns, SQLAlchemy would not be aware that these two values should be paired together - it would be two individual foreign key constraints instead of a single composite foreign key referencing two columns.</p>
-</blockquote>
-<p>如果在两个Column分别指定ForeignKey，<code>SQLAlchemy</code>会认为这是两个独立的ForeignKey限制，而不是一个composite key。Composite key</p>
-<p><code>ForeignKeyConstraint([snapshot_date, security_code], [BondDailyPrice.timestamp, BondDailyPrice.bond_id])</code>写在<code>AlphaFactor</code>里的<code>__table_args__</code>里面，传递给model的Constructor。</p>
-<h2 id="如何联表"><a href="#如何联表" class="headerlink" title="如何联表"></a>如何联表</h2><p>综合来说，<code>SQLAlchemy</code>有三种join table的方法</p>
-<ol>
-<li><p>以上面这个<code>AlphaFactor</code> join <code>BondDailyPrice</code>的例子来说，如果我们在定义里声明了relationship，可以</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">session.query(AlphaFactor).outerjoin(BondDailyPrice).add_entity(BondDailyPrice).all()</span><br></pre></td></tr></table></figure>
-
-<p>因为我们已经告诉了<code>SQLAlchemy</code>两个表之间的ForeignKey关系，所以可以直接<code>outerjoin()</code>。<code>add_entity</code>使最终查询到的是两个表而不是只有<code>AlphaFactor</code>一个。</p>
-</li>
-<li><p>或者</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> and_</span><br><span class="line">session.query(AlphaFactor).outerjoin(BondDailyPrice, and_(</span><br><span class="line">		AlphaFactor.security_code == BondDailyPrice.bond_id,</span><br><span class="line">    AlphaFactor.snapshot_date == BondDailyPrice.timestamp</span><br><span class="line">)).add_entity(BondDailyPrice).all()</span><br></pre></td></tr></table></figure>
-
-<p>如果没有声明relationship，可以在<code>outerjoin</code>的时候提供<code>on</code> clause。</p>
-</li>
-<li><p>最原始的方法，Cartisian Product</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">session.query(AlphaFactor, BondDailyPrice).filter(</span><br><span class="line">  	and_(</span><br><span class="line">				AlphaFactor.security_code == BondDailyPrice.bond_id,</span><br><span class="line">    		AlphaFactor.snapshot_date == BondDailyPrice.timestamp</span><br><span class="line">  	)</span><br><span class="line">).all()</span><br></pre></td></tr></table></figure>
-
-<p>这样实际上是生成两个表的Cartisian product然后筛选结果，这实际上是一个inner join，而上面两个方法都是left outer join，如果对结果需要保留的行有要求的话，第三个方法可能不好用。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>coding</category>
-      </categories>
-      <tags>
-        <tag>sqlalchemy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Win/Linux虚拟环境使用笔记</title>
     <url>/article/work-notebook/</url>
     <content><![CDATA[<p>在公司搬砖用的环境是一台win台式机，i7+A卡，配上双屏，一屏竖着看代码一屏横着看网页，全都公司报销了。自己配了个Niz的82键配列静电容键盘，35g压力，打起来像戳棉花糖一样。</p>
@@ -468,6 +423,98 @@
       <tags>
         <tag>泉州</tag>
         <tag>福建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqlalchemy</title>
+    <url>/article/sqlalchemy/</url>
+    <content><![CDATA[<h2 id="SQLAlchemy使用笔记"><a href="#SQLAlchemy使用笔记" class="headerlink" title="SQLAlchemy使用笔记"></a>SQLAlchemy使用笔记</h2><p><code>SQLAlchemy</code>是一个Python的通用数据库接口库，支持市面上几乎所有的商用/开源数据库和Python的交互。支持SQL/ORM方式操作数据。<code>SQLAlchemy</code>的ORM模型的核心是declarative model class，用户继承<code>Base</code>类，自定义property后，每个类对应物理数据库中的一张表。通过<code>create_engine</code>方法生产一个<code>engine</code> 实例，指定物理数据库的位置和类型之后，<code>SQLAlchemy</code>将以Python代码表达的抽象逻辑编译为SQL语句，与数据库沟通执行。</p>
+<a id="more"></a>
+
+<p>下面是两个作为例子的类。<code>AlphaFactor</code>类对应Oracle数据库里的<code>alpha_factor</code>表，因为Oracle表是case-insensitive的，所以表叫做<code>ALPHA_FACTOR</code>，而Python类叫<code>AlphaFactor</code>，符合Python的命名规范。</p>
+<p><code>AlphaFactor</code>是计算出来的各种信号时间序列，对应证券代码<code>security_code</code>，信号名称<code>factor_name</code>，和算法版本<code>algo_version</code>。<code>BondDailyPrice</code>很简单，就是储存历史转债收盘数据（日频率）的全量数据表，每一行对应一只转债在一个交易日的收盘数据。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AlphaFactor</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'alpha_factor'</span></span><br><span class="line"></span><br><span class="line">    snapshot_date = Column(DateTime, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    factor_name = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    value = Column(Float)</span><br><span class="line">    error_code = Column(Integer)</span><br><span class="line">    error_msg = Column(VARCHAR(<span class="number">100</span>))</span><br><span class="line">    security_code = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line">    std_err = Column(Float)</span><br><span class="line">    algo_version = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    __table_args__ = (ForeignKeyConstraint([snapshot_date, security_code],</span><br><span class="line">                                           [BondDailyPrice.timestamp, BondDailyPrice.bond_id]),</span><br><span class="line">                      &#123;&#125;)</span><br><span class="line">    quote = relationship(<span class="string">"BondDailyPrice"</span>, back_populates=<span class="string">"alpha"</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BondDailyPrice</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'bar_daily_cb'</span></span><br><span class="line"></span><br><span class="line">    timestamp = Column(DateTime, index=<span class="literal">True</span>)</span><br><span class="line">    bond_id = Column(VARCHAR(<span class="number">100</span>), primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>, index=<span class="literal">True</span>)</span><br><span class="line">    open = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    high = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    low = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    close = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    pre_close = Column(NUMBER(<span class="number">38</span>, <span class="number">3</span>, <span class="literal">False</span>))</span><br><span class="line">    volume = Column(NUMBER(<span class="number">38</span>, <span class="number">0</span>, <span class="literal">False</span>))</span><br><span class="line">    amt = Column(Float)</span><br><span class="line">    pct_chg = Column(Float)</span><br><span class="line">    last_trade_day = Column(DateTime)</span><br><span class="line">    trade_status = Column(VARCHAR(<span class="number">100</span>))</span><br><span class="line">    unix_ts = Column(Float, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    alpha = relationship(<span class="string">"AlphaFactor"</span>, uselist=<span class="literal">False</span>)  <span class="comment"># One to one</span></span><br></pre></td></tr></table></figure>
+
+<p><code>SQLAlchemy</code>的ORM模型提供方便直观的联表方法。比如，很常见的一个操作是把信号表和转债价格表联起来，每天、每只转债的实际（收盘）价格，和这里作为信号的LSM价格对比。所以，<code>AlphaFactor</code> <strong>join</strong> <code>BondDailyPrice</code>的公共key一个是时间，一个是转债代码。</p>
+<p><code>SQLAlchemy</code>实际上只有一种方法指定composite foreign key，官方<a href="https://docs.sqlalchemy.org/en/13/core/constraints.html?highlight=check#metadata-foreignkeys" target="_blank" rel="noopener">文档</a>中说的很清楚</p>
+<blockquote>
+<p>It’s important to note that the <strong>ForeignKeyConstraint</strong> is the only way to define a composite foreign key. While we could also have placed individual ForeignKey objects on both the <code>invoice_item.invoice_id</code> and<code>invoice_item.ref_num</code> columns, SQLAlchemy would not be aware that these two values should be paired together - it would be two individual foreign key constraints instead of a single composite foreign key referencing two columns.</p>
+</blockquote>
+<p>如果在两个Column分别指定ForeignKey，<code>SQLAlchemy</code>会认为这是两个独立的ForeignKey限制，而不是一个composite key。Composite key</p>
+<p><code>ForeignKeyConstraint([snapshot_date, security_code], [BondDailyPrice.timestamp, BondDailyPrice.bond_id])</code>写在<code>AlphaFactor</code>里的<code>__table_args__</code>里面，传递给model的Constructor。</p>
+<h2 id="如何联表"><a href="#如何联表" class="headerlink" title="如何联表"></a>如何联表</h2><p>综合来说，<code>SQLAlchemy</code>有三种join table的方法</p>
+<ol>
+<li><p>以上面这个<code>AlphaFactor</code> join <code>BondDailyPrice</code>的例子来说，如果我们在定义里声明了relationship，可以</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">session.query(AlphaFactor).outerjoin(BondDailyPrice).add_entity(BondDailyPrice).all()</span><br></pre></td></tr></table></figure>
+
+<p>因为我们已经告诉了<code>SQLAlchemy</code>两个表之间的ForeignKey关系，所以可以直接<code>outerjoin()</code>。<code>add_entity</code>使最终查询到的是两个表而不是只有<code>AlphaFactor</code>一个。</p>
+</li>
+<li><p>或者</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> and_</span><br><span class="line">session.query(AlphaFactor).outerjoin(BondDailyPrice, and_(</span><br><span class="line">		AlphaFactor.security_code == BondDailyPrice.bond_id,</span><br><span class="line">    AlphaFactor.snapshot_date == BondDailyPrice.timestamp</span><br><span class="line">)).add_entity(BondDailyPrice).all()</span><br></pre></td></tr></table></figure>
+
+<p>如果没有声明relationship，可以在<code>outerjoin</code>的时候提供<code>on</code> clause。</p>
+</li>
+<li><p>最原始的方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">session.query(AlphaFactor, BondDailyPrice).filter(</span><br><span class="line">  	and_(</span><br><span class="line">				AlphaFactor.security_code == BondDailyPrice.bond_id,</span><br><span class="line">    		AlphaFactor.snapshot_date == BondDailyPrice.timestamp</span><br><span class="line">  	)</span><br><span class="line">).all()</span><br></pre></td></tr></table></figure>
+
+<p>这样实际上是生成两个表的Cartesian product然后筛选结果，这实际上是一个inner join，而上面两个方法都是left outer join，如果对结果需要保留的行有要求的话，第三个就有点问题。</p>
+</li>
+</ol>
+<h2 id="用ORM操作数据库"><a href="#用ORM操作数据库" class="headerlink" title="用ORM操作数据库"></a>用ORM操作数据库</h2><p>ORM指的是Object-relational mapping，将数据库中的每一行，抽象为一个Python下的对象，column对应为该对象的attribute属性。声明了Model之后，可以通过<code>session</code>对象查询。比方说我们有一张<code>Demo</code>表，声明如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'demo'</span></span><br><span class="line"></span><br><span class="line">    id = Column(Integer, primary_key=<span class="literal">True</span>)</span><br><span class="line">    key1 = Column(VARCHAR(<span class="number">40</span>))</span><br><span class="line">    key2 = Column(VARCHAR(<span class="number">40</span>))</span><br></pre></td></tr></table></figure>
+
+<p>很简单的一张表，<code>id</code>列为主键，有两个属性<code>key1</code>和<code>key2</code>。我们查询任意一行，</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">demo = session.query(Demo).first()</span><br><span class="line">demo</span><br><span class="line"><span class="comment"># &lt;__main__.Demo at 0x7f8639399790&gt;</span></span><br><span class="line">demo.id</span><br><span class="line"><span class="comment"># 1</span></span><br></pre></td></tr></table></figure>
+
+<p><code>demo</code>对象对应的这一行，已经加载在Python的内存里了，识别这一行的identity是<code>id</code>属性为1。</p>
+<p>添加另外一行</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">session.add(Demo(id=<span class="number">2</span>, key1=)<span class="string">'hello'</span>, <span class="string">'world'</span>)</span><br><span class="line">session.commit()</span><br></pre></td></tr></table></figure>
+
+<p>调用<code>session.commit()</code>使<code>SQLAlchemy</code>向数据库发出SQL语句，persist <code>id=2</code>的这一行。</p>
+<p>我们可以查看SQL语句，</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from sqlalchemy import create_engine</span><br><span class="line">engine &#x3D; create_engine(&quot;&lt;YOUR DATABASE URL&gt;&quot;, echo&#x3D;True)</span><br></pre></td></tr></table></figure>
+
+<p>然后绑定在这个<code>engine</code>上的<code>session</code>对象，<code>commit</code>时会echo出来具体执行的SQL语句。</p>
+<p><code>create_engine</code>方法接受一个database URL，具体如何构建URL参见各个数据库，以Oracle数据库为例，</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">DB_URL = <span class="string">"oracle://&lt;schema&gt;:&lt;password&gt;@&lt;host&gt;/&lt;instance&gt;"</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>除了<code>sqlalchemy</code>之外，和Oracle数据库通讯还需要出现<code>cx_Oracle</code>包和Oracle的客户端<code>instant_client</code>。</p>
+</blockquote>
+<p>我们不仅可以增加和删除，也可以在我们query到已有的行之后更改对象，再让<code>SQLAlchemy</code>把我们的更改映射到数据库里。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">demo = session.query(Demo).filter(Demo.id == <span class="number">1</span>)</span><br><span class="line">demo.key1</span><br><span class="line"><span class="comment"># 'foo'</span></span><br><span class="line">demo.key1 = <span class="string">'I have changed'</span></span><br><span class="line">session.commit()</span><br></pre></td></tr></table></figure>
+
+<p>得到如下的echo</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">2020-09-08 11:19:53,671 INFO sqlalchemy.engine.base.Engine UPDATE demo SET key1&#x3D;:key1 WHERE demo.id &#x3D; :demo_id</span><br><span class="line">2020-09-08 11:19:53,671 INFO sqlalchemy.engine.base.Engine &#123;&#39;key1&#39;: &#39;I have changed&#39;, &#39;demo_id&#39;: 1&#125;</span><br><span class="line">2020-09-08 11:19:53,672 INFO sqlalchemy.engine.base.Engine COMMIT</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>SQLAlchemy</code>把我们更改<code>key1</code>属性，翻译为一个<code>UPDATE</code>语句。</p>
+<blockquote>
+<p>Caveat:</p>
+<p>当我们delete一行，然后添加一个同样主键的行，再commit。<code>SQLAlchemy</code>会自动翻译为一个<code>UPDATE</code>语句，而不是一个<code>DELETE</code>和一个<code>INSERT</code>语句（添加一个不同主键的行是在这个情况）。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">d1 = session.query(Demo).filter(Demo.id == <span class="number">1</span>).first()</span><br><span class="line">session.delete(d1)</span><br><span class="line">session.add(Demo(id=<span class="number">1</span>, key1=<span class="string">'new key1'</span>, key2=<span class="string">'new key2'</span>))</span><br><span class="line">session.commit()</span><br></pre></td></tr></table></figure>
+
+<p>echo如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">2020-09-08 11:26:19,162 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)</span><br><span class="line">2020-09-08 11:26:19,164 INFO sqlalchemy.engine.base.Engine SELECT demo_id, demo_key1, demo_key2 </span><br><span class="line">FROM (SELECT demo.id AS demo_id, demo.key1 AS demo_key1, demo.key2 AS demo_key2 </span><br><span class="line">FROM demo </span><br><span class="line">WHERE demo.id &#x3D; :id_1) </span><br><span class="line">WHERE ROWNUM &lt;&#x3D; :param_1</span><br><span class="line">2020-09-08 11:26:19,165 INFO sqlalchemy.engine.base.Engine &#123;&#39;id_1&#39;: 1, &#39;param_1&#39;: 1&#125;</span><br><span class="line">2020-09-08 11:26:19,168 INFO sqlalchemy.engine.base.Engine UPDATE demo SET key1&#x3D;:key1, key2&#x3D;:key2 WHERE demo.id &#x3D; :demo_id</span><br><span class="line">2020-09-08 11:26:19,168 INFO sqlalchemy.engine.base.Engine &#123;&#39;key1&#39;: &#39;foo&#39;, &#39;key2&#39;: &#39;bar&#39;, &#39;demo_id&#39;: 1&#125;</span><br><span class="line">2020-09-08 11:26:19,169 INFO sqlalchemy.engine.base.Engine COMMIT</span><br></pre></td></tr></table></figure>
+
+<p>SQLAlchemy仅仅是更换了发生了变化的字段<code>UPDATE demo SET key1=:key1, key2=:key2 WHERE demo.id = :demo_id</code>。其他的字段是保持原有的值。这有时候是需要的behavior，但有时候可能会产生意想不到效果，比如说某些字段是有默认值而我们重新插入一行，期望的是这些字段会回复到默认值上。</p>
+<p>解决方法当然有，可以在<code>session.delete(demo)</code>之后马上<code>session.commit()</code>，但同时我们也没办法保证两个操作是一个transaction了。</p>
+</blockquote>
+<hr>
+<p><code>SQLAlchemy</code>支持几乎所有的数据库操作，而且比直接写SQL语句更加灵活直观。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">demo = session.query(Demo).filter(Demo.id == <span class="number">1</span>).first()</span><br><span class="line">demo.key1</span><br><span class="line"><span class="comment"># 'foo'</span></span><br><span class="line">demo.key1 = <span class="string">'I am not foo'</span></span><br><span class="line">session.rollback()  <span class="comment"># stash uncommitted change</span></span><br><span class="line">demo.key1</span><br><span class="line"><span class="comment"># 'foo'</span></span><br></pre></td></tr></table></figure>
+
+<p>调用<code>session.rollback()</code>之后，echo信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">2020-09-08 11:31:05,620 INFO sqlalchemy.engine.base.Engine ROLLBACK</span><br><span class="line">2020-09-08 11:31:06,428 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)</span><br><span class="line">2020-09-08 11:31:06,428 INFO sqlalchemy.engine.base.Engine SELECT demo.id AS demo_id, demo.key1 AS demo_key1, demo.key2 AS demo_key2 </span><br><span class="line">FROM demo </span><br><span class="line">WHERE demo.id &#x3D; :param_1</span><br><span class="line">2020-09-08 11:31:06,429 INFO sqlalchemy.engine.base.Engine &#123;&#39;param_1&#39;: 1&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重新查询了<code>id=</code>的这一行的值，加载到<code>demo</code>对象中。我们对Python对象的更改、删除、增加，只要不调用<code>commit</code>，都只存在于Python内。</p>
+]]></content>
+      <categories>
+        <category>coding</category>
+      </categories>
+      <tags>
+        <tag>sqlalchemy</tag>
       </tags>
   </entry>
 </search>

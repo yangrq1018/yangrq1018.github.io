@@ -28,7 +28,7 @@
 <meta property="og:description" content="SQLAlchemy使用笔记SQLAlchemy是一个Python的通用数据库接口库，支持市面上几乎所有的商用&#x2F;开源数据库和Python的交互。支持SQL&#x2F;ORM方式操作数据。SQLAlchemy的ORM模型的核心是declarative model class，用户继承Base类，自定义property后，每个类对应物理数据库中的一张表。通过create_engine方法生产一个engine 实">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-07T13:16:17.000Z">
-<meta property="article:modified_time" content="2020-09-07T16:05:30.917Z">
+<meta property="article:modified_time" content="2020-09-08T03:38:05.876Z">
 <meta property="article:author" content="马赫东">
 <meta property="article:tag" content="sqlalchemy">
 <meta name="twitter:card" content="summary">
@@ -218,10 +218,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-07 13:16:17 / 修改时间：16:05:30" itemprop="dateCreated datePublished" datetime="2020-09-07T13:16:17+00:00">2020-09-07</time>
+              <time title="创建时间：2020-09-07 13:16:17" itemprop="dateCreated datePublished" datetime="2020-09-07T13:16:17+00:00">2020-09-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-08 03:38:05" itemprop="dateModified" datetime="2020-09-08T03:38:05+00:00">2020-09-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -238,14 +244,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.4k</span>
+              <span>6.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -285,12 +291,59 @@
 
 <p>如果没有声明relationship，可以在<code>outerjoin</code>的时候提供<code>on</code> clause。</p>
 </li>
-<li><p>最原始的方法，Cartisian Product</p>
+<li><p>最原始的方法</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">session.query(AlphaFactor, BondDailyPrice).filter(</span><br><span class="line">  	and_(</span><br><span class="line">				AlphaFactor.security_code == BondDailyPrice.bond_id,</span><br><span class="line">    		AlphaFactor.snapshot_date == BondDailyPrice.timestamp</span><br><span class="line">  	)</span><br><span class="line">).all()</span><br></pre></td></tr></table></figure>
 
-<p>这样实际上是生成两个表的Cartisian product然后筛选结果，这实际上是一个inner join，而上面两个方法都是left outer join，如果对结果需要保留的行有要求的话，第三个方法可能不好用。</p>
+<p>这样实际上是生成两个表的Cartesian product然后筛选结果，这实际上是一个inner join，而上面两个方法都是left outer join，如果对结果需要保留的行有要求的话，第三个就有点问题。</p>
 </li>
 </ol>
+<h2 id="用ORM操作数据库"><a href="#用ORM操作数据库" class="headerlink" title="用ORM操作数据库"></a>用ORM操作数据库</h2><p>ORM指的是Object-relational mapping，将数据库中的每一行，抽象为一个Python下的对象，column对应为该对象的attribute属性。声明了Model之后，可以通过<code>session</code>对象查询。比方说我们有一张<code>Demo</code>表，声明如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'demo'</span></span><br><span class="line"></span><br><span class="line">    id = Column(Integer, primary_key=<span class="literal">True</span>)</span><br><span class="line">    key1 = Column(VARCHAR(<span class="number">40</span>))</span><br><span class="line">    key2 = Column(VARCHAR(<span class="number">40</span>))</span><br></pre></td></tr></table></figure>
+
+<p>很简单的一张表，<code>id</code>列为主键，有两个属性<code>key1</code>和<code>key2</code>。我们查询任意一行，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">demo = session.query(Demo).first()</span><br><span class="line">demo</span><br><span class="line"><span class="comment"># &lt;__main__.Demo at 0x7f8639399790&gt;</span></span><br><span class="line">demo.id</span><br><span class="line"><span class="comment"># 1</span></span><br></pre></td></tr></table></figure>
+
+<p><code>demo</code>对象对应的这一行，已经加载在Python的内存里了，识别这一行的identity是<code>id</code>属性为1。</p>
+<p>添加另外一行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session.add(Demo(id=<span class="number">2</span>, key1=)<span class="string">'hello'</span>, <span class="string">'world'</span>)</span><br><span class="line">session.commit()</span><br></pre></td></tr></table></figure>
+
+<p>调用<code>session.commit()</code>使<code>SQLAlchemy</code>向数据库发出SQL语句，persist <code>id=2</code>的这一行。</p>
+<p>我们可以查看SQL语句，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from sqlalchemy import create_engine</span><br><span class="line">engine &#x3D; create_engine(&quot;&lt;YOUR DATABASE URL&gt;&quot;, echo&#x3D;True)</span><br></pre></td></tr></table></figure>
+
+<p>然后绑定在这个<code>engine</code>上的<code>session</code>对象，<code>commit</code>时会echo出来具体执行的SQL语句。</p>
+<p><code>create_engine</code>方法接受一个database URL，具体如何构建URL参见各个数据库，以Oracle数据库为例，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DB_URL = <span class="string">"oracle://&lt;schema&gt;:&lt;password&gt;@&lt;host&gt;/&lt;instance&gt;"</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>除了<code>sqlalchemy</code>之外，和Oracle数据库通讯还需要出现<code>cx_Oracle</code>包和Oracle的客户端<code>instant_client</code>。</p>
+</blockquote>
+<p>我们不仅可以增加和删除，也可以在我们query到已有的行之后更改对象，再让<code>SQLAlchemy</code>把我们的更改映射到数据库里。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">demo = session.query(Demo).filter(Demo.id == <span class="number">1</span>)</span><br><span class="line">demo.key1</span><br><span class="line"><span class="comment"># 'foo'</span></span><br><span class="line">demo.key1 = <span class="string">'I have changed'</span></span><br><span class="line">session.commit()</span><br></pre></td></tr></table></figure>
+
+<p>得到如下的echo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2020-09-08 11:19:53,671 INFO sqlalchemy.engine.base.Engine UPDATE demo SET key1&#x3D;:key1 WHERE demo.id &#x3D; :demo_id</span><br><span class="line">2020-09-08 11:19:53,671 INFO sqlalchemy.engine.base.Engine &#123;&#39;key1&#39;: &#39;I have changed&#39;, &#39;demo_id&#39;: 1&#125;</span><br><span class="line">2020-09-08 11:19:53,672 INFO sqlalchemy.engine.base.Engine COMMIT</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>SQLAlchemy</code>把我们更改<code>key1</code>属性，翻译为一个<code>UPDATE</code>语句。</p>
+<blockquote>
+<p>Caveat:</p>
+<p>当我们delete一行，然后添加一个同样主键的行，再commit。<code>SQLAlchemy</code>会自动翻译为一个<code>UPDATE</code>语句，而不是一个<code>DELETE</code>和一个<code>INSERT</code>语句（添加一个不同主键的行是在这个情况）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d1 = session.query(Demo).filter(Demo.id == <span class="number">1</span>).first()</span><br><span class="line">session.delete(d1)</span><br><span class="line">session.add(Demo(id=<span class="number">1</span>, key1=<span class="string">'new key1'</span>, key2=<span class="string">'new key2'</span>))</span><br><span class="line">session.commit()</span><br></pre></td></tr></table></figure>
+
+<p>echo如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2020-09-08 11:26:19,162 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)</span><br><span class="line">2020-09-08 11:26:19,164 INFO sqlalchemy.engine.base.Engine SELECT demo_id, demo_key1, demo_key2 </span><br><span class="line">FROM (SELECT demo.id AS demo_id, demo.key1 AS demo_key1, demo.key2 AS demo_key2 </span><br><span class="line">FROM demo </span><br><span class="line">WHERE demo.id &#x3D; :id_1) </span><br><span class="line">WHERE ROWNUM &lt;&#x3D; :param_1</span><br><span class="line">2020-09-08 11:26:19,165 INFO sqlalchemy.engine.base.Engine &#123;&#39;id_1&#39;: 1, &#39;param_1&#39;: 1&#125;</span><br><span class="line">2020-09-08 11:26:19,168 INFO sqlalchemy.engine.base.Engine UPDATE demo SET key1&#x3D;:key1, key2&#x3D;:key2 WHERE demo.id &#x3D; :demo_id</span><br><span class="line">2020-09-08 11:26:19,168 INFO sqlalchemy.engine.base.Engine &#123;&#39;key1&#39;: &#39;foo&#39;, &#39;key2&#39;: &#39;bar&#39;, &#39;demo_id&#39;: 1&#125;</span><br><span class="line">2020-09-08 11:26:19,169 INFO sqlalchemy.engine.base.Engine COMMIT</span><br></pre></td></tr></table></figure>
+
+<p>SQLAlchemy仅仅是更换了发生了变化的字段<code>UPDATE demo SET key1=:key1, key2=:key2 WHERE demo.id = :demo_id</code>。其他的字段是保持原有的值。这有时候是需要的behavior，但有时候可能会产生意想不到效果，比如说某些字段是有默认值而我们重新插入一行，期望的是这些字段会回复到默认值上。</p>
+<p>解决方法当然有，可以在<code>session.delete(demo)</code>之后马上<code>session.commit()</code>，但同时我们也没办法保证两个操作是一个transaction了。</p>
+</blockquote>
+<hr>
+<p><code>SQLAlchemy</code>支持几乎所有的数据库操作，而且比直接写SQL语句更加灵活直观。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">demo = session.query(Demo).filter(Demo.id == <span class="number">1</span>).first()</span><br><span class="line">demo.key1</span><br><span class="line"><span class="comment"># 'foo'</span></span><br><span class="line">demo.key1 = <span class="string">'I am not foo'</span></span><br><span class="line">session.rollback()  <span class="comment"># stash uncommitted change</span></span><br><span class="line">demo.key1</span><br><span class="line"><span class="comment"># 'foo'</span></span><br></pre></td></tr></table></figure>
+
+<p>调用<code>session.rollback()</code>之后，echo信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2020-09-08 11:31:05,620 INFO sqlalchemy.engine.base.Engine ROLLBACK</span><br><span class="line">2020-09-08 11:31:06,428 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)</span><br><span class="line">2020-09-08 11:31:06,428 INFO sqlalchemy.engine.base.Engine SELECT demo.id AS demo_id, demo.key1 AS demo_key1, demo.key2 AS demo_key2 </span><br><span class="line">FROM demo </span><br><span class="line">WHERE demo.id &#x3D; :param_1</span><br><span class="line">2020-09-08 11:31:06,429 INFO sqlalchemy.engine.base.Engine &#123;&#39;param_1&#39;: 1&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重新查询了<code>id=</code>的这一行的值，加载到<code>demo</code>对象中。我们对Python对象的更改、删除、增加，只要不调用<code>commit</code>，都只存在于Python内。</p>
 
     </div>
 
@@ -393,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLAlchemy使用笔记"><span class="nav-text">SQLAlchemy使用笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何联表"><span class="nav-text">如何联表</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLAlchemy使用笔记"><span class="nav-text">SQLAlchemy使用笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何联表"><span class="nav-text">如何联表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用ORM操作数据库"><span class="nav-text">用ORM操作数据库</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -464,7 +517,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">19k</span>
+    <span title="站点总字数">23k</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
   </div>
