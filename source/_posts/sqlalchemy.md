@@ -93,7 +93,7 @@ class BondDailyPrice(Base):
 
    如果没有声明relationship，可以在`outerjoin`的时候提供`on` clause。
 
-3. 最原始的方法，Cartisian Product
+3. 最原始的方法
 
    ```python
    session.query(AlphaFactor, BondDailyPrice).filter(
@@ -104,4 +104,132 @@ class BondDailyPrice(Base):
    ).all()
    ```
 
-   这样实际上是生成两个表的Cartisian product然后筛选结果，这实际上是一个inner join，而上面两个方法都是left outer join，如果对结果需要保留的行有要求的话，第三个方法可能不好用。
+   这样实际上是生成两个表的Cartesian product然后筛选结果，这实际上是一个inner join，而上面两个方法都是left outer join，如果对结果需要保留的行有要求的话，第三个就有点问题。
+
+## 用ORM操作数据库
+
+ORM指的是Object-relational mapping，将数据库中的每一行，抽象为一个Python下的对象，column对应为该对象的attribute属性。声明了Model之后，可以通过`session`对象查询。比方说我们有一张`Demo`表，声明如下
+
+```python
+class Demo(Base):
+    __tablename__ = 'demo'
+
+    id = Column(Integer, primary_key=True)
+    key1 = Column(VARCHAR(40))
+    key2 = Column(VARCHAR(40))
+```
+
+很简单的一张表，`id`列为主键，有两个属性`key1`和`key2`。我们查询任意一行，
+
+```python
+demo = session.query(Demo).first()
+demo
+# <__main__.Demo at 0x7f8639399790>
+demo.id
+# 1
+```
+
+`demo`对象对应的这一行，已经加载在Python的内存里了，识别这一行的identity是`id`属性为1。
+
+添加另外一行
+
+```python
+session.add(Demo(id=2, key1=)'hello', 'world')
+session.commit()
+```
+
+调用`session.commit()`使`SQLAlchemy`向数据库发出SQL语句，persist `id=2`的这一行。
+
+我们可以查看SQL语句，
+
+```
+from sqlalchemy import create_engine
+engine = create_engine("<YOUR DATABASE URL>", echo=True)
+```
+
+然后绑定在这个`engine`上的`session`对象，`commit`时会echo出来具体执行的SQL语句。
+
+`create_engine`方法接受一个database URL，具体如何构建URL参见各个数据库，以Oracle数据库为例，
+
+```python
+DB_URL = "oracle://<schema>:<password>@<host>/<instance>"
+```
+
+> 除了`sqlalchemy`之外，和Oracle数据库通讯还需要出现`cx_Oracle`包和Oracle的客户端`instant_client`。
+
+我们不仅可以增加和删除，也可以在我们query到已有的行之后更改对象，再让`SQLAlchemy`把我们的更改映射到数据库里。
+
+```python
+demo = session.query(Demo).filter(Demo.id == 1)
+demo.key1
+# 'foo'
+demo.key1 = 'I have changed'
+session.commit()
+```
+
+得到如下的echo
+
+```
+2020-09-08 11:19:53,671 INFO sqlalchemy.engine.base.Engine UPDATE demo SET key1=:key1 WHERE demo.id = :demo_id
+2020-09-08 11:19:53,671 INFO sqlalchemy.engine.base.Engine {'key1': 'I have changed', 'demo_id': 1}
+2020-09-08 11:19:53,672 INFO sqlalchemy.engine.base.Engine COMMIT
+```
+
+可以看到，`SQLAlchemy`把我们更改`key1`属性，翻译为一个`UPDATE`语句。
+
+> Caveat:
+>
+> 当我们delete一行，然后添加一个同样主键的行，再commit。`SQLAlchemy`会自动翻译为一个`UPDATE`语句，而不是一个`DELETE`和一个`INSERT`语句（添加一个不同主键的行是在这个情况）。
+>
+> ```python
+> d1 = session.query(Demo).filter(Demo.id == 1).first()
+> session.delete(d1)
+> session.add(Demo(id=1, key1='new key1', key2='new key2'))
+> session.commit()
+> ```
+>
+> echo如下
+>
+> ```
+> 2020-09-08 11:26:19,162 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+> 2020-09-08 11:26:19,164 INFO sqlalchemy.engine.base.Engine SELECT demo_id, demo_key1, demo_key2 
+> FROM (SELECT demo.id AS demo_id, demo.key1 AS demo_key1, demo.key2 AS demo_key2 
+> FROM demo 
+> WHERE demo.id = :id_1) 
+> WHERE ROWNUM <= :param_1
+> 2020-09-08 11:26:19,165 INFO sqlalchemy.engine.base.Engine {'id_1': 1, 'param_1': 1}
+> 2020-09-08 11:26:19,168 INFO sqlalchemy.engine.base.Engine UPDATE demo SET key1=:key1, key2=:key2 WHERE demo.id = :demo_id
+> 2020-09-08 11:26:19,168 INFO sqlalchemy.engine.base.Engine {'key1': 'foo', 'key2': 'bar', 'demo_id': 1}
+> 2020-09-08 11:26:19,169 INFO sqlalchemy.engine.base.Engine COMMIT
+> ```
+>
+> SQLAlchemy仅仅是更换了发生了变化的字段`UPDATE demo SET key1=:key1, key2=:key2 WHERE demo.id = :demo_id`。其他的字段是保持原有的值。这有时候是需要的behavior，但有时候可能会产生意想不到效果，比如说某些字段是有默认值而我们重新插入一行，期望的是这些字段会回复到默认值上。
+>
+> 解决方法当然有，可以在`session.delete(demo)`之后马上`session.commit()`，但同时我们也没办法保证两个操作是一个transaction了。
+
+---
+
+`SQLAlchemy`支持几乎所有的数据库操作，而且比直接写SQL语句更加灵活直观。
+
+```python
+demo = session.query(Demo).filter(Demo.id == 1).first()
+demo.key1
+# 'foo'
+demo.key1 = 'I am not foo'
+session.rollback()  # stash uncommitted change
+demo.key1
+# 'foo'
+```
+
+调用`session.rollback()`之后，echo信息
+
+```
+2020-09-08 11:31:05,620 INFO sqlalchemy.engine.base.Engine ROLLBACK
+2020-09-08 11:31:06,428 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+2020-09-08 11:31:06,428 INFO sqlalchemy.engine.base.Engine SELECT demo.id AS demo_id, demo.key1 AS demo_key1, demo.key2 AS demo_key2 
+FROM demo 
+WHERE demo.id = :param_1
+2020-09-08 11:31:06,429 INFO sqlalchemy.engine.base.Engine {'param_1': 1}
+```
+
+重新查询了`id=`的这一行的值，加载到`demo`对象中。我们对Python对象的更改、删除、增加，只要不调用`commit`，都只存在于Python内。
