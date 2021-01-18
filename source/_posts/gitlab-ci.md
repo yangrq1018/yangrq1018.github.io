@@ -10,6 +10,7 @@ tags:
 - Docker
 categories: 技术
 permalink: article/gitlab-ci-memo
+description: 自动化就是一切！
 ---
 ##  Gitlab CI 使用笔记
 
