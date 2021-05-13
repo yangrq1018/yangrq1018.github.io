@@ -135,6 +135,19 @@ language: zh-Hans # 设置语言为简体中文
 timezone: # 时区
 ```
 
+Fav Icon
+
+想要自己的网站有个个性的图标？编辑`themes/next/_config.yml`
+
+```yaml
+favicon:
+  small: /images/favicon-16x16-next.png
+  medium: /images/favicon-32x32-next.png
+```
+
+`small`和`medium`分别设置为图片文件，位置在`themes/next/source/images/`下。上面两个文件是Next主题的Icon，如果想要
+用自己设计的Logo，把文件拷贝到同一个目录替换即可。
+
 目前我们只需要设置这些字段，参考[Hexo站点配置](https://hexo.io/docs/configuration.html)。
 
 ### 打开浏览器试试
@@ -255,7 +268,10 @@ deploy:
     branch: hexo
   local-dir: public
 ```
-假设你的源代码存放在hexo分支，网站代码存放在master分支。需要生成一个有repo权限的token，设置在travis项目的环境变量里，叫`$GH_TOKEN`，让travis有权限写入master分支。
+假设你的源代码存放在hexo分支，网站代码存放在master分支。
+`$GH_TOKEN`指示Travis使用这个token向remote push生成的网页代码，这个token在Github的Developer settings里生成，粘贴到Travis里的环境变量配置，这个token必须有向
+master分支push的权限。
+
 
 ## 关联域名
 
