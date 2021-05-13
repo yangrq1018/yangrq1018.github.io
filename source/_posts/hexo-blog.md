@@ -135,7 +135,7 @@ language: zh-Hans # 设置语言为简体中文
 timezone: # 时区
 ```
 
-Fav Icon
+*Fav Icon*
 
 想要自己的网站有个个性的图标？编辑`themes/next/_config.yml`
 
@@ -145,8 +145,7 @@ favicon:
   medium: /images/favicon-32x32-next.png
 ```
 
-`small`和`medium`分别设置为图片文件，位置在`themes/next/source/images/`下。上面两个文件是Next主题的Icon，如果想要
-用自己设计的Logo，把文件拷贝到同一个目录替换即可。
+`small`和`medium`分别设置为图片文件，位置在`themes/next/source/images/`下。上面两个文件是Next主题的Icon，如果想要用自己设计的Logo，把文件拷贝到同一个目录替换即可。
 
 目前我们只需要设置这些字段，参考[Hexo站点配置](https://hexo.io/docs/configuration.html)。
 
@@ -289,8 +288,11 @@ master分支push的权限。
 - 记录值输入`<exmaple>.github.io`，`example`替换成你的Github ID
 
 
+创建`source/CNAME`，内容`mydomain.com`
 
-创建`source/CNAME`，内容`mydomain.com`，然后deploy
+> 编译后，`CNAME`文件会放在`master`分支的根目录下，Page会根据这个文件里的白名单，匹配你自己域名，从而使得你可以在`mydomain.com`访问博客，而不是只能在`username.github.io`。**只配置CNAME文件是不够的**，在自己域名的管理页面（如阿里云）要配置DNS解析，增加一条CNAME类型的重定向解析，指向目标为 username.github.io
+
+然后`hexo deploy`
 
 你也可以直接在Github仓库的设置，填写Custom domain，Github会帮你添加CNAME在master分支的根目录下。
 
