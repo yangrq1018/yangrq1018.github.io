@@ -368,11 +368,11 @@
 <p>设置网站的基本信息</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="comment"># 网站名称</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="comment"># 网站副标题</span></span><br><span class="line"><span class="attr">description:</span> <span class="comment"># 网站介绍</span></span><br><span class="line"><span class="attr">keywords:</span> <span class="comment"># 关键词</span></span><br><span class="line"><span class="attr">author:</span> <span class="comment"># 网站作者</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-Hans</span> <span class="comment"># 设置语言为简体中文</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="comment"># 时区</span></span><br></pre></td></tr></table></figure>
 
-<p>Fav Icon</p>
+<p><em>Fav Icon</em></p>
 <p>想要自己的网站有个个性的图标？编辑<code>themes/next/_config.yml</code></p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">favicon:</span></span><br><span class="line">  <span class="attr">small:</span> <span class="string">/images/favicon-16x16-next.png</span></span><br><span class="line">  <span class="attr">medium:</span> <span class="string">/images/favicon-32x32-next.png</span></span><br></pre></td></tr></table></figure>
 
-<p><code>small</code>和<code>medium</code>分别设置为图片文件，位置在<code>themes/next/source/images/</code>下。上面两个文件是Next主题的Icon，如果想要<br>用自己设计的Logo，把文件拷贝到同一个目录替换即可。</p>
+<p><code>small</code>和<code>medium</code>分别设置为图片文件，位置在<code>themes/next/source/images/</code>下。上面两个文件是Next主题的Icon，如果想要用自己设计的Logo，把文件拷贝到同一个目录替换即可。</p>
 <p>目前我们只需要设置这些字段，参考<a href="https://hexo.io/docs/configuration.html" target="_blank" rel="noopener">Hexo站点配置</a>。</p>
 <h3 id="打开浏览器试试"><a href="#打开浏览器试试" class="headerlink" title="打开浏览器试试"></a>打开浏览器试试</h3><p>Hexo 的任何新建项目包含一个默认文章，如果进入目录 <code>&lt;folder&gt;/source/_posts/</code>，有一篇叫做 <code>hello-world.md</code> 的文章。所以，即使还不知道如何在Hexo框架下写文章，我们也可以先把网站运行起来，看看效果。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 生产静态文件</span></span><br><span class="line">npx hexo generate</span><br><span class="line"><span class="comment"># 启动服务器</span></span><br><span class="line">npx hexo server</span><br></pre></td></tr></table></figure>
@@ -438,7 +438,11 @@
 </li>
 <li>记录值输入<code>&lt;exmaple&gt;.github.io</code>，<code>example</code>替换成你的Github ID</li>
 </ul>
-<p>创建<code>source/CNAME</code>，内容<code>mydomain.com</code>，然后deploy</p>
+<p>创建<code>source/CNAME</code>，内容<code>mydomain.com</code></p>
+<blockquote>
+<p>编译后，<code>CNAME</code>文件会放在<code>master</code>分支的根目录下，Page会根据这个文件里的白名单，匹配你自己域名，从而使得你可以在<code>mydomain.com</code>访问博客，而不是只能在<code>username.github.io</code>。<strong>只配置CNAME文件是不够的</strong>，在自己域名的管理页面（如阿里云）要配置DNS解析，增加一条CNAME类型的重定向解析，指向目标为 username.github.io</p>
+</blockquote>
+<p>然后<code>hexo deploy</code></p>
 <p>你也可以直接在Github仓库的设置，填写Custom domain，Github会帮你添加CNAME在master分支的根目录下。</p>
 <blockquote>
 <p> 可能需要等待一会，让DNS服务器更新</p>
