@@ -3,6 +3,7 @@ title: Ubuntu挂载NAS网络驱动器
 toc:
   number: false
   enable: true
+description: 介绍Ubuntu如何访问NAS文件服务器
 tags:
 - linux
 - ubuntu

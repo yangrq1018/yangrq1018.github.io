@@ -134,6 +134,12 @@ menu_settings:
   badges: false
 
 
+excerpt:
+  depth: 10
+  excerpt_excludes: []
+  more_excludes: []
+  hideWholePostExcerpts: true
+
 # ---------------------------------------------------------------
 # Sidebar Settings
 # See: https://theme-next.org/docs/theme-settings/sidebar
