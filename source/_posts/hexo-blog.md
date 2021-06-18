@@ -271,6 +271,8 @@ deploy:
 `$GH_TOKEN`指示Travis使用这个token向remote push生成的网页代码，这个token在Github的Developer settings里生成，粘贴到Travis里的环境变量配置，这个token必须有向
 master分支push的权限。
 
+> Github在某个
+
 
 ## 关联域名
 
@@ -290,7 +292,7 @@ master分支push的权限。
 
 创建`source/CNAME`，内容`mydomain.com`
 
-> 编译后，`CNAME`文件会放在`master`分支的根目录下，Page会根据这个文件里的白名单，匹配你自己域名，从而使得你可以在`mydomain.com`访问博客，而不是只能在`username.github.io`。**只配置CNAME文件是不够的**，在自己域名的管理页面（如阿里云）要配置DNS解析，增加一条CNAME类型的重定向解析，指向目标为 username.github.io
+> 编译后，`CNAME`文件会放在`master`分支的根目录下，Page会根据这个文件里的白名单，匹配你自己域名，从而使得你可以在`mydomain.com`访问博客，而不是只能在`username.github.io`。**只配置CNAME文件是不够的**，在自己域名的管理页面（如阿里云）要配置DNS解析，增加一条CNAME类型的重定向解析，指向目标为 `username.github.io`
 
 然后`hexo deploy`
 
