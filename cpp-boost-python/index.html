@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yangruoqi.site","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="[[Boost]]是C++一个广泛使用的第三方库，虽然是第三方库，但是实际上已经成为一个不亚于标准库的标准实现，其中包含了容器、算法、日期、序列化等多种功能的子模块。&lt;boost&#x2F;python.hpp&gt;是Boost提供的C++和Python的紧密互操作性的模块。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Boost Python编译Extension module">
+<meta property="og:url" content="https://yangruoqi.site/cpp-boost-python/index.html">
+<meta property="og:site_name" content="Niu&#39;s Store">
+<meta property="og:description" content="[[Boost]]是C++一个广泛使用的第三方库，虽然是第三方库，但是实际上已经成为一个不亚于标准库的标准实现，其中包含了容器、算法、日期、序列化等多种功能的子模块。&lt;boost&#x2F;python.hpp&gt;是Boost提供的C++和Python的紧密互操作性的模块。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-07T13:50:45.000Z">
+<meta property="article:modified_time" content="2023-10-07T13:50:45.000Z">
+<meta property="article:author" content="马赫东">
+<meta property="article:tag" content="cpp">
+<meta property="article:tag" content="ExtensionModule">
+<meta property="article:tag" content="xmake">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yangruoqi.site/cpp-boost-python/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://yangruoqi.site/cpp-boost-python/","path":"/cpp-boost-python/","title":"Boost Python编译Extension module"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Boost Python编译Extension module | Niu's Store</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Niu's Store" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      
+      <p class="site-title">Niu's Store</p>
+      
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-career"><a href="/career/" rel="section"><i class="fa fa-laptop-code fa-fw"></i>career</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%87%BA%E5%87%BD%E6%95%B0"><span class="nav-text">引出函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="nav-text">函数重载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%87%BA%E7%B1%BB"><span class="nav-text">引出类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7Property"><span class="nav-text">属性Property</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%92%8CSpecial-methods-XXX"><span class="nav-text">函数和Special methods (__XXX__)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C-init"><span class="nav-text">构造函数和__init__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C-iter"><span class="nav-text">迭代器和__iter__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="nav-text">资源管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0Python%E7%BB%A7%E6%89%BF%E5%AE%9E%E7%8E%B0"><span class="nav-text">虚函数Python继承实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E7%BB%A7%E6%89%BF"><span class="nav-text">C++继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python%E7%B1%BB%E7%BB%A7%E6%89%BF"><span class="nav-text">Python类继承</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XMake%E9%85%8D%E7%BD%AE"><span class="nav-text">XMake配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boost%E4%BE%9D%E8%B5%96%E7%9A%84%E9%9D%99%E6%80%81-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-text">Boost依赖的静态&#x2F;动态链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">马赫东</p>
+  <div class="site-description" itemprop="description">The backyard of Martin</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yangrq1018" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yangrq1018" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yangrq.ruoqi@outlook.com" title="E-Mail → yangrq.ruoqi@outlook.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yangruoqi.site/cpp-boost-python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="马赫东">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niu's Store">
+      <meta itemprop="description" content="The backyard of Martin">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Boost Python编译Extension module | Niu's Store">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Boost Python编译Extension module
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-07 21:50:45" itemprop="dateCreated datePublished" datetime="2023-10-07T21:50:45+08:00">2023-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>[[Boost]]是C++一个广泛使用的第三方库，虽然是第三方库，但是实际上已经成为一个不亚于标准库的标准实现，其中包含了容器、算法、日期、序列化等多种功能的子模块。<code>&lt;boost/python.hpp&gt;</code>是Boost提供的C++和Python的紧密互操作性的模块。</p>
+<span id="more"></span>
+<blockquote>
+<p>本文的示例代码可以在[]<a target="_blank" rel="noopener" href="https://github.com/yangrq1018/boost-python-blog-demo">yangrq1018/boost-python-blog-demo (github.com)</a>获得</p>
+</blockquote>
+<p>众所周知，如今最流行的Python实现是<code>CPython</code>，即基于C语言实现的Python运行时环境。因为这个原因，只要遵守一系列<code>CPython</code>规定的接口的C或者C++动态库(DLL)，其中的C/C++函数和类就可以被导入到Python代码中使用，以此解决纯Python代码无法满足的一些性能需求。</p>
+<h2 id="引出函数"><a href="#引出函数" class="headerlink" title="引出函数"></a>引出函数</h2><p>举个例子，假如我们对Python里的加法的运行速度感到不满，想要实现自己的加法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">const</span> <span class="type">int</span>&amp; a, <span class="type">const</span> <span class="type">int</span>&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将<code>add</code>暴露给Python在Boost里很简单，使用<code>boost::python::def</code>导出一个C++函数为Python函数，函数名为<code>&quot;add&quot;</code>，声明了两个参数<code>a</code>和<code>b</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/python.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> boost::python;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">const</span> <span class="type">int</span>&amp; a, <span class="type">const</span> <span class="type">int</span>&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(mymath) &#123;</span><br><span class="line">    <span class="built_in">def</span>(<span class="string">&quot;add&quot;</span>, add, (<span class="built_in">arg</span>(<span class="string">&quot;a&quot;</span>), <span class="built_in">arg</span>(<span class="string">&quot;b&quot;</span>)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>宏<code>BOOST_PYTHON_MODULE</code>的第一个参数定义了Python模块的名字<code>mymath</code>。Python对dynamic module定义的一组接口函数需要正确匹配模块的名字。如果你想要最终在Python里通过<code>from mymath import XXX</code>，则<code>BOOST_PYTHON_MODULE</code>需要得到正确的模块名以正确生成这些接口。</p>
+<p>然后我们使用[[XMake]]编译项目</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- require boost and boost python</span></span><br><span class="line">add_requires(<span class="string">&quot;boost&quot;</span>, &#123;</span><br><span class="line">    system = <span class="literal">false</span>,</span><br><span class="line">    configs = &#123;</span><br><span class="line">        shared = <span class="literal">false</span>,</span><br><span class="line">        python = <span class="literal">true</span>,</span><br><span class="line">        pyver = <span class="string">&quot;3.9&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- define the python readable dll here</span></span><br><span class="line">target(<span class="string">&quot;mymath&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;shared&quot;</span>)</span><br><span class="line">    add_packages(<span class="string">&quot;boost&quot;</span>)</span><br><span class="line">    set_filename(<span class="string">&quot;mymath.pyd&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;./**.cpp&quot;</span>)</span><br><span class="line">target_end()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- copy to project path</span></span><br><span class="line">after_build( <span class="function"><span class="keyword">function</span><span class="params">(target)</span></span></span><br><span class="line">    <span class="keyword">local</span> dst_dir = <span class="string">&quot;$(projectdir)/&quot;</span></span><br><span class="line">    <span class="built_in">os</span>.cp(target:targetdir() .. <span class="string">&#x27;/&#x27;</span> .. target:name() .. <span class="string">&#x27;.pyd&#x27;</span>, dst_dir)</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>引入boost依赖时，<code>shared</code>配置为<code>false</code>会静态链接boost，否则默认为动态链接。动态链接情况下需要将boost的dll文件拷贝到python文件的统一目录下，否则<code>import mymath</code>会报“找不到指定的模块<code>，静态链接情况下需要的依赖则都打包进</code>.pyd`中，只需要拷贝这个扩展库就可以在python中引用。</p>
+</blockquote>
+<p>在Python里导入的方式跟普通的Python模块一样</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ensure `mymath.pyd` is on the proper path relative to this script</span></span><br><span class="line"><span class="keyword">from</span> mymath <span class="keyword">import</span> add</span><br><span class="line"><span class="built_in">print</span>(add(<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="comment"># Output: 5</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到<code>add</code>函数的文档也一并生成了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(add.__doc__)</span><br><span class="line"><span class="comment"># Output</span></span><br><span class="line"><span class="comment"># add( (int)a, (int)b) -&gt; int :</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#    C++ signature :</span></span><br><span class="line"><span class="comment">#        int add(int,int)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Python是一门弱类型的语言而C++是一门强类型的语言（每个变量都必须声明唯一且不可变的类型），如果在Python中以错误的参数类型调用<code>add</code>，例如<code>add(&quot;foo&quot;, &quot;bar&quot;)</code>，会触发<code>ArgumentError</code>。</p>
+</blockquote>
+<h3 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h3><p>C++中的函数/方法往往有多个重载，以支持对不同参数类型的灵活支持，而Python是没有函数重载这个特性的，因为参数本身并没有类型限制，那么我们如何把C++的一组函数重载导出到Python的同一个函数下，而且完美支持响应的函数类型调用呢？如果你尝试直接将重载函数名传给<code>boost::python::def</code>，会提示编译错误</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">const</span> <span class="type">int</span>&amp; a, <span class="type">const</span> <span class="type">int</span>&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">std::string <span class="title">add</span><span class="params">(<span class="type">const</span> std::string&amp; a, <span class="type">const</span> std::string&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(mymath) &#123;</span><br><span class="line">    <span class="built_in">def</span>(<span class="string">&quot;add&quot;</span>, add, (<span class="built_in">arg</span>(<span class="string">&quot;a&quot;</span>), <span class="built_in">arg</span>(<span class="string">&quot;b&quot;</span>)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Error:  error C2672: “def”: 未找到匹配的重载函数</span></span><br></pre></td></tr></table></figure>
+<p>原因是<code>def</code>并没有办法解析一个有多个版本的重载函数名，使之匹配到单独一个Python函数上，这是做不到的，必须手动地把每一个重载版本交给<code>def</code>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">const</span> <span class="type">int</span>&amp; a, <span class="type">const</span> <span class="type">int</span>&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">std::string <span class="title">add</span><span class="params">(<span class="type">const</span> std::string&amp; a, <span class="type">const</span> std::string&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// define function pointer to each version of the overloaded function</span></span><br><span class="line"><span class="built_in">int</span> (*add1)(<span class="type">const</span> <span class="type">int</span>&amp; a, <span class="type">const</span> <span class="type">int</span>&amp; b) = add;</span><br><span class="line">std::<span class="built_in">string</span> (*add2)(<span class="type">const</span> std::string&amp; a, <span class="type">const</span> std::string&amp; b) = add;</span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(mymath) &#123;</span><br><span class="line">    <span class="built_in">def</span>(<span class="string">&quot;add&quot;</span>, add1, (<span class="built_in">arg</span>(<span class="string">&quot;a&quot;</span>), <span class="built_in">arg</span>(<span class="string">&quot;b&quot;</span>)));</span><br><span class="line">    <span class="built_in">def</span>(<span class="string">&quot;add&quot;</span>, add2, (<span class="built_in">arg</span>(<span class="string">&quot;a&quot;</span>), <span class="built_in">arg</span>(<span class="string">&quot;b&quot;</span>)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Python</span></span><br><span class="line"><span class="comment">// add(2, 3) -&gt; 5</span></span><br><span class="line"><span class="comment">// add(&#x27;foo&#x27;, &#x27;bar&#x27;) -&gt; &#x27;foobar&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="引出类"><a href="#引出类" class="headerlink" title="引出类"></a>引出类</h2><p>假如我们在C++中写了一个<code>Student</code>类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>() : <span class="built_in">m_name</span>(<span class="string">&quot;foo&quot;</span>) &#123;&#125;</span><br><span class="line">    string m_name;</span><br><span class="line">    <span class="function">string <span class="title">name</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> m_name;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>boost::python::class_</code>模板引出<code>class Student</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/python.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> boost::python;</span><br><span class="line"><span class="keyword">using</span> std::string;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>() : <span class="built_in">m_name</span>(<span class="string">&quot;foo&quot;</span>) &#123;&#125;</span><br><span class="line">    <span class="function">string <span class="title">name</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> m_name;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	string m_name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(student) &#123;</span><br><span class="line">    <span class="built_in">class_</span>&lt;Student&gt;(<span class="string">&quot;Student&quot;</span>, <span class="string">&quot;代表学生的类&quot;</span>, init&lt;&gt;()) <span class="comment">// 引出默认的构造函数</span></span><br><span class="line">    .<span class="built_in">add_property</span>(<span class="string">&quot;name&quot;</span>, &amp;Student::name, <span class="string">&quot;名字&quot;</span>)</span><br><span class="line">    ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过<code>init&lt;&gt;()</code>我们绑定了<code>Student</code>的无参数构造函数（绑定到<code>__init__</code>方法）</p>
+<h3 id="属性Property"><a href="#属性Property" class="headerlink" title="属性Property"></a>属性Property</h3><p><code>add_property</code>将<code>name</code>属性的getter绑定到<code>Student::name</code>方法上，注意我们传递的是函数（方法）指针。</p>
+<p>修改<code>xmake.lua</code>增加一个新的<code>target</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- ...</span></span><br><span class="line">target(<span class="string">&quot;student&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;shared&quot;</span>)</span><br><span class="line">    add_packages(<span class="string">&quot;boost&quot;</span>)</span><br><span class="line">    set_filename(<span class="string">&quot;student.pyd&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;./student.cpp&quot;</span>)</span><br><span class="line">target_end()</span><br><span class="line"><span class="comment">-- ...</span></span><br></pre></td></tr></table></figure>
+
+<p>在Python中使用<code>Student</code>就和普通的Python类型一样</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> student <span class="keyword">import</span> Student</span><br><span class="line">s = Student()</span><br><span class="line"><span class="built_in">print</span>(s.name)</span><br><span class="line"><span class="comment"># Output: foo</span></span><br></pre></td></tr></table></figure>
+
+<p><code>add_property</code>也支持接受一个方法作为属性的setter，和Python的<code>property.setter</code>装饰器有类似的作用。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>() : <span class="built_in">m_name</span>(<span class="string">&quot;foo&quot;</span>) &#123;&#125;</span><br><span class="line">    <span class="function">string <span class="title">name</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> m_name;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">set_name</span><span class="params">(<span class="type">const</span> string&amp; name)</span> </span>&#123;m_name = name;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    string m_name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(student) &#123;</span><br><span class="line">    <span class="built_in">class_</span>&lt;Student&gt;(<span class="string">&quot;Student&quot;</span>, <span class="string">&quot;代表学生的类&quot;</span>, init&lt;&gt;())</span><br><span class="line">    .<span class="built_in">add_property</span>(<span class="string">&quot;name&quot;</span>, &amp;Student::name, &amp;Student::set_name, <span class="string">&quot;名字&quot;</span>)</span><br><span class="line">    ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数和Special-methods-XXX"><a href="#函数和Special-methods-XXX" class="headerlink" title="函数和Special methods (__XXX__)"></a>函数和Special methods (__XXX__)</h3><p>接下来，绑定普通方法<code>learn</code>，<code>__str__</code>， <code>__repr__</code>等magic method</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>() : <span class="built_in">m_name</span>(<span class="string">&quot;foo&quot;</span>), <span class="built_in">m_score</span>(<span class="number">100</span>) &#123;&#125;</span><br><span class="line">    <span class="function">string <span class="title">name</span><span class="params">()</span> <span class="type">const</span> </span>&#123;<span class="keyword">return</span> m_name;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">set_name</span><span class="params">(<span class="type">const</span> string&amp; name)</span> </span>&#123;m_name = name;&#125;</span><br><span class="line">    <span class="function"><span class="type">int64_t</span> <span class="title">score</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_score;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">learn</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        m_score++;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    string m_name;</span><br><span class="line">    <span class="type">uint64_t</span> m_score;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// operator overloads</span></span><br><span class="line">ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;os, <span class="type">const</span> Student &amp;s) &#123;</span><br><span class="line">    os &lt;&lt; <span class="string">&quot;Student: &quot;</span> &lt;&lt; s.<span class="built_in">name</span>() &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; s.<span class="built_in">score</span>();</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Student <span class="keyword">operator</span>+(<span class="type">const</span> Student &amp;a, <span class="type">const</span> Student &amp;b) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Student</span>(a.<span class="built_in">name</span>() + <span class="string">&quot;-&quot;</span> + b.<span class="built_in">name</span>(), a.<span class="built_in">score</span>() + b.<span class="built_in">score</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(student) &#123;</span><br><span class="line">    <span class="built_in">class_</span>&lt;Student&gt;(<span class="string">&quot;Student&quot;</span>, <span class="string">&quot;代表学生的类&quot;</span>, init&lt;&gt;())</span><br><span class="line">      .<span class="built_in">def</span>(self_ns::<span class="built_in">str</span>(self))</span><br><span class="line">      .<span class="built_in">def</span>(self_ns::<span class="built_in">repr</span>(self))</span><br><span class="line">      .<span class="built_in">def</span>(self+self)</span><br><span class="line">      .<span class="built_in">add_property</span>(<span class="string">&quot;name&quot;</span>, &amp;Student::name, &amp;Student::set_name, <span class="string">&quot;名字&quot;</span>)</span><br><span class="line">      .<span class="built_in">add_property</span>(<span class="string">&quot;score&quot;</span>, &amp;Student::score, <span class="string">&quot;得分&quot;</span>)</span><br><span class="line">      .<span class="built_in">def</span>(<span class="string">&quot;learn&quot;</span>, &amp;Student::learn, <span class="string">&quot;学习&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>self_ns::str(self)</code>，<code>self_ns::repr(self)</code>和<code>self+self</code>这样的绑定看起来十分怪异，但其实他并没有什么复杂的东西，<code>self_ns::str</code>代表<code>self_ns</code>(self namespace)命名空间下的<code>str</code> operator，仅此而已，将其传递给<code>def</code>会使得boost寻找对应的operator overload来绑定到python相应的operator上</li>
+<li>其实上述方法不是绑定<code>__str__</code>和<code>__repr__</code>的唯一选择，也可以通过<code>def(&quot;__str__&quot;, method, doc)</code>这样的形式绑定，但这种情况下<code>method</code>需要是一个返回值是<code>std::string</code>的<strong>方法</strong>，而非<code>operator&lt;&lt;</code>这样的<strong>函数</strong><h3 id="构造函数和-init"><a href="#构造函数和-init" class="headerlink" title="构造函数和__init__"></a>构造函数和__init__</h3>C++中类有多个重载的构造函数很常见，<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>() : <span class="built_in">m_name</span>(<span class="string">&quot;foo&quot;</span>), <span class="built_in">m_score</span>(<span class="number">100</span>) &#123;&#125;</span><br><span class="line">    <span class="built_in">Student</span>(<span class="type">const</span> string&amp; name, <span class="type">int64_t</span> score): <span class="built_in">m_name</span>(name), <span class="built_in">m_score</span>(score) &#123;&#125;</span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(student) &#123;</span><br><span class="line">    <span class="built_in">class_</span>&lt;Student&gt;(<span class="string">&quot;Student&quot;</span>, <span class="string">&quot;代表学生的类&quot;</span>, init&lt;&gt;())</span><br><span class="line">    .<span class="built_in">def</span>(<span class="built_in">init</span>&lt;<span class="type">const</span> string&amp;, <span class="type">int64_t</span>&gt;())</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+绑定多个构造函数后，在Python中可以通过<code>__init__</code>调用其任何一个 版本<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">student = Student()</span><br><span class="line">student = Student(<span class="string">&quot;bob&quot;</span>, <span class="number">80</span>)</span><br><span class="line">student = Student(<span class="string">&quot;boom&quot;</span>)  <span class="comment"># Error!</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="迭代器和-iter"><a href="#迭代器和-iter" class="headerlink" title="迭代器和__iter__"></a>迭代器和__iter__</h3><p><code>boost::python::iterator</code>接受实现了<code>begin</code>和<code>end</code>方法的类作为模板，可以绑定在<code>__iter__</code>方法上。这样，<code>Student</code>实例化的对象可以支持Python里实现了迭代器<code>__iter__</code>的对象的各种用法，
+如<code>list(student)</code>, <code>for x in student</code>…</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/python.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> boost::python;</span><br><span class="line"><span class="keyword">using</span> std::string;</span><br><span class="line"><span class="keyword">using</span> std::ostream;</span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>() : <span class="built_in">m_name</span>(<span class="string">&quot;foo&quot;</span>), <span class="built_in">m_score</span>(<span class="number">100</span>) &#123;</span><br><span class="line">        <span class="built_in">initFriends</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">typedef</span> vector&lt;string&gt;::const_iterator const_iterator;</span><br><span class="line">    <span class="function">const_iterator <span class="title">begin</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_friends.<span class="built_in">begin</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">const_iterator <span class="title">end</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_friends.<span class="built_in">end</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    string m_name;</span><br><span class="line">    <span class="type">uint64_t</span> m_score;</span><br><span class="line">    vector&lt;string&gt; m_friends; </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">initFriends</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        m_friends.<span class="built_in">push_back</span>(<span class="string">&quot;bar&quot;</span>);</span><br><span class="line">        m_friends.<span class="built_in">push_back</span>(<span class="string">&quot;baz&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(student) &#123;</span><br><span class="line">    <span class="built_in">class_</span>&lt;Student&gt;(<span class="string">&quot;Student&quot;</span>, <span class="string">&quot;代表学生的类&quot;</span>, init&lt;&gt;())</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    .<span class="built_in">def</span>(<span class="string">&quot;__iter__&quot;</span>, <span class="built_in">iterator</span>&lt;<span class="type">const</span> Student&gt;())</span><br><span class="line">    ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们让<code>Student</code>内部维护一个<code>m_friends</code>数组（vector），将<code>vector</code>的迭代器返回。</p>
+<p>Iterator无论是在python中还是C++中都是相当重要的概念，善用他们对于提高程序的速度和效率都很有帮助。通常我们希望在Python中调用C++代码的需求都是出于性能上的，所以有大量迭代和循环逻辑的时候，要用好这些绑定方法。</p>
+<h3 id="资源管理"><a href="#资源管理" class="headerlink" title="资源管理"></a>资源管理</h3><p>引出的C++类型的object在其Python绑定的object被GC销毁（或手动销毁），会自动触发C++的析构函数，这点无需任何配置，为默认行为。我们在析构函数中加一条打印验证</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Student</span>() : <span class="built_in">m_name</span>(<span class="string">&quot;foo&quot;</span>), <span class="built_in">m_score</span>(<span class="number">100</span>) &#123;</span><br><span class="line">        <span class="built_in">initFriends</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Student</span>(<span class="type">const</span> string &amp;name, <span class="type">int64_t</span> score) : <span class="built_in">m_name</span>(name), <span class="built_in">m_score</span>(score) &#123;</span><br><span class="line">        <span class="built_in">initFriends</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    ~<span class="built_in">Student</span>() &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;destructed&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> student <span class="keyword">import</span> Student</span><br><span class="line">s = Student()</span><br><span class="line"><span class="keyword">del</span> s</span><br><span class="line"><span class="comment"># Ouput: destructed</span></span><br></pre></td></tr></table></figure>
+<h2 id="虚函数Python继承实现"><a href="#虚函数Python继承实现" class="headerlink" title="虚函数Python继承实现"></a>虚函数Python继承实现</h2><h3 id="C-继承"><a href="#C-继承" class="headerlink" title="C++继承"></a>C++继承</h3><p>我们定义一个C++的带有虚函数的类，代表一个<code>Increment</code>接口的约定</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">IncBase</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">int</span> <span class="title">inc</span><span class="params">(<span class="type">int</span> n)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意这里<code>inc</code>方法为<strong>纯虚函数</strong>，无论我们在Python还是C++环境中，都必须继承并实现<code>inc</code>方法，否则无法直接实例化<code>IncBase</code>类。</p>
+</blockquote>
+<p>在C++中继承这个Abstract class，实现<code>inc</code>方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">IncImp</span> : <span class="keyword">public</span> IncBase &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">inc</span><span class="params">(<span class="type">int</span> n)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> n + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>为了展示，定义一个使用<code>IncBase</code>对象的函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">callInc</span><span class="params">(IncBase&amp; i, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> i.<span class="built_in">inc</span>(n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将以上导出</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(inc) &#123;</span><br><span class="line">	<span class="comment">// 仅仅导出，不在Python中使用，否则下面一行会报错</span></span><br><span class="line">    <span class="built_in">class_</span>&lt;IncBase, boost::noncopyable&gt;(<span class="string">&quot;__IncBase&quot;</span>, no_init);</span><br><span class="line">    class_&lt;IncImp, bases&lt;IncBase&gt;&gt;(<span class="string">&quot;IncImp&quot;</span>).<span class="built_in">def</span>(init&lt;&gt;());</span><br><span class="line">    <span class="built_in">def</span>(<span class="string">&quot;callInc&quot;</span>, callInc, (<span class="built_in">arg</span>(<span class="string">&quot;imp&quot;</span>), <span class="built_in">arg</span>(<span class="string">&quot;n&quot;</span>)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里需要小心，有好几个技巧，我们逐个分析</p>
+<ul>
+<li><code>IncBase</code>在这里被导出，但是我们不会使用它，我们也无法使用它，作为abstract class它无法被实例化，无论在C++中还是Python中。它只作为基类的声明，如果这行，在python import时会报错<code>extension class wrapper for base class class IncBase has not been created yet</code>，所以为了让<code>bases&lt;IncBase&gt;</code>工作，我们把<code>IncBase</code>也导出</li>
+<li><code>boost::noncopyable</code>：防止binding生成copy constructor，抽象类无法实例化，会提示编译错误</li>
+<li><code>boost::python::non_init</code>：防止binding生成构造函数，抽象类无法实例化，会提示编译错误</li>
+<li><code>bases&lt;IncBase&gt;</code>：需要显示指定基类<code>bases&lt;IncBase&gt;</code>，否则<code>callInc(IncImp(), 3)</code>会提示参数类型不匹配，因为<code>callInc</code>声明接受<code>IncBase</code>类型而不是<code>IncImp</code>类型</li>
+</ul>
+<blockquote>
+<p>普通的Python函数是不存在任何参数类型匹配的，duck typing原则下，传入任何对象都可以，任何类型不匹配导致的错误只在访问方法时抛出。</p>
+<p>对于函数调用，Boost Python增加的参数类型检查在默认情况下不存在所谓的runtime polymorphism，<code>callInc</code>只接受<code>IncBase</code>对象（及其Python绑定的对象）。即使<code>IncImp</code>对象也有<code>inc</code>方法，符合duck typing，还是被认为是<code>IncBase</code>之外的<em>其他类型</em>，参数类型检查没有通过。显示声明<code>bases&lt;IncBase&gt;</code>后，我们恢复虚函数的运行时多态特性。</p>
+</blockquote>
+<p>这是是<code>IncBase</code>的子类只有C++类型的情况。</p>
+<h3 id="Python类继承"><a href="#Python类继承" class="headerlink" title="Python类继承"></a>Python类继承</h3><p>我们希望在Python中继承抽象类并实现虚函数接口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> inc <span class="keyword">import</span> IncBase, callInc, __IncBase</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyInc</span>(<span class="title class_ inherited__">__IncBase</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inc</span>(<span class="params">self, n</span>):</span><br><span class="line">	    <span class="keyword">return</span> n + <span class="number">1</span></span><br><span class="line">f = MyInc() <span class="comment"># RuntimeError: This class cannot be instantiated from Python</span></span><br></pre></td></tr></table></figure>
+
+<p>抽象类即便以Python函数的形式实现了，还是无法实例化。我们需要额外增加一个wrapper类型来使得C++侧正确调用Python子类的方法实现</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// omitted ...</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">IncBaseWrap</span> : <span class="keyword">public</span> IncBase, <span class="keyword">public</span> wrapper&lt;IncBase&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">inc</span><span class="params">(<span class="type">int</span> n)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="comment">// calls python override</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>-&gt;<span class="built_in">get_override</span>(<span class="string">&quot;inc&quot;</span>)(n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_PYTHON_MODULE</span>(inc) &#123;</span><br><span class="line">    <span class="built_in">class_</span>&lt;IncBase, boost::noncopyable&gt;(<span class="string">&quot;__IncBase&quot;</span>, no_init);</span><br><span class="line">    <span class="built_in">class_</span>&lt;IncBaseWrap, boost::noncopyable&gt;(<span class="string">&quot;IncBase&quot;</span>).<span class="built_in">def</span>(init&lt;&gt;());</span><br><span class="line">    class_&lt;IncImp, bases&lt;IncBase&gt;&gt;(<span class="string">&quot;IncImp&quot;</span>).<span class="built_in">def</span>(init&lt;&gt;());</span><br><span class="line">    <span class="built_in">def</span>(<span class="string">&quot;callInc&quot;</span>, callInc, (<span class="built_in">arg</span>(<span class="string">&quot;imp&quot;</span>), <span class="built_in">arg</span>(<span class="string">&quot;n&quot;</span>)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Python中继承wapper类型，<code>this-&gt;get_override(&quot;inc&quot;)</code>会调用Python子类的方法实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyInc</span>(<span class="title class_ inherited__">IncBase</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inc</span>(<span class="params">self, n</span>):</span><br><span class="line">        <span class="keyword">return</span> n + <span class="number">1</span></span><br><span class="line">f = MyInc()</span><br><span class="line"><span class="keyword">assert</span> callInc(f, <span class="number">3</span>) == <span class="number">4</span></span><br><span class="line"><span class="keyword">assert</span> callInc(f, -<span class="number">1</span>) == <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="XMake配置"><a href="#XMake配置" class="headerlink" title="XMake配置"></a>XMake配置</h2><h2 id="Boost依赖的静态-动态链接"><a href="#Boost依赖的静态-动态链接" class="headerlink" title="Boost依赖的静态/动态链接"></a>Boost依赖的静态/动态链接</h2><p>上文中我们在<code>add_requires(&quot;boost&quot;, ...)</code>时使用<code>shared=False</code>的方式静态链接boost，下面展示了如何动态链接boost，并且分发最后生成的扩展模块给python</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- require boost and boost python</span></span><br><span class="line">add_requires(<span class="string">&quot;boost&quot;</span>, &#123;</span><br><span class="line">    system = <span class="literal">false</span>,</span><br><span class="line">    configs = &#123;</span><br><span class="line">        shared = <span class="literal">true</span>,</span><br><span class="line">        python = <span class="literal">true</span>,</span><br><span class="line">        pyver = <span class="string">&quot;3.9&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- extension modules</span></span><br><span class="line">target(<span class="string">&quot;mymath&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;shared&quot;</span>)</span><br><span class="line">    add_packages(<span class="string">&quot;boost&quot;</span>)</span><br><span class="line">    set_filename(<span class="string">&quot;mymath.pyd&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;./add.cpp&quot;</span>)</span><br><span class="line">target_end()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- copy to project path</span></span><br><span class="line">after_build(<span class="function"><span class="keyword">function</span><span class="params">(target)</span></span></span><br><span class="line">    <span class="keyword">local</span> dst_dir = <span class="string">&quot;$(projectdir)/&quot;</span></span><br><span class="line">    <span class="comment">-- 将依赖的库拷贝至build的输出目录</span></span><br><span class="line">    <span class="keyword">local</span> lib_suffix = <span class="string">&quot;.dll&quot;</span></span><br><span class="line">    <span class="keyword">local</span> libdir = target:targetdir()</span><br><span class="line">    <span class="keyword">for</span> libname, pkg <span class="keyword">in</span> <span class="built_in">pairs</span>(target:pkgs()) <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">local</span> pkg_path = pkg:installdir()</span><br><span class="line">        <span class="keyword">if</span> pkg_path ~= <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;copy dependents: &quot;</span> .. pkg_path)</span><br><span class="line">            <span class="built_in">os</span>.trycp(pkg_path .. <span class="string">&quot;/lib/*&quot;</span> .. lib_suffix, libdir)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="built_in">os</span>.cp(target:targetdir() .. <span class="string">&#x27;/&#x27;</span> .. target:name() .. <span class="string">&#x27;.pyd&#x27;</span>, dst_dir)</span><br><span class="line">    <span class="built_in">os</span>.cp(target:targetdir() .. <span class="string">&#x27;/*.dll&#x27;</span>, dst_dir)</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+<p>多出来的部分是通过<code>target:pkgs()</code>遍历依赖，将dll文件拷贝到build目录，再从build目录拷贝到python模块路径上，实现python import的运行时查找链接。这跟静态链接当然互有利弊，缺点是需要分发一连串dll文件给到python用户，不过其实这不是什么大问题，用户在<code>pip install</code>安装我们的python模块之后，dll文件存放在用户的site-packages目录下，用户并不会感知到我们具体是采用静态链接还是动态链接</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>给Jerry买一个罐头</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="马赫东 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/cpp/" rel="tag"># cpp</a>
+              <a href="/tags/ExtensionModule/" rel="tag"># ExtensionModule</a>
+              <a href="/tags/xmake/" rel="tag"># xmake</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/win-tips/" rel="prev" title="Windows小技巧">
+                  <i class="fa fa-angle-left"></i> Windows小技巧
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/vim/" rel="next" title="Vim配置">
+                  Vim配置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">马赫东</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">145k</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/yangrq1018" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"yangrq1018/hexo_blog_comment","issue_term":"pathname","theme":"github-dark"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+  
+  <script async src="/js/cursor/love.min.js"></script>
+  
+
+</body>
+</html>

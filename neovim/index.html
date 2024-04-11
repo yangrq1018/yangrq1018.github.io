@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yangruoqi.site","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="受不了Vim转了VSCode，又叛逃Neovim了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neovim方案">
+<meta property="og:url" content="https://yangruoqi.site/neovim/index.html">
+<meta property="og:site_name" content="Niu&#39;s Store">
+<meta property="og:description" content="受不了Vim转了VSCode，又叛逃Neovim了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-24T14:48:18.000Z">
+<meta property="article:modified_time" content="2023-12-24T14:48:18.000Z">
+<meta property="article:author" content="马赫东">
+<meta property="article:tag" content="Vim">
+<meta property="article:tag" content="Neovim">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yangruoqi.site/neovim/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://yangruoqi.site/neovim/","path":"/neovim/","title":"Neovim方案"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Neovim方案 | Niu's Store</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Niu's Store" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      
+      <p class="site-title">Niu's Store</p>
+      
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-career"><a href="/career/" rel="section"><i class="fa fa-laptop-code fa-fw"></i>career</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#VScode%EF%BC%8CVim%E5%92%8CIDE%EF%BC%9A%E4%B8%80%E4%BA%9B%E5%94%A0%E5%8F%A8"><span class="nav-text">VScode，Vim和IDE：一些唠叨</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neovim"><span class="nav-text">Neovim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%84%9A%E6%89%8B%E6%9E%B6%E9%85%8D%E7%BD%AE%EF%BC%88Scaffolding%EF%BC%89"><span class="nav-text">脚手架配置（Scaffolding）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%AE%E6%94%B9"><span class="nav-text">自定义修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E7%8E%AF%E5%A2%83%EF%BC%8CXmake%E5%92%8CLSP"><span class="nav-text">C++环境，Xmake和LSP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#meson-ninja"><span class="nav-text">meson&#x2F;ninja</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git-workflow"><span class="nav-text">Git workflow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug-in-Neovim-C-C-Python"><span class="nav-text">Debug in Neovim (C&#x2F;C++&#x2F;Python)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#VSCode-like-launch-json-support-in-nvim-dap"><span class="nav-text">VSCode like launch.json support in nvim-dap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%AE%89%E8%A3%85"><span class="nav-text">依赖安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Golang-LSP"><span class="nav-text">Golang LSP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Formatter"><span class="nav-text">Formatter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE"><span class="nav-text">语法高亮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%B3%95%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A2"><span class="nav-text">输入法自动切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AA%E5%88%87%E6%9D%BF"><span class="nav-text">剪切板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Colorizer"><span class="nav-text">Colorizer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neovim-Tmux-Alacritty-True-Color"><span class="nav-text">Neovim + Tmux + Alacritty True Color</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Known-bugs-and-issues"><span class="nav-text">Known bugs and issues</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">马赫东</p>
+  <div class="site-description" itemprop="description">The backyard of Martin</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yangrq1018" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yangrq1018" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yangrq.ruoqi@outlook.com" title="E-Mail → yangrq.ruoqi@outlook.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yangruoqi.site/neovim/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="马赫东">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niu's Store">
+      <meta itemprop="description" content="The backyard of Martin">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Neovim方案 | Niu's Store">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Neovim方案
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-12-24 22:48:18" itemprop="dateCreated datePublished" datetime="2023-12-24T22:48:18+08:00">2023-12-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>25k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>22 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>受不了Vim转了VSCode，又叛逃Neovim了。</p>
+<span id="more"></span>
+
+<h3 id="VScode，Vim和IDE：一些唠叨"><a href="#VScode，Vim和IDE：一些唠叨" class="headerlink" title="VScode，Vim和IDE：一些唠叨"></a>VScode，Vim和IDE：一些唠叨</h3><p>在2023年年末，近段时间用的比较多的是VSCode。以前也曾使用Jetbrains家的IDE全家桶，用过Goland, Pycharm, IDEA, DataGrip等。
+在前司工作的时候，因为公司的开发环境只有CentOS服务器，也用了好一阵Vim。后来决定在全部语言都转向VSCode开发，VSCode经过
+这么多年的发展，已经非常完善了，稍稍查些资料就可以捣鼓出Python、C++和Golang的整套环境，丰富的插件生态，甚至Vim的操作
+键位也能通过安装插件搬过来，启动速度上也快过那些笨重的IDE们。</p>
+<p>对于不喜欢折腾的程序员，VSCode真的真的<strong>已经足够好了</strong>，如果写代码对你来说仅仅是一份工作，你只想用最短的时间，花最少的
+精力把需求实现，那VSCode是你的不二选择，绝大部分的插件设计的非常友好，上手迅速，鼠标点点就好，需要动JSON配置文件也仅仅
+是复制粘贴几行就好。</p>
+<p>但是……喜欢折腾的程序员确实存在，还不少，Vim comes to rescue！</p>
+<p>在非Vim用户的眼里，用Vim就是在自找麻烦：怪异的方向键hjkl、零存在感的鼠标、让人摸不着头脑的退出命令。但我觉得Vim的忠实粉丝，
+是那一拨控制欲较强，对完美有点执拗，享受编程，追随所谓的编程的”Zen”（禅意）的人。折腾，实际上是在摸索更适合自己的编辑器
+工具，每个人的Vim都不一样，插件不一样，设置不一样，快捷键不一样……千人千面，学习的过程很难，适应编辑模式很痛苦，摸索
+自己用着舒服的配置需要很长的时间，陡峭的学习曲线，不低的上手难度。学习Vim，就像剑客在磨自己的剑，追求那人剑合一的境界，
+这就是Vim的Zen。VSCode就像一把瑞士军刀，样样齐全，标准化，需要什么工具掰开就能用；Vim像一把武士刀，初试连挥舞起来都
+很难，但越用越熟练，形成肌肉记忆之后，更快更准。Zen也许源自于那个计算机还是个黑框框的时代，“老一代”程序员们不需要考虑
+多么炫酷的UI界面，他们只想把两只手尽量都放在键盘上，用最高的效率写好代码。</p>
+<p>Expensify的CEO在一篇博客
+<a target="_blank" rel="noopener" href="https://use.expensify.com/blog/ceo-friday-why-we-dont-hire-net-programmers">Why we don’t hire .NET programmers</a>
+里写了一段对C#语言（.NET平台）的评价，作者把C#程序员比作麦当劳厨师，他拥有一套完整的、闭环的而且十分好用的做菜
+系统（.NET平台），他能用最短时间做出世界上最美味的汉堡包，无论何时何地，汉堡包的质量都一丝不苟，始终如一。但是他没办法
+做麦当劳菜单以外的菜，他甚至都不能在汉堡里放更多的肉，因为一切都是设置好的，他只需要按下适当的按钮，机器就把菜做好了，
+机器上不会有一个用来放更多肉的按钮，这个厨师和这套自动化系统绑定在一起了。</p>
+<p>当然，这篇文章的作者的看法有待商榷，我也无意批判.NET程序员或者Microsoft。除了麦当劳的比喻，博客作者也提到他想要招的
+程序员：能用树枝串起剥了皮的松鼠在火上烤的“厨师”，一切都从零做起。Vim显然是更符合这样的哲学的，Everything from scratch，
+往往一个很简单的需求配置，也需要你去了解一些Vim的规则，需要在<code>.vimrc</code>里写几行，甚至定义一个函数。就好像要自己生火、剥皮、
+砍树枝、撒调料……这个过程是有意义的，他是有循序渐进的、螺旋向上的。你会越来越熟练，越来越熟悉Vim，知道能想到一些独创的
+巧妙点子来。Vim鼓励你去思考自己的解决方法，去借鉴别人的解决方法。</p>
+<p>有人会反驳：也许IDE没办法自己写代码解决问题，但VSCode和Vim不都是靠装一堆别人写的插件吗？对也不对，我敢保证如果你只会
+Google一下，然后找一个插件装上，你百分之百无法用好Vim。Vim绝大多数的插件都不鼓励装上就什么都不管了，相反，热门插件
+提供了相当多的配置项和自由度，鼓励用户微调到最顺手的状态。保持这种探索和精益求精的状态，我认为更好。</p>
+<h3 id="Neovim"><a href="#Neovim" class="headerlink" title="Neovim"></a>Neovim</h3><p>言归正传，本文的主题是Neovim。什么是Neovim？</p>
+<p>Neovim是Vim的一个重构版本，在2015年发行。它致力于解决Vim存在的问题，提供更现代化的API和特性。相比于Vim，它没有那么多
+历史包袱，更加激进，支持LSP这样的新潮玩意。Neovim其实是Vim的超集，兼容Vim插件和脚本，编辑方式上也一脉相承。Neovim支持
+语法更加友好的lua语言作为配置文件和编写插件，也支持Python等其他语言开发插件，这些都是Vim无法提供的。</p>
+<blockquote>
+<p>Vim的作者Bram Moolenaar于2023年8月去世，他也是Vim的BDFL(Benevolent Dictator for Life)，感谢他一生为Vim做出的贡献。</p>
+</blockquote>
+<p>使用下来，我认为并不存在什么Vim令人难以忍受而Neovim解决了的痛点，Neovim更像是Vim的儿子而不是来革Vim的命的。如果一个
+新手想入门Vim，我肯定推荐他一步到位直接用Neovim，除非有什么外在因素例如服务器上不允许安装外来软件之类的。同时，肯定也
+有一大票Vim的“前朝遗老”不愿意走出舒适圈投入Neovim的怀抱，我觉得这一点问题都没有，毕竟我前司的服务器上只有个原装的Vim
++几个老掉牙的插件，不影响几百号人每天用这套东西写8个小时代码……</p>
+<h3 id="脚手架配置（Scaffolding）"><a href="#脚手架配置（Scaffolding）" class="headerlink" title="脚手架配置（Scaffolding）"></a>脚手架配置（Scaffolding）</h3><p>跟Vim一样，我没有选择从零开始手写一份配置入门Neovim。我用了这个<a target="_blank" rel="noopener" href="https://github.com/jdhao/nvim-config">项目</a>作为基础，
+我fork了一份（[地址](https://github.com/yangrq1018/nvim-config），做了很多客制化修改。</p>
+<p>这个项目本身就是一个开箱即用的neovim配置，克隆到<code>~/.config/</code>，重命名为<code>nvim</code>，启动Neovim自动安装全部插件,
+大概有70多个插件，所以耐心等待一会。</p>
+<p>除此之外，有一些可选安装。</p>
+<blockquote>
+<p>若要使用<code>wilder.nvim</code>必须要安装nvim的pyth0n扩展，nvim除了lua之外支持Python等其他语言编写插件，比如wilder就是python
+编写的，官方称这些插件为Remote Plugin，他们不能直接使用。Python插件需要<code>pip install pynvim</code>，然后在nvim里输入
+<code>:UpdateRemotePlugin</code>，成功的话会看见wilder.nvim在输出里，这一步实际上是生成了一份跟Python模块对应的vim script</p>
+</blockquote>
+<blockquote>
+<p>vim language server必须安装，否则出现所以代码都没有高亮之类的问题。方法：<code>npm install -g vim-language-server</code>
+lua LSP和python LSP非必要安装，但我建议装上，因为他们都不复杂。如果你的python是Anaconda的话<code>pylsp</code>可能已经
+预装了。</p>
+</blockquote>
+<blockquote>
+<p>系统上必须至少存在一个C编译器，clang或gcc，部分插件需要编译。</p>
+</blockquote>
+<blockquote>
+<p>若要使用<code>xmake</code>和<code>dropbar</code>，neovim版本需要0.10.0或者更高。目前正式版还没有发布0.10.0，所以需要下载nightly版本。</p>
+</blockquote>
+<h3 id="自定义修改"><a href="#自定义修改" class="headerlink" title="自定义修改"></a>自定义修改</h3><p>我的fork配置项目在原项目基础上做了这些修改</p>
+<ol>
+<li>强制启用treesitter，因为有太多插件需要这个东西</li>
+<li>onedarkpro的lualine inactive window背景
+ 当分屏多个窗口时，lualine提供的statusline会分割各个窗口。onedarkpro这个主题设置inactive的窗口的
+ statusline是跟背景一样颜色，很不显眼，导致很难看清窗口之间的分解，其他的主题就没有这个问题。
+ 我修改了主题里的背景颜色，使其颜色更深，看着会比较醒目</li>
+<li><code>after/ftplugin</code>里，我修改了一些语言的折叠选项，</li>
+<li>修改终端标签的title</li>
+<li>增加Jupyter notebook文件识别</li>
+<li>显示bufferline文件类型图标</li>
+<li>处理dap-virtual-text的颜色问题，由于colorscheme设置，
+ <code>NvimDapVirtualText</code>这个highlight group需要强制link到<code>Comment</code>，否则无法和comment保持一样的颜色</li>
+</ol>
+<p>增加了一个实用命令</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&quot; close buffer without quiting</span></span><br><span class="line"><span class="keyword">command</span> Bd <span class="keyword">bp</span>|bd#</span><br></pre></td></tr></table></figure>
+<p>这个命令解决的是Vim一个很微妙的问题：无法关闭当前focus的buffer。如果用<code>:bd</code>命令关闭buffer，Vim会认为这个window没有
+buffer了，如果当前仅有这一个window，那Vim就退出了。这导致一个很棘手的情况：无法清理工作区。如果当前项目打开了很多个
+文件，这是想要关掉不用的buffer，第一个方案是用bufferline的功能，bufferline支持点击页签上的X按钮关闭buffer，但这需要
+用鼠标，显然是跟Vim哲学背道而驰的。第二个方案是用<code>:bd</code>命令，但由于前述原因，<code>:bd</code>会导致Vim退出，从而整个工作区的
+状态都丢失了，这往往是相当恼人的。所以，我们新定义一个<code>:Bd</code>命令来代替<code>:bd</code>，<code>bp</code>首先切换到上一个buffer，然后<code>bd#</code>
+关闭最近打开的buffer，也就是我们想要关闭的那个，这样Vim就不会退出了。</p>
+<h3 id="C-环境，Xmake和LSP"><a href="#C-环境，Xmake和LSP" class="headerlink" title="C++环境，Xmake和LSP"></a>C++环境，Xmake和LSP</h3><p>Neovim做C++开发，可以利用Neovim的LSP支持。我使用的编译工具是Xmake，Xmake本身就提供了生成项目的<code>compile_commands.json</code>
+文件，<code>clangd</code>作为LSP可以读取这个文件夹，提供给Neovim代码跳转、高亮、警告、报错等功能。这样，Neovim就变成了一个满血
+IDE。借助LSP，Neovim和VSCode在功能上已经可以平分秋色了，可能Debug上还差一点，但体验已经很丝滑了。</p>
+<p>Lazy.nvim的插件配置</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Xmake build tool</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&#x27;yangrq1018/xmake.nvim&#x27;</span>,</span><br><span class="line">    lazy = <span class="literal">true</span>,</span><br><span class="line">    event = <span class="string">&quot;BufReadPost xmake.lua&quot;</span>,</span><br><span class="line">    <span class="built_in">config</span> = <span class="literal">true</span>,</span><br><span class="line">    dependencies = &#123;<span class="string">&quot;MunifTanjim/nui.nvim&quot;</span>, <span class="string">&quot;nvim-lua/plenary.nvim&quot;</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个插件会自动检测项目内的<code>xmake.lua</code>文件，文件内容变化时自动生成/更新<code>compile_commands.json</code>。<code>clangd</code>如果没有的话
+要自己安装下，我只推荐Linux用户去折腾这个，<code>msvc</code>就不要去弄了，<code>clang</code>/<code>llvm</code>在Windows上还没有可用性。</p>
+<p>创建一个<code>.clangd</code>文件，配置该项目的clangd服务</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">CompileFlags:</span></span><br><span class="line">  <span class="attr">CompilationDatabase:</span> <span class="string">.vscode</span></span><br><span class="line">  <span class="attr">Add:</span> [</span><br><span class="line">    <span class="string">-isystem</span>,</span><br><span class="line">    <span class="string">/usr/include/c++/11</span>,</span><br><span class="line">    <span class="string">-isystem</span>,</span><br><span class="line">    <span class="string">/usr/include/c++/11/backward</span>,</span><br><span class="line">    <span class="string">-isystem</span>,</span><br><span class="line">    <span class="string">/usr/local/include</span>,</span><br><span class="line">    <span class="string">-isystem</span>,</span><br><span class="line">    <span class="string">/usr/include</span>,</span><br><span class="line">    <span class="string">-isystem</span>,</span><br><span class="line">    <span class="string">/usr/include/x86_64-linux-gnu/c++/11</span>,</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此文件是非必须的。默认情况下clangd会在当前编辑文件的父级目录，或者各父级目录下的<code>build/</code>目录下查找
+名为<code>compile_commands.json</code>的文件。上面例子中，配置<code>CompilationDatabase</code>指示clangd在<code>.vscode</code>文件
+夹下寻找<code>compile_commands.json</code>，neovim插件调用xmake生成的数据库在这个路径下。为什么？因为vscode通
+常会把文件放在这个目录下，为了方便别人用vscode打开项目，所以就统一放在这里了。</p>
+</blockquote>
+<p><code>Add</code>属性是可选的，如果打开cpp文件不会显示标准库<code>&lt;iostream&gt;</code>之类的找不到的报错，那就不用加，这里是指示<code>clang</code>在这些
+路径搜索标准库头文件。</p>
+<p>几句题外话，如果你看过<code>compile_commands.json</code>的内容，你会发现有点怪：里面的编译指令用的是<code>gcc</code>，而不是<code>clang</code>。<code>xmake</code>
+在Linux下的默认工具链是<code>gcc</code>，除非你手动<code>xmake f --toolchain=clang</code>切换工具链为clang或者llvm。<code>:LspLog</code>查看clangd
+的log，发现clangd确实是调用gcc编译，产生的index也是基于gcc生成的object code，这整个过程里都没有<code>clang</code>编译器什么事
+……遗憾的是，这种兼容性在Windows平台上不存在，<code>clangd</code>无法兼容MSVC，所以我刚才说Windows用户就不要折腾clangd了。</p>
+<p>虽然经过简单设置，可以在<code>lualine</code>里显示Xmake的状态，比如当前target，当前模式等等。statusline甚至支持点击弹出菜单，提供
+类似VSCode的交互效果。不过，鼠标操作并不是Vim用户中意的方式，设置keymap才是。借助<code>which-key</code>插件设置Xmake命令的快捷键</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- keymap</span></span><br><span class="line"><span class="keyword">local</span> keymap = &#123;</span><br><span class="line">  x = &#123;</span><br><span class="line">    name = <span class="string">&quot;Xmake&quot;</span>,</span><br><span class="line">    b = &#123; <span class="string">&quot;&lt;cmd&gt;XmakeBuild&lt;cr&gt;&quot;</span>, <span class="string">&quot;Build current target&quot;</span> &#125;,</span><br><span class="line">    B = &#123; <span class="string">&quot;&lt;cmd&gt;XmakeBuildAll&lt;cr&gt;&quot;</span>, <span class="string">&quot;Build all targets&quot;</span> &#125;,</span><br><span class="line">    i = &#123; <span class="string">&quot;&lt;cmd&gt;XmakeBuildTarget&lt;cr&gt;&quot;</span>, <span class="string">&quot;Select and build target&quot;</span>&#125;,</span><br><span class="line">    c = &#123; <span class="string">&quot;&lt;cmd&gt;XmakeClean&lt;cr&gt;&quot;</span>, <span class="string">&quot;Clean current target&quot;</span> &#125;,</span><br><span class="line">    C = &#123; <span class="string">&quot;&lt;cmd&gt;XmakeCleanAll&lt;cr&gt;&quot;</span>, <span class="string">&quot;Clean up all targets&quot;</span> &#125;,</span><br><span class="line">    m = &#123; <span class="string">&quot;&lt;cmd&gt;XmakeSetMenu&lt;cr&gt;&quot;</span>, <span class="string">&quot;Toggle menu&quot;</span>&#125;,</span><br><span class="line">    T = &#123; <span class="string">&quot;&lt;cmd&gt;XMakeSetToolchain&lt;cr&gt;&quot;</span>, <span class="string">&quot;Set toolchain&quot;</span> &#125;,</span><br><span class="line">    o = &#123; <span class="string">&quot;&lt;cmd&gt;XmakeSetMode&lt;cr&gt;&quot;</span>, <span class="string">&quot;Set compile mode&quot;</span>&#125;,</span><br><span class="line">    t = &#123; <span class="string">&quot;&lt;cmd&gt;XmakeSetTarget&lt;cr&gt;&quot;</span>, <span class="string">&quot;Select target&quot;</span>&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">local</span> opts = &#123;</span><br><span class="line">  mode = <span class="string">&quot;n&quot;</span>,</span><br><span class="line">  prefix = <span class="string">&quot;&lt;leader&gt;&quot;</span>,</span><br><span class="line">  buffer = <span class="literal">nil</span>,</span><br><span class="line">  silent = <span class="literal">true</span>,</span><br><span class="line">  noremap = <span class="literal">true</span>,</span><br><span class="line">  nowait = <span class="literal">true</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;which-key&quot;</span>).register(keymap, opts)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>which-key</code>插件的特色就是传入一个Lua table，定义多层的快捷键。我们使Xmake相关的命令以<code>&lt;leader&gt;</code>键开头，然后
+是x键，然后才是各命令对应的按键。这样层层组织很方便我们记忆，以及将各个插件的命令和功能有条理地在键盘上组织起来。</p>
+<h4 id="meson-ninja"><a href="#meson-ninja" class="headerlink" title="meson/ninja"></a>meson/ninja</h4><p>上面介绍了xmake作为build system来管理的C/C++项目，但不得不承认，xmake还是一个不算很主流的构建工具，
+尤其是在国际上。目前大部分开源社区的C++项目还是使用CMake，或者更新一些的会使用Python编写的Meson。关
+于CMake，由于过多的历史问题，其怪异的语法，非常糟糕的官方文档，都使得很多简单的问题复杂化了。所以我
+的意见是积极地脱离这些过时的工具，当然是在条件允许的前提下，例如一些新项目上。</p>
+<p>整合Meson和Neovim的LSP框架的思路，跟XMake相似，都是利用clangd作为LSP server提供源文件的解析。那么剩
+下的问题就是，clangd只需要读取一个编译指令文件<code>compile_commands.json</code>，如何用Meson生产项目的这个文件
+数据库呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">meson build</span><br><span class="line">ninja -C build</span><br><span class="line">cd build</span><br><span class="line">ninja -t compdb cpp_COMPILER &gt; compile_commands.json</span><br></pre></td></tr></table></figure>
+
+<p>First, <code>meson build</code> (equivalent to <code>meson setup build</code>) configures the project and generates a
+build system under <code>build/</code> directory. <code>ninja -C build</code> actually builds the C++ project, generating
+the intermediate files and executables in <code>build/</code>.</p>
+<p>So far this is just the normal procedure using Meson to build a project, but that’s not what we
+want. To generate a compile database, go to the build directory. Ninja has a tool called <code>compdb</code>
+for generating that. The <code>compdb</code> tool accepts a set of rules, which can help us limit what kind of
+commands will be output. If you provide none of them, you could get commands to generate things that
+are not related to C/C++ targets. Consider passing <code>c_COMPILER</code> and <code>cpp_COMPILER</code> rules to make the
+database smaller.</p>
+<blockquote>
+<p>Run <code>ninja -t rules</code> to get a list of available rules.</p>
+</blockquote>
+<p>The database is generated at <code>build/compile_commands.json</code>. You can <code>cd ..</code> to the source directory
+and start editing the source files using neovim or an editor you like. <code>clangd</code> will automatically
+pick up the database file at <code>$SRC/compile_commands.json</code> or <code>$SRC/build/compile_commands.json</code>.</p>
+<p>Should you changed <code>meson.build</code>, run <code>ninja reconfigure</code> to update the database, <code>clangd</code> should be
+able to pick up the changes to the file and reindex all the files.</p>
+<h3 id="Git-workflow"><a href="#Git-workflow" class="headerlink" title="Git workflow"></a>Git workflow</h3><p>Blame with <code>vim-fugitive</code>.</p>
+<p><code>vim-fugitive</code> is a popular plugin to integrate version control (Git) into (Neo)Vim. It was
+originally written for Vim, but compatible for Neovim, definitely. “Fugitive” means “escaping
+prisoners”, that is, the plugin is so nice that it should be illegal. :D</p>
+<p>This is a huge and comprehensive plugin, with a lot of functionalities related to git packed up. A
+common need for developers is <code>git blame</code>. <code>vim-fugitive</code> makes blaming possible inside Vim while
+editing a file. Use <code>:Git blame</code> command, it opens up a side menu on the left. <code>&lt;ENTER&gt;</code> or press
+<code>o</code> on a commit to open it up in a new buffer, where you can check the line diffs.</p>
+<p>Blaming once might be enough for finding what the current line is doing. Sometimes you need to blame
+on that line multiple times, a.k.a. reblame. You can do that with <code>vim-fugitive</code>. After opening up a
+commit, put the cursor on the <code>-</code> line (the line got deleted in the commit that introduced the
+current line, call it <code>A</code>), press <code>&lt;ENTER&gt;</code> will open up the blob in the last commit that contains the <code>-</code> line,
+that is usually <code>A~</code>. Type <code>&lt;ENTER&gt;</code> again on that line to blame on it. Again, it opens up the
+commit that introduced that line, an ancestral commit of <code>A~</code>. You finish reblaming.</p>
+<p>In short, to reblame, go the previous line, press ENTER twice.</p>
+<h3 id="Debug-in-Neovim-C-C-Python"><a href="#Debug-in-Neovim-C-C-Python" class="headerlink" title="Debug in Neovim (C/C++/Python)"></a>Debug in Neovim (C/C++/Python)</h3><p><code>:Lazy</code>显示我们已经在Neovim里安装了60多个插件了，这60多个插件提供了简洁而实用的界面、比肩VSCode的现代化编辑器功能，
+以及Vim独特的键盘操作。Neovim可以完全胜任开发一个大型项目，有着几乎你需要的所有功能。然而，有一个功能还没有：Debug。</p>
+<blockquote>
+<p>当然，如果你熟练使用命令行debugger如gdb、lldb，可以跳过此章节。</p>
+</blockquote>
+<p>debug主要需要的东西是<code>nvim-dap</code>插件和c++语言的DAP adapter，如<code>lldb-vscode</code>。除此之外还有其他的选择，参考[文档]
+(https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation)。<code>lldb-vscode</code>通常在LLVM中就附带，通常在
+<code>/usr/lib/llvm-17/bin/lldb-vscode</code>（LLVM version 17）。配置<code>dap.lua</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> dap = <span class="built_in">require</span>(<span class="string">&#x27;dap&#x27;</span>)</span><br><span class="line">dap.adapters.lldb = &#123;</span><br><span class="line">  <span class="built_in">type</span> = <span class="string">&#x27;executable&#x27;</span>,</span><br><span class="line">  command = <span class="string">&#x27;/usr/bin/lldb-vscode&#x27;</span>,</span><br><span class="line">  name = <span class="string">&#x27;lldb&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dap.configurations.cpp = &#123;</span><br><span class="line">  &#123;</span><br><span class="line">    name = <span class="string">&#x27;Launch&#x27;</span>,</span><br><span class="line">    <span class="built_in">type</span> = <span class="string">&#x27;lldb&#x27;</span>,</span><br><span class="line">    request = <span class="string">&#x27;launch&#x27;</span>,</span><br><span class="line">    program = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">      <span class="keyword">local</span> abs_path = vim.fn.getcwd() .. <span class="string">&#x27;/&#x27;</span></span><br><span class="line">      <span class="keyword">local</span> xmake = <span class="built_in">require</span>(<span class="string">&quot;xmake.project_config&quot;</span>)</span><br><span class="line">      <span class="keyword">if</span> xmake.info.tg ~= <span class="string">&quot;&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">local</span> exec_path = xmake.info.target.exec_path</span><br><span class="line">        abs_path = abs_path .. exec_path</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">return</span> vim.fn.<span class="built_in">input</span>(<span class="string">&#x27;Path to executable: &#x27;</span>, abs_path, <span class="string">&#x27;file&#x27;</span>)</span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">    cwd = <span class="string">&#x27;$&#123;workspaceFolder&#125;&#x27;</span>,</span><br><span class="line">    stopOnEntry = <span class="literal">false</span>,</span><br><span class="line">    args = &#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我对<code>program</code>做了一些修改，通过读取xmake插件的可执行文件路径，自动确定lldb的参数，如果你不是使用xmake，用cmake，
+或者其他语言（python，golang, …），这里可以自由修改。</p>
+<p>然后自定义键位和断点图标</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> whichkey = <span class="built_in">require</span>(<span class="string">&quot;which-key&quot;</span>)</span><br><span class="line"><span class="keyword">local</span> keymap = &#123;</span><br><span class="line">  d = &#123;</span><br><span class="line">    name = <span class="string">&quot;DAP&quot;</span>,</span><br><span class="line">    R = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.run_to_cursor()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Run to Cursor&quot;</span> &#125;,</span><br><span class="line">    E = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dapui&#x27;.eval(vim.fn.input &#x27;[Expression] &gt; &#x27;)&lt;cr&gt;&quot;</span>, <span class="string">&quot;Evaluate Input&quot;</span> &#125;,</span><br><span class="line">    C = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.set_breakpoint(vim.fn.input &#x27;[Condition] &gt; &#x27;)&lt;cr&gt;&quot;</span>, <span class="string">&quot;Conditional Breakpoint&quot;</span> &#125;,</span><br><span class="line">    U = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dapui&#x27;.toggle()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Toggle UI&quot;</span> &#125;,</span><br><span class="line">    b = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.step_back()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Step Back&quot;</span> &#125;,</span><br><span class="line">    c = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.continue()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Continue&quot;</span> &#125;,</span><br><span class="line">    d = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.disconnect()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Disconnect&quot;</span> &#125;,</span><br><span class="line">    e = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dapui&#x27;.eval()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Evaluate&quot;</span> &#125;,</span><br><span class="line">    g = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.session()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Get Session&quot;</span> &#125;,</span><br><span class="line">    h = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap.ui.widgets&#x27;.hover()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Hover Variables&quot;</span> &#125;,</span><br><span class="line">    S = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap.ui.widgets&#x27;.scopes()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Scopes&quot;</span> &#125;,</span><br><span class="line">    i = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.step_into()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Step Into&quot;</span> &#125;,</span><br><span class="line">    o = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.step_over()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Step Over&quot;</span> &#125;,</span><br><span class="line">    p = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.pause.toggle()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Pause&quot;</span> &#125;,</span><br><span class="line">    q = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.close()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Quit&quot;</span> &#125;,</span><br><span class="line">    r = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.repl.toggle()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Toggle Repl&quot;</span> &#125;,</span><br><span class="line">    s = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.continue()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Start&quot;</span> &#125;,</span><br><span class="line">    t = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.toggle_breakpoint()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Toggle Breakpoint&quot;</span> &#125;,</span><br><span class="line">    x = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.terminate()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Terminate&quot;</span> &#125;,</span><br><span class="line">    u = &#123; <span class="string">&quot;&lt;cmd&gt;lua require&#x27;dap&#x27;.step_out()&lt;cr&gt;&quot;</span>, <span class="string">&quot;Step Out&quot;</span> &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">local</span> opts = &#123;</span><br><span class="line">  mode = <span class="string">&quot;n&quot;</span>,</span><br><span class="line">  prefix = <span class="string">&quot;&lt;leader&gt;&quot;</span>,</span><br><span class="line">  buffer = <span class="literal">nil</span>,</span><br><span class="line">  silent = <span class="literal">true</span>,</span><br><span class="line">  noremap = <span class="literal">true</span>,</span><br><span class="line">  nowait = <span class="literal">false</span>,</span><br><span class="line">&#125;</span><br><span class="line">whichkey.register(keymap, opts)</span><br><span class="line"></span><br><span class="line">vim.fn.sign_define(<span class="string">&#x27;DapBreakpoint&#x27;</span>,         &#123;text=<span class="string">&#x27;🔴&#x27;</span>, texthl=<span class="string">&#x27;&#x27;</span>, linehl=<span class="string">&#x27;&#x27;</span>, numhl=<span class="string">&#x27;&#x27;</span>&#125;)</span><br><span class="line">vim.fn.sign_define(<span class="string">&#x27;DapStopped&#x27;</span>,            &#123;text=<span class="string">&#x27;🟡&#x27;</span>, texthl=<span class="string">&#x27;&#x27;</span>, linehl=<span class="string">&#x27;&#x27;</span>, numhl=<span class="string">&#x27;&#x27;</span>&#125;)</span><br><span class="line">vim.fn.sign_define(<span class="string">&#x27;DapBreakpointRejected&#x27;</span>, &#123;text=<span class="string">&#x27;❌&#x27;</span>, texthl=<span class="string">&#x27;&#x27;</span>, linehl=<span class="string">&#x27;&#x27;</span>, numhl=<span class="string">&#x27;&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<p>Python的DAP设置类似</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">dap.adapters.python = <span class="function"><span class="keyword">function</span><span class="params">(cb, config)</span></span></span><br><span class="line">  <span class="keyword">if</span> <span class="built_in">config</span>.request == <span class="string">&#x27;attach&#x27;</span> <span class="keyword">then</span></span><br><span class="line">    <span class="comment">---@diagnostic disable-next-line: undefined-field</span></span><br><span class="line">    <span class="keyword">local</span> port = (<span class="built_in">config</span>.connect <span class="keyword">or</span> <span class="built_in">config</span>).port</span><br><span class="line">    <span class="comment">---@diagnostic disable-next-line: undefined-field</span></span><br><span class="line">    <span class="keyword">local</span> host = (<span class="built_in">config</span>.connect <span class="keyword">or</span> <span class="built_in">config</span>).host <span class="keyword">or</span> <span class="string">&#x27;127.0.0.1&#x27;</span></span><br><span class="line">    cb(&#123;</span><br><span class="line">      <span class="built_in">type</span> = <span class="string">&#x27;server&#x27;</span>,</span><br><span class="line">      port = <span class="built_in">assert</span>(port, <span class="string">&#x27;`connect.port` is required for a python `attach` configuration&#x27;</span>),</span><br><span class="line">      host = host,</span><br><span class="line">      options = &#123;</span><br><span class="line">        source_filetype = <span class="string">&#x27;python&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    cb(&#123;</span><br><span class="line">      <span class="built_in">type</span> = <span class="string">&#x27;executable&#x27;</span>,</span><br><span class="line">      command = <span class="string">&#x27;/home/martin/anaconda3/bin/python&#x27;</span>,</span><br><span class="line">      args = &#123; <span class="string">&#x27;-m&#x27;</span>, <span class="string">&#x27;debugpy.adapter&#x27;</span> &#125;,</span><br><span class="line">      options = &#123;</span><br><span class="line">        source_filetype = <span class="string">&#x27;python&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">dap.configurations.python = &#123;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">-- The first three options are required by nvim-dap</span></span><br><span class="line">    <span class="built_in">type</span> = <span class="string">&#x27;python&#x27;</span>; <span class="comment">-- the type here established the link to the adapter definition: `dap.adapters.python`</span></span><br><span class="line">    request = <span class="string">&#x27;launch&#x27;</span>;</span><br><span class="line">    name = <span class="string">&quot;Launch file&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options</span></span><br><span class="line"></span><br><span class="line">    program = <span class="string">&quot;$&#123;file&#125;&quot;</span>; <span class="comment">-- This configuration will launch the current file if used.</span></span><br><span class="line">    pythonPath = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">      <span class="comment">-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.</span></span><br><span class="line">      <span class="comment">-- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.</span></span><br><span class="line">      <span class="comment">-- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.</span></span><br><span class="line">      <span class="keyword">return</span> <span class="string">&#x27;/home/martin/anaconda3/bin/python&#x27;</span></span><br><span class="line">    <span class="keyword">end</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也是先定义adapter再做configuration引用刚才定义的adapter。</p>
+<h4 id="VSCode-like-launch-json-support-in-nvim-dap"><a href="#VSCode-like-launch-json-support-in-nvim-dap" class="headerlink" title="VSCode like launch.json support in nvim-dap"></a>VSCode like launch.json support in nvim-dap</h4><p>Use VSCode <code>launch.json</code> format in project directory to define project-specific debug session.
+Useful to specify program arguments, for example.</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dap_vscode = <span class="built_in">require</span>(<span class="string">&#x27;dap.ext.vscode&#x27;</span>)</span><br><span class="line">dap_vscode.json_decode = <span class="built_in">require</span><span class="string">&#x27;json5&#x27;</span>.parse</span><br><span class="line">dap_vscode.load_launchjs(<span class="string">&quot;.vscode/launch.json5&quot;</span>, &#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="依赖安装"><a href="#依赖安装" class="headerlink" title="依赖安装"></a>依赖安装</h4><p>上面用到的<code>clang-format</code>，<code>clang</code>, <code>clangd</code>, <code>lldb</code>, <code>lldb-vscode</code>这些工具属于llvm工具链。
+很可惜，apt只提供了一些比较老的版本，最高应该是到15，如果你希望用更新的llvm，或者你的包管理器根本查不到llvm，
+参考<a target="_blank" rel="noopener" href="https://apt.llvm.org/">llvm官网</a>添加源。</p>
+<p>信任llvm的gpg签名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法1</span></span><br><span class="line">wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -</span><br><span class="line"><span class="comment"># 方法2</span></span><br><span class="line">wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo <span class="built_in">tee</span> /etc/apt/trusted.gpg.d/apt.llvm.org.asc</span><br></pre></td></tr></table></figure>
+<p>如果你的Ubuntu版本比较新的话不要用方法一，不然<code>apt update</code>的时候会弹警告。</p>
+<p>创建<code>/etc/apt/sources.list.d/llvm-apt.list</code>，找到你的OS版本和llvm版本对应的行粘贴上，比如笔者是22.04（jammy）和llvm 17,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 17</span><br><span class="line">deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main</span><br><span class="line">deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main</span><br></pre></td></tr></table></figure>
+<p>然后<code>apt update</code>更新索引，<code>apt install clangd-17</code></p>
+<p>在archlinux上则简单许多</p>
+<p><code>pacman -S clang llvm lldb</code></p>
+<h3 id="Golang-LSP"><a href="#Golang-LSP" class="headerlink" title="Golang LSP"></a>Golang LSP</h3><p>安装<code>gopls</code>，Golang官方提供的LSP实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go install golang.org/x/tools/gopls@latest</span><br></pre></td></tr></table></figure>
+
+<p>设置lspconfig，</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspconfig.gopls.setup(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Formatter"><a href="#Formatter" class="headerlink" title="Formatter"></a>Formatter</h3><p>C++需要安装<code>clang-format</code>，Ubuntu可以通过apt安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install clang-format-17</span><br></pre></td></tr></table></figure>
+<p>如果你对版本没有要求，可以忽略版本号。因为笔者的llvm环境是版本17，所以选择安装一致的clang-format版本。</p>
+<p>在vim script里配置Neoformat插件</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">g:neoformat_enabled_python</span> = [<span class="string">&#x27;black&#x27;</span>, <span class="string">&#x27;yapf&#x27;</span>]</span><br><span class="line"><span class="comment">&quot; clang-format should be on $PATH</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:neoformat_cpp_clangformat</span> = &#123;</span><br><span class="line">      \ <span class="string">&#x27;exe&#x27;</span>: <span class="string">&#x27;clang-format&#x27;</span>,</span><br><span class="line">      \ <span class="string">&#x27;args&#x27;</span>: [<span class="string">&#x27;--style=&quot;&#123;IndentWidth: 4&#125;&quot;&#x27;</span>]</span><br><span class="line">      \ &#125;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:neoformat_c_clangformat</span> = &#123;</span><br><span class="line">      \ <span class="string">&#x27;exe&#x27;</span>: <span class="string">&#x27;clang-format&#x27;</span>,</span><br><span class="line">      \ <span class="string">&#x27;args&#x27;</span>: [<span class="string">&#x27;--style=&quot;&#123;IndentWidth: 4&#125;&quot;&#x27;</span>]</span><br><span class="line">      \ &#125;</span><br><span class="line"><span class="comment">&quot; You need lua-format executable on $PATH</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:neoformat_lua_luaformat</span> = &#123;</span><br><span class="line">    \ <span class="string">&#x27;exe&#x27;</span>: <span class="string">&#x27;lua-format&#x27;</span>,</span><br><span class="line">    \ <span class="string">&#x27;args&#x27;</span>: [<span class="string">&#x27;--indent-width=2&#x27;</span>]</span><br><span class="line">\&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:neoformat_enabled_cpp</span> = [<span class="string">&#x27;clangformat&#x27;</span>]</span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:neoformat_enabled_c</span> = [<span class="string">&#x27;clangformat&#x27;</span>]</span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:neoformat_enabled_lua</span> = [<span class="string">&#x27;luaformat&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>这里配置了Python, C/C++, Lua的formatter，分别使用<code>clang-format</code>, <code>lua-format</code>和<code>black</code>或者<code>yapf</code>。
+用<code>:Neoformat</code>格式化当前文件。Neoformat仅仅提供Neovim的对接，我们可以自由选择不同语言使用的formatter。</p>
+<p>Golang的格式化：<code>gofmt</code>是标准库的组件，无需额外安装，对golang filetype配置即可。</p>
+<blockquote>
+<p>Edit 20240118: 切换为<code>mhartington/formatter.nvim</code>，请使用这个插件，支持lua脚本配置。</p>
+</blockquote>
+<h3 id="语法高亮"><a href="#语法高亮" class="headerlink" title="语法高亮"></a>语法高亮</h3><p><code>nvim-treesitter</code>插件提供了构建语法树，对多种文件格式进行语法高亮的功能。</p>
+<p>这个插件比较复杂，它不光提供了语法高亮功能，以不同颜色标注出函数，参数，变量和关键字等信息，其他插件也可能依赖
+nvim-treesitter的功能。比如<code>nvim-dap-virtual-text</code>这个插件，功能是在代码中实时显示dap调试的变量值，在文档里提到了插件
+依靠nvim-treesitter来定位变量声明。</p>
+<p>其实，发现这个问题耗费了我不少时间，我在安装dap这组插件的时候碰到奇怪的问题：插件没有任何报错，但调试的时候变量值
+并不会显示在代码里。我起初怀疑是vim virtual text的问题，<code>nvim-dap-virtual-text</code>这个插件是通过virtual text把变量值
+“插进”代码中的，所以我怀疑是我安装的Github Copilot也是通过virtual text显示suggestion，和dap的插件产生了冲突。然而
+即使我卸载了Github Copilot，问题仍然存在。结果是<code>nvim-config</code>脚手架闹的乌龙，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">   &#123;</span><br><span class="line">     &quot;nvim-treesitter/nvim-treesitter&quot;,</span><br><span class="line">-    enabled = function()</span><br><span class="line">-      if vim.g.is_mac then</span><br><span class="line">-        return true</span><br><span class="line">-      end</span><br><span class="line">-      return false</span><br><span class="line">-    end,</span><br><span class="line">-    event = &quot;VeryLazy&quot;,</span><br></pre></td></tr></table></figure>
+
+<p>diff显示，treesitter在linux系统根本就没有安装，所以导致了无法显示调试变量值。</p>
+<p>另外，安装treesitter之后你可能会遇到打开一些格式的文件一片错误堆栈糊在脸上。比如<code>:h</code>显示的vimdoc，
+可能会显示有node无法识别。这种情况大概是没有安装对应语言的parser，treesitter也就无法正确解析语法树。解决方法可以是
+在nvim-treesitter的setup里配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> require(&quot;nvim-treesitter.configs&quot;).setup &#123;</span><br><span class="line">-  ensure_installed = &#123; &quot;python&quot;, &quot;cpp&quot;, &quot;lua&quot;, &quot;vim&quot;, &quot;json&quot;, &quot;toml&quot; &#125;,</span><br><span class="line">+  ensure_installed = &#123;</span><br><span class="line">+    &quot;python&quot;, &quot;cpp&quot;, &quot;lua&quot;, &quot;vim&quot;, &quot;json&quot;, &quot;toml&quot;, &quot;vimdoc&quot;, &quot;markdown&quot;, &quot;bash&quot;</span><br><span class="line">+  &#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里我加上了<code>vimdoc</code>等几个parser。或者<code>:TSInstall</code>命令安装，如<code>:TSInstall bash</code>会安装bash的parser。
+最后，可以<code>:TSInstallInfo</code>查看已经安装了哪些parser。</p>
+<blockquote>
+<p>事实上Neovim自带了一些parser，一般在<code>/usr/lib/nvim/parser</code>下，而treesitter自己的parser在
+<code>~/.local/share/nvim/lazy/nvim-treesitter/parser</code>，是一些so文件，比如<code>markdown.so</code>, <code>python.so</code>。
+treesitter仓库的issue里提到了treesitter的parser有高于
+neovim parser的优先级。遇到无法识别node的错误，是没有安装treesitter的parser，从而
+fallback到neovim的parser，而这个自带的parser产生了错误。</p>
+</blockquote>
+<h3 id="输入法自动切换"><a href="#输入法自动切换" class="headerlink" title="输入法自动切换"></a>输入法自动切换</h3><p>这是一个中文等非拉丁文语系的用户的痛点：输入法。众所周知Vim的操作是基于ASCII的，hjkl方向键，输入的是hjkl的英文ASCII
+代码。但遇到编辑中文Markdown文档的情况，在INSERT模式我们要用中文输入法去输入，NORMAL模式要用英文键盘去操作，就会很麻烦。
+每次切换模式都要切换一次输入法，非常影响效率。那么有没有办法在NORMAL模式自动切换到英文输入法，在INSERT模式自动切换到
+中文输入法呢？</p>
+<ol>
+<li>Windows, WSL, MacOS兼容方案</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://github.com/daipeihust/im-select">im-select</a>提供了跨平台的在终端切换输入法（IM）的功能。我看了下源码，作者是
+通过C++调用各平台的API实现的，在Windows下是调用win32的<code>GetKeyboardLayout</code>获取窗口句柄的输入法代码，然后<code>PostMessage</code>
+发送<code>WM_INPUTLANGCHANGEREQUEST</code>消息给窗口切换输入法。</p>
+<p>我的使用场景是在Windows Terminal里用WSL里的Neovim，所以我把<code>im-select.exe</code>拷贝到Windows系统的Path，然后安装nvim插件，
+下面展示了<code>lazy.nvim</code>插件实例</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="string">&#x27;keaising/im-select.nvim&#x27;</span>,</span><br><span class="line">ft = &#123;<span class="string">&#x27;markdown&#x27;</span>&#125;,</span><br><span class="line"><span class="built_in">config</span> = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&#x27;im_select&#x27;</span>).setup(&#123;</span><br><span class="line">    default_im_select = <span class="string">&quot;1033&quot;</span>,</span><br><span class="line">    set_default_events = &#123;<span class="string">&quot;InsertLeave&quot;</span>&#125;,</span><br><span class="line">    set_previous_events = &#123;<span class="string">&quot;InsertEnter&quot;</span>&#125;,</span><br><span class="line">  &#125;)</span><br><span class="line"><span class="keyword">end</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里依靠的是WSL的一个特性：可以在WSL的终端里调用exe程序，甚至WSL的Path里就包含了宿主系统的Path。</p>
+</blockquote>
+<p>解释一下原理，1033是Windows的英文输入法，设置为default，配置离开Insert模式时切换到英文，进入Insert模式时切换到上一
+次离开Insert模式的源输入法（从输入法切换为default (English)，X就是previous输入法）。所以我们只需要在第一次进入Insert模式后
+切换到中文，比如搜狗输入法，然后按Esc，自动切换为英文，可以使用vim按键，再按i，自动切换为中文，直接打字中文内容。</p>
+<p>插件的实现也并不复杂，核心代码是下面的两个函数，<code>restore_default_im</code>记住之前的输入法代码，切换到default；
+<code>restore_previous_im</code>切换到之前保存的输入法。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">restore_default_im</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> current = get_current_select(C.default_command)</span><br><span class="line">    vim.api.nvim_set_var(<span class="string">&quot;im_select_saved_state&quot;</span>, current)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> current ~= C.default_method_selected <span class="keyword">then</span></span><br><span class="line">        change_im_select(C.default_command, C.default_method_selected)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">restore_previous_im</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> current = get_current_select(C.default_command)</span><br><span class="line">    <span class="keyword">local</span> saved = vim.g[<span class="string">&quot;im_select_saved_state&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> current ~= saved <span class="keyword">then</span></span><br><span class="line">        change_im_select(C.default_command, saved)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这个插件很好的展示了lua语言编写的Neovim插件的可读性非常好，明显强过Vim的插件。这个优势非常重要，前文我们说过了Vim插件
+是需要用户参与到配置中来的，还可以更进一步，用户应该参与到插件的开发中。插件不可能十全十美，总有这样那样的bug，也无法
+满足每个人的需求，那么一个代码浅显易懂的插件，就极大地方便了我去fork下来然后调整它</p>
+</blockquote>
+<ol start="2">
+<li>Linux方案
+在Linux， 我们不需要用<code>im-select.exe</code>这样的程序来切换输入法。Linux的IME大多都支持在命令行切换输入法，这里我们以<code>fcitx5</code>
+为例展示，笔者在Ubuntu 22.04上也是使用这个中文输入法，这可能是22.04版本唯一可用的中文输入法。实际上<code>fcitx5</code>的安装还是
+有一些难度的，使用起来也容易遇到一些小bug，在另一个博客会详细解释。</li>
+</ol>
+<p>我们不借助任何插件，在lua脚本里实现，<a target="_blank" rel="noopener" href="https://github.com/Kicamon/nvim">来源</a></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> switch = &#123;</span><br><span class="line">  text = &#123;</span><br><span class="line">    <span class="string">&quot;*.md&quot;</span>,</span><br><span class="line">    <span class="string">&quot;*.txt&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  code = &#123;</span><br><span class="line">    <span class="string">&quot;*&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  en = <span class="string">&quot;fcitx5-remote -c&quot;</span>,</span><br><span class="line">  zh = <span class="string">&quot;fcitx5-remote -o&quot;</span>,</span><br><span class="line">  check = <span class="string">&quot;fcitx5-remote&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> input_toggle = <span class="number">1</span></span><br><span class="line"><span class="keyword">local</span> ts_utils = <span class="built_in">require</span>(<span class="string">&#x27;nvim-treesitter.ts_utils&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">En</span><span class="params">()</span></span></span><br><span class="line">  <span class="keyword">local</span> input_status = <span class="built_in">tonumber</span>(<span class="built_in">io</span>.<span class="built_in">popen</span>(switch.check):<span class="built_in">read</span>(<span class="string">&quot;*all&quot;</span>))</span><br><span class="line">  <span class="keyword">if</span> (input_status == <span class="number">2</span>) <span class="keyword">then</span></span><br><span class="line">    input_toggle = <span class="number">1</span></span><br><span class="line">    <span class="built_in">os</span>.<span class="built_in">execute</span>(switch.en)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">Zh</span><span class="params">()</span></span></span><br><span class="line">  <span class="keyword">local</span> input_status = <span class="built_in">tonumber</span>(<span class="built_in">io</span>.<span class="built_in">popen</span>(switch.check):<span class="built_in">read</span>(<span class="string">&quot;*all&quot;</span>))</span><br><span class="line">  <span class="keyword">if</span> (input_status ~= <span class="number">2</span> <span class="keyword">and</span> input_toggle == <span class="number">1</span>) <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">os</span>.<span class="built_in">execute</span>(switch.zh)</span><br><span class="line">    input_toggle = <span class="number">0</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> md = &#123;</span><br><span class="line">  <span class="string">&quot;language&quot;</span>,</span><br><span class="line">  <span class="string">&quot;fenced_code_block_delimiter&quot;</span>,</span><br><span class="line">  <span class="string">&quot;link_destination&quot;</span>,</span><br><span class="line">  <span class="string">&quot;code_fence_content&quot;</span>,</span><br><span class="line">  <span class="string">&quot;fenced_code_block&quot;</span>,</span><br><span class="line">  <span class="string">&quot;latex_block&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> md_code = &#123;</span><br><span class="line">  <span class="string">&quot;chunk&quot;</span>,            <span class="comment">--lua</span></span><br><span class="line">  <span class="string">&quot;translation_unit&quot;</span>, <span class="comment">--c/cpp</span></span><br><span class="line">  <span class="string">&quot;module&quot;</span>,           <span class="comment">--python</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">is_not_in_code_block</span><span class="params">()</span></span> <span class="comment">--markdown</span></span><br><span class="line">  <span class="keyword">local</span> node_cursor = ts_utils.get_node_at_cursor()</span><br><span class="line">  <span class="keyword">for</span> _, node_type <span class="keyword">in</span> <span class="built_in">ipairs</span>(md) <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> node_cursor <span class="keyword">and</span> node_cursor:<span class="built_in">type</span>() == node_type <span class="keyword">then</span></span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">while</span> node_cursor <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">for</span> _, node_type <span class="keyword">in</span> <span class="built_in">ipairs</span>(md_code) <span class="keyword">do</span></span><br><span class="line">      <span class="keyword">if</span> node_cursor <span class="keyword">and</span> node_cursor:<span class="built_in">type</span>() == node_type <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    node_cursor = node_cursor:parent()</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">filetype_checke</span><span class="params">()</span></span></span><br><span class="line">  <span class="keyword">if</span> vim.bo.filetype == <span class="string">&#x27;markdown&#x27;</span> <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> is_not_in_code_block()</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">vim.api.nvim_create_autocmd(<span class="string">&quot;InsertLeave&quot;</span>, &#123;</span><br><span class="line">  callback = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    En()</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">&#125;)</span><br><span class="line">vim.api.nvim_create_autocmd(<span class="string">&quot;InsertEnter&quot;</span>, &#123;</span><br><span class="line">  pattern = switch.text,</span><br><span class="line">  callback = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">if</span> filetype_checke() <span class="keyword">then</span></span><br><span class="line">      Zh()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">&#125;)</span><br><span class="line">vim.api.nvim_create_autocmd(<span class="string">&quot;InsertEnter&quot;</span>, &#123;</span><br><span class="line">  pattern = switch.code,</span><br><span class="line">  callback = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> current_pos = vim.fn.getcurpos()</span><br><span class="line">    current_pos[<span class="number">3</span>] = current_pos[<span class="number">3</span>] - <span class="number">1</span></span><br><span class="line">    vim.fn.setpos(<span class="string">&#x27;.&#x27;</span>, current_pos)</span><br><span class="line">    <span class="keyword">local</span> previous_node = ts_utils.get_node_at_cursor()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> previous_node <span class="keyword">and</span> (previous_node:<span class="built_in">type</span>() == <span class="string">&#x27;comment&#x27;</span> <span class="keyword">or</span> previous_node:<span class="built_in">type</span>() == <span class="string">&#x27;comment_content&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">      Zh()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vim.api.nvim_create_autocmd(<span class="string">&quot;TextChangedI&quot;</span>, &#123;</span><br><span class="line">  pattern = switch.code,</span><br><span class="line">  callback = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">if</span> (vim.bo.filetype == <span class="string">&#x27;python&#x27;</span> <span class="keyword">or</span> vim.bo.filetype == <span class="string">&#x27;sh&#x27;</span>) <span class="keyword">and</span> vim.fn.line(<span class="string">&#x27;.&#x27;</span>) == <span class="number">1</span> <span class="keyword">then</span></span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">local</span> current_pos = vim.fn.getcurpos()</span><br><span class="line">    current_pos[<span class="number">3</span>] = current_pos[<span class="number">3</span>] - <span class="number">1</span></span><br><span class="line">    vim.fn.setpos(<span class="string">&#x27;.&#x27;</span>, current_pos)</span><br><span class="line">    <span class="keyword">local</span> previous_node = ts_utils.get_node_at_cursor()</span><br><span class="line">    <span class="keyword">if</span> previous_node <span class="keyword">and</span> (previous_node:<span class="built_in">type</span>() == <span class="string">&#x27;comment&#x27;</span> <span class="keyword">or</span> previous_node:<span class="built_in">type</span>() == <span class="string">&#x27;comment_content&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">      Zh()</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    current_pos[<span class="number">3</span>] = current_pos[<span class="number">3</span>] + <span class="number">1</span></span><br><span class="line">    vim.fn.setpos(<span class="string">&#x27;.&#x27;</span>, current_pos)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>思路很简单</p>
+<ul>
+<li><code>fcitx5-remote</code>可以获取当前输入法代码，以及切换输入法</li>
+<li>autocmd在<code>InsertEnter</code>和<code>InsertLeave</code>执行函数，N模式和I模式分别用英文和中文输入</li>
+<li><code>treesitter</code>帮助判断markdown里的代码快，不切换输入法</li>
+<li>因为大部分切换代码的需求在markdown文件，所以对代码文件和markdown文件分别做匹配执行逻辑</li>
+</ul>
+<p>因为这个方案是针对linux的，在<code>init.lua</code>里有选择性地加载该模块</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> os_name == <span class="string">&quot;Linux&quot;</span> <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">table</span>.<span class="built_in">insert</span>(core_conf_files, <span class="string">&quot;im-switch.lua&quot;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="剪切板"><a href="#剪切板" class="headerlink" title="剪切板"></a>剪切板</h3><p>把nvim和系统剪切板整合起来，至少安装一个window system的剪切板工具(x or wayland)</p>
+<p><code>apt install xclip</code></p>
+<blockquote>
+<p>系统剪切板的内容存在寄存器+和*里。</p>
+</blockquote>
+<h3 id="Colorizer"><a href="#Colorizer" class="headerlink" title="Colorizer"></a>Colorizer</h3><p>Use nvchat fork
+Crucial commit: <code>778cdd6</code> feat: Incremental highlight loading</p>
+<h3 id="Neovim-Tmux-Alacritty-True-Color"><a href="#Neovim-Tmux-Alacritty-True-Color" class="headerlink" title="Neovim + Tmux + Alacritty True Color"></a>Neovim + Tmux + Alacritty True Color</h3><p>See <a target="_blank" rel="noopener" href="https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6">Gist</a></p>
+<h3 id="Known-bugs-and-issues"><a href="#Known-bugs-and-issues" class="headerlink" title="Known bugs and issues"></a>Known bugs and issues</h3><ul>
+<li><p><code>wilder.nvim</code>启用后，<code>bufferline</code>无法及时同步通过<code>:bd</code>命令关闭的buffer，只有触发切换buffer或者mode时选项卡才会消失</p>
+</li>
+<li><p><code>wilder.nvim</code> Python扩展在Windows上无法启用（无法识别为RemotePlugin加载），在WSL环境中正常</p>
+</li>
+<li><p>Dropbar can’t align with git blame: modify enable to whitelist fugitive-blame files</p>
+</li>
+<li><p>Wayland clipboard unnamedplus bug, create a window to copy paste so flicker title</p>
+</li>
+<li><p>gopls cmp selection request, how to disable it</p>
+</li>
+<li><p>conda env pylsp and python host missing issue</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>给Jerry买一个罐头</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="马赫东 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Vim/" rel="tag"># Vim</a>
+              <a href="/tags/Neovim/" rel="tag"># Neovim</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/vim/" rel="prev" title="Vim配置">
+                  <i class="fa fa-angle-left"></i> Vim配置
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/archlinux/installation/" rel="next" title="Arch Linux Installation Guide">
+                  Arch Linux Installation Guide <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">马赫东</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">145k</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/yangrq1018" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"yangrq1018/hexo_blog_comment","issue_term":"pathname","theme":"github-dark"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+  
+  <script async src="/js/cursor/love.min.js"></script>
+  
+
+</body>
+</html>

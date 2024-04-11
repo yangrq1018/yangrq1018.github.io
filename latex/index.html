@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yangruoqi.site","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Explain how to use LaTeX on Arch Linux: build tex documents, integrated vim workflow, real time viewers and more!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX Up!">
+<meta property="og:url" content="https://yangruoqi.site/latex/index.html">
+<meta property="og:site_name" content="Niu&#39;s Store">
+<meta property="og:description" content="Explain how to use LaTeX on Arch Linux: build tex documents, integrated vim workflow, real time viewers and more!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-23T17:56:20.000Z">
+<meta property="article:modified_time" content="2024-02-23T17:56:20.000Z">
+<meta property="article:author" content="马赫东">
+<meta property="article:tag" content="Arch Linux">
+<meta property="article:tag" content="LaTeX">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yangruoqi.site/latex/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://yangruoqi.site/latex/","path":"/latex/","title":"LaTeX Up!"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LaTeX Up! | Niu's Store</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Niu's Store" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      
+      <p class="site-title">Niu's Store</p>
+      
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-career"><a href="/career/" rel="section"><i class="fa fa-laptop-code fa-fw"></i>career</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Installation-Arch"><span class="nav-text">Installation (Arch)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chinese-Unicode-support-in-LaTeX"><span class="nav-text">Chinese (Unicode) support in LaTeX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Neo-Vim-Workflow"><span class="nav-text">(Neo)Vim Workflow</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">马赫东</p>
+  <div class="site-description" itemprop="description">The backyard of Martin</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yangrq1018" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yangrq1018" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yangrq.ruoqi@outlook.com" title="E-Mail → yangrq.ruoqi@outlook.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yangruoqi.site/latex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="马赫东">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niu's Store">
+      <meta itemprop="description" content="The backyard of Martin">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LaTeX Up! | Niu's Store">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LaTeX Up!
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-02-24 01:56:20" itemprop="dateCreated datePublished" datetime="2024-02-24T01:56:20+08:00">2024-02-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Explain how to use LaTeX on Arch Linux: build tex documents, integrated
+vim workflow, real time viewers and more!</p>
+<span id="more"></span>
+
+<h3 id="Installation-Arch"><a href="#Installation-Arch" class="headerlink" title="Installation (Arch)"></a>Installation (Arch)</h3><p>The <code>texlive</code> group in Arch package registry contains many packages in
+the TexLive distribution of LaTeX. Note that MacOS and Windows have their
+own LaTeX distributions as well, you may refer to their documentation to
+install LaTeX on your system.</p>
+<p>It’s a good idea to install as few packages as possible, keep them only
+to what you need, rather than install the entire group.
+TexLive is a huge system of many packages, fonts and so on. I recommend
+the following packages</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pacman -S texlive-basic \</span><br><span class="line"> texlive-latex \</span><br><span class="line"> texlive-latexextra \</span><br><span class="line"> texlive-latexrecommended \</span><br><span class="line"> texlive-fontsrecommended \</span><br><span class="line"> texlive-fontsextra \</span><br><span class="line"> texlive-binextra</span><br></pre></td></tr></table></figure>
+
+<p>They give your basic LaTeX programs, pdflatex typesetting engine,
+<code>latexmk</code> compiler and many Latin fonts. With those, you should have no
+problem compiling a LaTeX document that has only ASCII texts.</p>
+<p>After successfully compile a .tex file to PDF, you need a viewer. <code>zathura</code> is
+a popular choice on Linux systems. It imitates Vim in its keybinds, and support
+advance features like forward search and reverse search. Run</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -S zathura</span><br><span class="line">pacman -S zathura-pdf-poppler</span><br></pre></td></tr></table></figure>
+
+<h3 id="Chinese-Unicode-support-in-LaTeX"><a href="#Chinese-Unicode-support-in-LaTeX" class="headerlink" title="Chinese (Unicode) support in LaTeX"></a>Chinese (Unicode) support in LaTeX</h3><p>Unfortunately, you are still limited to Latin languages so far. If you tried to
+put a Chinese character like ‘云’ in your tex document, <code>pdflatex</code> won’t be
+able to handle it.</p>
+<p>You have several options</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pacman -S texlive-langcjk</span><br><span class="line">pacman -S texlive-xetex</span><br><span class="line">pacman -S texlive-langchinese</span><br></pre></td></tr></table></figure>
+
+<p>In the tex document, you need</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\usepackage&#123;xeCJK&#125;</span><br><span class="line">\setCJKmainfont&#123;Noto Serif CJK SC&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The <code>xeCJK</code> package is only available in the <code>xelatex</code> engine. That’s to say,
+you can’t compile <code>\usepackage&#123;xeCJK&#125;</code> with <code>pdflatex</code> or other engines. You
+could manually tell <code>latexmk</code> to use <code>xelatex</code> by the <code>-xelatex</code> flag.
+Some LateX IDES also understand a kind of “magic comments”, much like the way
+“shebang” works. For example, put the following line at the top of the document</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%! TeX program = xelatex</span><br></pre></td></tr></table></figure>
+
+<p>The neovim plugin <code>vimtex</code> supports this directive as well. The plugin
+basically turn neovim into a LaTeX IDE, giving it completion, compilation,
+realtime update and so on.</p>
+<p><code>xelatex</code> is different from <code>pdflatex</code> or other backends in the way that it
+relies heavily on the operating system for fonts. By setting the <code>\setCJKmainfont</code>
+command, you need font <code>Noto Serif CJK SC</code> installed on your computer, not in
+the LaTeX environment. <code>xelatex</code> supports Unicode, and can use fonts in <code>ttf</code>
+or <code>otf</code> files directly. That’s why we use it for Chinese characters.</p>
+<p>On Arch, you can install the <code>noto-fonts-cjk</code> package from pacman. “cjk” stands
+for Chinese, Japanese and Korean. These three languages, noticeably all in
+east Asia, represent the major non-Latin languages.</p>
+<h3 id="Neo-Vim-Workflow"><a href="#Neo-Vim-Workflow" class="headerlink" title="(Neo)Vim Workflow"></a>(Neo)Vim Workflow</h3><p>Install the <code>vimtex</code> plugin, <code>lazygit</code> plugin manager for example</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;lervag/vimtex&quot;,</span><br><span class="line">  enabled = function()</span><br><span class="line">    if utils.executable(&quot;latex&quot;) then</span><br><span class="line">      return true</span><br><span class="line">    end</span><br><span class="line">    return false</span><br><span class="line">  end,</span><br><span class="line">  ft = &#123; &quot;tex&quot; &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>The plugin binds a few keybindings for common LaTeX procedures.
+<code>&lt;LocalLeader&gt;ll</code> will compile the currently opened tex buffer.</p>
+<p>If the compilation is successful, the output file will be opened by
+a configured viewer in a new window, side by side with neovim.
+The output format can be configured to PDF or other formats.</p>
+<p>Note the <code>vimtex</code> plugin uses <code>latexmk</code> as the default compiler underneath
+the hood. There are options to <code>latexmk</code> you can tweak to control the
+compiling process. The plugin actually exists in the vim era, so the config
+is done in viml scripts.</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">g:vimtex_compiler_latexmk</span> = &#123;</span><br><span class="line">    \ <span class="string">&#x27;aux_dir&#x27;</span> : <span class="string">&#x27;aux&#x27;</span>,</span><br><span class="line">    \ <span class="string">&#x27;out_dir&#x27;</span> : <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    \ <span class="string">&#x27;callback&#x27;</span> : <span class="number">1</span>,</span><br><span class="line">    \ <span class="string">&#x27;continuous&#x27;</span> : <span class="number">1</span>,</span><br><span class="line">    \ <span class="string">&#x27;executable&#x27;</span> : <span class="string">&#x27;latexmk&#x27;</span>,</span><br><span class="line">    \ <span class="string">&#x27;hooks&#x27;</span> : [],</span><br><span class="line">    \ <span class="string">&#x27;options&#x27;</span> : [</span><br><span class="line">    \   <span class="string">&#x27;-verbose&#x27;</span>,</span><br><span class="line">    \   <span class="string">&#x27;-file-line-error&#x27;</span>,</span><br><span class="line">    \   <span class="string">&#x27;-synctex=1&#x27;</span>,</span><br><span class="line">    \   <span class="string">&#x27;-interaction=nonstopmode&#x27;</span>,</span><br><span class="line">    \ ],</span><br><span class="line">    \&#125;</span><br></pre></td></tr></table></figure>
+
+<p>I made a small change to the default compiler arguments. I set the <code>aux_dir</code>
+option, so a bunch of intermediate files generated by LaTeX will go in that
+folder, leaving me a clean project root directory.</p>
+<p>The <code>ll</code> command by default call <code>latexmk</code> in “continuously compiling” mode.
+It monitors any changes in the source file and recompiles if necessary.</p>
+<p>If your viewer supports dynamic update, while you edit the source tex file,
+the viewer will update the output (like PDF) in real time. This provides
+similar experience to online editors like Overleaf.</p>
+<p>Type <code>&lt;LocalLeader&gt;lv</code> will open the viewer if it’s not already opened. If
+already opened, it will highlight the current cursor position in the PDF with
+green color, giving you a visual hint where you were working on.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>给Jerry买一个罐头</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="马赫东 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Arch-Linux/" rel="tag"># Arch Linux</a>
+              <a href="/tags/LaTeX/" rel="tag"># LaTeX</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/archlinux/installation/" rel="prev" title="Arch Linux Installation Guide">
+                  <i class="fa fa-angle-left"></i> Arch Linux Installation Guide
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/archlinux/software/" rel="next" title="Archlinux User Softwares">
+                  Archlinux User Softwares <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">马赫东</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">145k</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/yangrq1018" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"yangrq1018/hexo_blog_comment","issue_term":"pathname","theme":"github-dark"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+  
+  <script async src="/js/cursor/love.min.js"></script>
+  
+
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yangruoqi.site","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文主要介绍Clash是什么、Clash的用法、如何配置和自动化生产适合自己的Clash配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="clash科学上网手册">
+<meta property="og:url" content="https://yangruoqi.site/clash-vpn/index.html">
+<meta property="og:site_name" content="Niu&#39;s Store">
+<meta property="og:description" content="本文主要介绍Clash是什么、Clash的用法、如何配置和自动化生产适合自己的Clash配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yangruoqi.site/clash-vpn/image-20211015095743113.png">
+<meta property="article:published_time" content="2021-10-02T03:52:02.000Z">
+<meta property="article:modified_time" content="2021-10-02T03:52:02.000Z">
+<meta property="article:author" content="马赫东">
+<meta property="article:tag" content="clash">
+<meta property="article:tag" content="vpn">
+<meta property="article:tag" content="gfw">
+<meta property="article:tag" content="dns">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yangruoqi.site/clash-vpn/image-20211015095743113.png">
+
+
+<link rel="canonical" href="https://yangruoqi.site/clash-vpn/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://yangruoqi.site/clash-vpn/","path":"/clash-vpn/","title":"clash科学上网手册"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>clash科学上网手册 | Niu's Store</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Niu's Store" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      
+      <p class="site-title">Niu's Store</p>
+      
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-career"><a href="/career/" rel="section"><i class="fa fa-laptop-code fa-fw"></i>career</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Clash%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">Clash是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clash%E5%9C%A8Golang%E9%A1%B9%E7%9B%AE%E9%87%8C%E7%9A%84%E8%A7%84%E5%88%99%E5%88%86%E6%B5%81"><span class="nav-text">Clash在Golang项目里的规则分流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A2%E9%98%85%E8%BD%AC%E6%8D%A2"><span class="nav-text">订阅转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E6%9C%8D%E5%8A%A1"><span class="nav-text">DNS服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#clash-tracing%E7%9B%91%E6%8E%A7"><span class="nav-text">clash-tracing监控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cURL%E6%9F%A5%E8%AF%A2IP%E5%9C%B0%E7%90%86%E5%9C%B0%E5%9D%80"><span class="nav-text">cURL查询IP地理地址</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">马赫东</p>
+  <div class="site-description" itemprop="description">The backyard of Martin</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yangrq1018" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yangrq1018" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yangrq.ruoqi@outlook.com" title="E-Mail → yangrq.ruoqi@outlook.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yangruoqi.site/clash-vpn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="马赫东">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niu's Store">
+      <meta itemprop="description" content="The backyard of Martin">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="clash科学上网手册 | Niu's Store">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          clash科学上网手册
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-02 11:52:02" itemprop="dateCreated datePublished" datetime="2021-10-02T11:52:02+08:00">2021-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文主要介绍Clash是什么、Clash的用法、如何配置和自动化生产适合自己的Clash配置</p>
+<span id="more"></span>
+
+<h2 id="Clash是什么"><a href="#Clash是什么" class="headerlink" title="Clash是什么"></a>Clash是什么</h2><p>众所周知，科学上网，又称翻墙/番茄/爬梯子，是当下青年的必备技能。科学上网，有两个必要条件：</p>
+<ol>
+<li>需要有一个服务商提供的服务器订阅地址</li>
+<li>需要安装对应的软件</li>
+</ol>
+<p>服务商（机场）有很多，价格、节点、带宽和稳定性都丰俭由人，我现在的主要机场是<a target="_blank" rel="noopener" href="https://taggood-3.xyz/auth/register?code=jefN">TAG</a>，没有注册的朋友可以点击链接注册体验。
+在机场购买了套餐之后，服务商通常会提供给你多种格式的订阅地址，如Clash或者SSR格式的链接，链接提供了一个配置文件，定义了机场提供给你的不同国家的节点服务器，连接上这些代理服务器中的一个后，你就可以自由地访问互联网了。</p>
+<p>本篇文章我们主要聊聊clash格式的订阅组织形式。clash本身是一个网络连接的代理内核，通过预先定义的<strong>规则</strong>，对网络连接进行转发。clash内核规定了配置文件<code>config.yaml</code>的格式，所以机场会提供一个clash格式的订阅地址给用户，包含了一个clash格式的配置文件。使用clash内核的客户端中，比较流行的有Clash for Windows, Clash X和Clash X Pro，核心功能区别不大，只有一些实用功能的上的区别。以macOS端的Clash X为例，它的默认配置文件是这样的：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mixed-port:</span> <span class="number">7890</span></span><br><span class="line"><span class="attr">external-controller:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:9090</span></span><br><span class="line"><span class="attr">allow-lan:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">mode:</span> <span class="string">rule</span></span><br><span class="line"><span class="attr">log-level:</span> <span class="string">warning</span></span><br><span class="line"></span><br><span class="line"><span class="attr">proxies:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">proxy-providers:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">proxy-groups:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rule-providers:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rules:</span></span><br></pre></td></tr></table></figure>
+
+<p>机场提供给你的订阅文件中最重要的就是<code>proxies</code>这个字段了，其中是一个包含节点地址的列表。所以机场通常会要求用户对订阅地址严格保密，因为如果订阅地址泄漏了，机场的服务器节点就面临被GFW封禁或者被其他人攻击的风险，影响到整个机场的运作。</p>
+<p>一般机场提供的订阅链接，不仅包含了基本的<code>proxies</code>节点，也提供了一些默认的规则。规则指的是对某个HTTP连接，应该如何处理，例如，某个规则可以要求domain suffix为google.com的连接，走某个节点服务器，可以要求domain suffix为baidu.com的连接，走DIRECT直连。这组规则使得clash内核可以正确代理整台机器上的HTTP请求，让应该绕路走国外服务器的请求发送到对应节点，让可以直连的请求直接发送，避免绕路产生的延迟和消耗不必要的订阅流量。</p>
+<p>你可以满足于单个机场提供给你的订阅配置，这个配置可以满足绝大多数人的需求。但是，如果有更进一步的需求，就需要自己手动配置。</p>
+<h2 id="Clash在Golang项目里的规则分流"><a href="#Clash在Golang项目里的规则分流" class="headerlink" title="Clash在Golang项目里的规则分流"></a>Clash在Golang项目里的规则分流</h2><p>举个例子，最近在用Golang写一个Switch游戏Splatoon 2的小工具，主要的功能就是把任天堂服务器上的战绩数据发送到第三方网站<a target="_blank" rel="noopener" href="https://stat.ink/">stat.ink</a>上。在stat.ink上，可以看到更丰富的数据分析。</p>
+<p>请求地址涉及到三个方面的域名：</p>
+<ol>
+<li>accounts.nintendo.com - 处理账户登陆</li>
+<li>splatoon2.nintendo.net - REST接口请求战绩数据</li>
+<li>stat.ink - 上传战绩数据</li>
+</ol>
+<p>代码完成后测试了一段时间，发现依赖网络情况，有时候会出现请求时间过长或者超时的问题，鉴于任天堂在国内没有任何游戏服务（splatoon 2本身的线上联机也是要走游戏加速器的），这是十分正常不过的。这时候科学上网就派上用场了，我需要配置clash的分流规则让任天堂相关的网络流量走我的机场线路。</p>
+<p>生成的规则请移步<a href="#订阅转换">章节</a>。</p>
+<p>添加分流规则，匹配请求地址的域名后缀即可。然后刷新clash的配置文件，把Switch策略组设置为Japan。在Go代码里需要配置<code>http.Client</code>使用Clash的代理端口，地址默认是<code>127.0.0.1:7890</code>，否则Go的网络请求不会被clash代理。</p>
+<p>修改成功后，运行Go程序，在Clash控制台的连接页面确认向<code>nintendo.net</code>的请求被匹配到日本节点。不出所料，网络超时的问题被很好地解决了。</p>
+<h2 id="订阅转换"><a href="#订阅转换" class="headerlink" title="订阅转换"></a>订阅转换</h2><p>通常情况下，机场提供给你所有的节点信息，和最基本的分流规则，这些规则会不太全面。使用一段时间后，很有可能会发现没有覆盖到的需求。</p>
+<p>比如一个最简单的痛点，对于TAG这样节点数比较多的机场（164个国际节点），有时候从里面翻到需要的国家是一件费劲的是。而且我绝对不会经常用到所有的这164个节点，每个人通常使用的就是那么几个国家。所以，按国家把节点分为<code>proxy-groups</code>，那么用起来一定十分方便。网络上不乏一些很流行的“订阅转换”网站，这些工具的作用是把一个格式的订阅信息转换为另一个格式，在节点名添加emoji等等。</p>
+<blockquote>
+<p><strike>我用Go写了一个自己用的订阅转换+规则生产的工具，提供了两个接口：文件转换和MITM代理</strike></p>
+<p>Edit 20211026：移除了MITM代理转换，实用性比较差</p>
+</blockquote>
+<p>用Go写了一个服务器部署在Google App Engine上，服务以URL参数的形式接受原始订阅（Clash 格式），拉取订阅节点，丢弃机场的其他配置，按照我自己的要求生成规则。这个思路类似<code>proxy-provider</code>。</p>
+<ul>
+<li>按照节点名正则生产我需要的国家分组，国家分组都设置成<code>url-test</code>自动测速选择最快的节点</li>
+<li>在节点名前添加emoji国旗，简写“2倍率”为“2x”，移除节点名内的大洲</li>
+<li>增加Telgram, Apple, Github, Microsoft等实用分组</li>
+<li>按需导入<a target="_blank" rel="noopener" href="https://github.com/Loyalsoldier/clash-rules">Loyalsoldier</a>，<a target="_blank" rel="noopener" href="https://github.com/ACL4SSR/ACL4SSR">ACL4SSR</a>和<a target="_blank" rel="noopener" href="https://github.com/Semporia/ClashX-Pro">Semporia</a>的规则</li>
+<li>增加一个“漏网之鱼分组”，匹配未命中的流量</li>
+</ul>
+<p><img src="/clash-vpn/image-20211015095743113.png" alt="image-20211015095743113"></p>
+<p>在Google App Engine部署Golang项目还是相当简洁容易的，毕竟是谷歌自家的产品。在Go项目里需要一个<code>package main</code>，<code>main</code>函数不能接受任何参数（笔者暂时没找到怎么在启动命令提供参数），但你可以读取环境变量。在<code>app.yaml</code>里设置生产需要的环境变量，这应该也是推荐的做法。</p>
+<p>GAE只需要在项目目录里有一个描述文件<code>app.yaml</code>即可，内容指定Go环境的版本，入口package的路径（可以是相对路径）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#app.yaml</span></span><br><span class="line"><span class="attr">runtime:</span> <span class="string">go116</span></span><br><span class="line"><span class="attr">main:</span> <span class="string">./proxy/server</span></span><br><span class="line"><span class="attr">app_engine_apis:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>然后安装<code>gcloud</code>命令行工具包。GAE需要Google Cloud Platform的付费账号，需要绑定信用卡并且刷1美元（会返还）。<code>gcloud</code>登录账号，在GAE的控制台网页创建项目</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcloud app create --project=[YOUR_PROJECT_ID]</span><br></pre></td></tr></table></figure>
+
+<p>关联app ID到本地，然后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcloud app deploy</span><br></pre></td></tr></table></figure>
+
+<p>代码就上线了。</p>
+<p>Go 1.2以上的版本，参考<a target="_blank" rel="noopener" href="https://cloud.google.com/appengine/docs/standard/go/quickstart">GAE文档</a>。</p>
+<blockquote>
+<p>GAE项目的默认部署地址appspot.com在前些年已经被GFW墙了。所以在无代理的情况下是访问不了订阅转换的。需要直连服务的可以考虑阿里云租用服务器或者Amazon、Azure等未被墙的应用托管平台。</p>
+</blockquote>
+<p>使用订阅转换服务器，在Clash客户端配置订阅（圈X安装了parser之后也可以使用Clash订阅）</p>
+<p><code>https://gofin-329802.de.r.appspot.com?sub=&lt;URL encoded Original Sub&gt;</code></p>
+<p><code>&lt;URL encoded Original Sub&gt;</code>是机场提供的原始订阅，其中含有特殊字符所以注意URL转义，<a target="_blank" rel="noopener" href="https://www.urlencoder.org/">转换地址</a>。</p>
+<h2 id="DNS服务"><a href="#DNS服务" class="headerlink" title="DNS服务"></a>DNS服务</h2><p>Clash Premium内核可以选择提供一个DNS服务，指定上游服务器（如8.8.8.8），把本机的DNS服务设置为127.0.0.1，Clash会在53端口监听DNS解析请求，以减少GFW中的DNS污染带来的不便。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.yaml</span></span><br><span class="line"><span class="attr">dns:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">enhanced-mode:</span> <span class="string">redir-host</span></span><br><span class="line">  <span class="attr">fake-ip-range:</span> <span class="number">198.19</span><span class="number">.0</span><span class="number">.1</span><span class="string">/16</span></span><br><span class="line">  <span class="attr">listen:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span><span class="string">:53</span></span><br><span class="line">  <span class="attr">nameserver:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">223.5</span><span class="number">.5</span><span class="number">.5</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br><span class="line">  <span class="attr">ipv6:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>这里指定了阿里云和谷歌的公共DNS 223.5.5.5和8.8.8.8作为上游服务器，你可以选择自己喜欢的公共DNS。</p>
+<p>Clash拥有两种DNS模式<code>fake-ip</code>和<code>redir-host</code>.<code>fake-ip</code>模式下，所有DNS寻址都会返回一个在<code>fake-ip-range</code>网段内的虚假IP，在经过代理的时候，Clash再把fake IP转换为真实IP。</p>
+<blockquote>
+<p>A “fake IP” address is used as a key to look up the corresponding “FQDN” information.</p>
+</blockquote>
+<p>详见<a target="_blank" rel="noopener" href="https://tools.ietf.org/rfc/rfc3089">RFC 3089</a>。</p>
+<p>设置<code>enhanced-mode</code>为”fake-ip”，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">❯ nslookup google.com</span><br><span class="line">Server:		127.0.0.1</span><br><span class="line">Address:	127.0.0.1#53</span><br><span class="line"></span><br><span class="line">Name:	google.com</span><br><span class="line">Address: 198.19.0.4</span><br></pre></td></tr></table></figure>
+
+<p>返回的IP是在网段<code>198.19.0.1/16</code>里的一个假IP。</p>
+<p>设置为”redir-host”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">❯ nslookup google.com</span><br><span class="line">Server:		127.0.0.1</span><br><span class="line">Address:	127.0.0.1#53</span><br><span class="line"></span><br><span class="line">Name:	google.com</span><br><span class="line">Address: 46.82.174.69</span><br></pre></td></tr></table></figure>
+
+<p>查询到的是目标服务器的真实IP。</p>
+<p><strong>在Mac上配置DNS</strong>，点击任务栏里的WIFI图标，网络偏好设置，选择WIFI&gt;高级，转到DNS分页，移除所有已经存在的DNS记录，然后点”+”，增加”127.0.0.1”，保存。注意在这里是没有端口的选择的，所以clash配置的<code>dns:listen</code>必须是0.0.0.0:53，监听53端口（DNS端口），确保在53端口上没有其他程序占用。</p>
+<p>以前用系统的默认DNS，总是出现过几个小时Binance websocket莫名其妙断开的问题；使用Clash的内置DNS之后，明显注意到一个好处是和Binance服务器的websocket连接明显更加稳定了，基本不会出现断连。</p>
+<h2 id="clash-tracing监控"><a href="#clash-tracing监控" class="headerlink" title="clash-tracing监控"></a>clash-tracing监控</h2><p>用Docker部署<a target="_blank" rel="noopener" href="https://github.com/Dreamacro/clash-tracing">clash-tracing</a>项目，该项目由Clash的开发者编写，利用Clash的websocket tracing API收集数据，时序数据库influxdb作持久化存储，grafana作可视化，实时监控clash的运行状况，是一个很实用的工具。Clash的tracing API是一个比较新的、还在实验中的功能。</p>
+<p>最方便的部署方法是使用Docker，作者已经提供了<code>docker-compose.yml</code>定义了三个docker容器服务，分别对应上面提到的golang收集器、influxdb数据库和grafana服务。最终我们访问grafana从镜像中暴露的3000端口就可以查看数据监控了。</p>
+<blockquote>
+<p>influxdb的alpine镜像还没有为arm64架构编译，所以在m1芯片上运行时，在<code>docker-compose.yml</code>里替换为非alpine镜像版本，如<code>influxdb:1.8</code>。注意2.x版本的influxdb无法被grafana正确读取，在grafana里import panels之后，query语句无法正确加载，建议使用1.8版本的influxdb。</p>
+</blockquote>
+<h2 id="cURL查询IP地理地址"><a href="#cURL查询IP地理地址" class="headerlink" title="cURL查询IP地理地址"></a>cURL查询IP地理地址</h2><p>结合<code>curl</code>命令可以很方便的查询代理IP的地理位置。注意你的查询网站不要被Clash的规则匹配到直连了，那样你会看到自己的真实地理位置</p>
+<p>不带任何flag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 被直连匹配</span></span><br><span class="line">curl cip.cc</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">IP      : 114.84.196.74</span><br><span class="line">地址    : 中国  上海</span><br><span class="line">运营商  : 电信</span><br><span class="line"></span><br><span class="line">数据二  : 上海市 | 电信</span><br><span class="line"></span><br><span class="line">数据三  : 中国上海上海 | 电信</span><br><span class="line"></span><br><span class="line">URL     : http://www.cip.cc/114.84.196.74</span><br></pre></td></tr></table></figure>
+
+<p>换一个境外地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl ipinfo.io</span><br></pre></td></tr></table></figure>
+
+<p>加入我把Clash挂在德国，看到的结果是JSON格式的数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;ip&quot;: &quot;185.101.94.91&quot;,</span><br><span class="line">  &quot;city&quot;: &quot;Düsseldorf&quot;,</span><br><span class="line">  &quot;region&quot;: &quot;North Rhine-Westphalia&quot;,</span><br><span class="line">  &quot;country&quot;: &quot;DE&quot;,</span><br><span class="line">  &quot;loc&quot;: &quot;51.2217,6.7762&quot;,</span><br><span class="line">  &quot;org&quot;: &quot;AS204035 Tristan Fischer trading as oneCorp Systems&quot;,</span><br><span class="line">  &quot;postal&quot;: &quot;40210&quot;,</span><br><span class="line">  &quot;timezone&quot;: &quot;Europe/Berlin&quot;,</span><br><span class="line">  &quot;readme&quot;: &quot;https://ipinfo.io/missingauth&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>给Jerry买一个罐头</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="马赫东 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/clash/" rel="tag"># clash</a>
+              <a href="/tags/vpn/" rel="tag"># vpn</a>
+              <a href="/tags/gfw/" rel="tag"># gfw</a>
+              <a href="/tags/dns/" rel="tag"># dns</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ubuntu-nas/" rel="prev" title="Ubuntu挂载NAS网络驱动器">
+                  <i class="fa fa-angle-left"></i> Ubuntu挂载NAS网络驱动器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/golang-tips/" rel="next" title="Golang HTTP逆向Splatoon 2上传战绩">
+                  Golang HTTP逆向Splatoon 2上传战绩 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">马赫东</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">145k</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/yangrq1018" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"yangrq1018/hexo_blog_comment","issue_term":"pathname","theme":"github-dark"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+  
+  <script async src="/js/cursor/love.min.js"></script>
+  
+
+</body>
+</html>

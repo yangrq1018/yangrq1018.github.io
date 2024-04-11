@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yangruoqi.site","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在公司的开发环境是一台Win10机器，我喜欢生产环境稳定可以长期不关机，所以拿了一台公司的电脑重装了Ubuntu部署生产环境。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux使用笔记">
+<meta property="og:url" content="https://yangruoqi.site/linux-tips/index.html">
+<meta property="og:site_name" content="Niu&#39;s Store">
+<meta property="og:description" content="在公司的开发环境是一台Win10机器，我喜欢生产环境稳定可以长期不关机，所以拿了一台公司的电脑重装了Ubuntu部署生产环境。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-01T05:59:08.000Z">
+<meta property="article:modified_time" content="2020-07-01T05:59:08.000Z">
+<meta property="article:author" content="马赫东">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yangruoqi.site/linux-tips/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://yangruoqi.site/linux-tips/","path":"/linux-tips/","title":"Linux使用笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux使用笔记 | Niu's Store</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Niu's Store" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      
+      <p class="site-title">Niu's Store</p>
+      
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-career"><a href="/career/" rel="section"><i class="fa fa-laptop-code fa-fw"></i>career</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E7%95%AA%E8%8C%84"><span class="nav-text">怎么番茄</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git%E4%BB%A3%E7%90%86"><span class="nav-text">Git代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#npm%E6%B7%98%E5%AE%9D%E6%BA%90"><span class="nav-text">npm淘宝源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-text">Linux虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E4%BB%A3%E7%90%86"><span class="nav-text">配置虚拟机的代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEapt-get%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86"><span class="nav-text">配置apt-get使用代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8Win%E5%92%8CLinux%E4%B9%8B%E9%97%B4%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6"><span class="nav-text">在Win和Linux之间共享文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">Oracle数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Elastic-amp-amp-Kibana"><span class="nav-text">Elastic &amp;&amp; Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH%E4%BD%BF%E7%94%A8%E7%A7%81%E9%92%A5%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95"><span class="nav-text">SSH使用私钥免密码登录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NGINX-websocket-%E5%9F%9F%E5%90%8D%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="nav-text">NGINX websocket 域名反向代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B-tar-gz%E6%96%87%E4%BB%B6"><span class="nav-text">解压.tar.gz文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cURL-Get%E4%BB%A5GBK%E6%A0%BC%E5%BC%8F%E7%BC%96%E7%A0%81%E7%9A%84%E7%BD%91%E9%A1%B5"><span class="nav-text">cURL Get以GBK格式编码的网页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E7%A3%81%E7%9B%98%E5%8D%A0%E7%94%A8%E6%83%85%E5%86%B5%EF%BC%8C%E5%92%8C%E8%AE%A1%E7%AE%97%E6%96%87%E4%BB%B6%E5%A4%B9%E4%BD%93%E7%A7%AF"><span class="nav-text">显示磁盘占用情况，和计算文件夹体积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TMUX"><span class="nav-text">TMUX</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tmux-vim-italics"><span class="nav-text">tmux + vim italics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-22-04-%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95-Pinyin"><span class="nav-text">Ubuntu 22.04 中文输入法(Pinyin)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E6%96%87%E4%BB%B6%E6%97%A0%E6%B3%95%E5%8A%A0%E8%BD%BD%E9%97%AE%E9%A2%98"><span class="nav-text">字典文件无法加载问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%9B%91%E8%A7%86%E5%99%A8"><span class="nav-text">资源监视器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git%E7%BE%8E%E5%8C%96"><span class="nav-text">Git美化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-text">文件管理器</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">马赫东</p>
+  <div class="site-description" itemprop="description">The backyard of Martin</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yangrq1018" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yangrq1018" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yangrq.ruoqi@outlook.com" title="E-Mail → yangrq.ruoqi@outlook.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yangruoqi.site/linux-tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="马赫东">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niu's Store">
+      <meta itemprop="description" content="The backyard of Martin">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux使用笔记 | Niu's Store">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux使用笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-01 13:59:08" itemprop="dateCreated datePublished" datetime="2020-07-01T13:59:08+08:00">2020-07-01</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在公司的开发环境是一台Win10机器，我喜欢生产环境稳定可以长期不关机，所以拿了一台公司的电脑重装了Ubuntu部署生产环境。</p>
+<span id="more"></span>
+
+<h3 id="怎么番茄"><a href="#怎么番茄" class="headerlink" title="怎么番茄"></a>怎么番茄</h3><p>现在用的机场服务是<a target="_blank" rel="noopener" href="https://ntt-co-jp.club">CNIX</a></p>
+<p>订阅软件，Windows首推Clash for Win; macOS平台首推clash X。</p>
+<h3 id="Git代理"><a href="#Git代理" class="headerlink" title="Git代理"></a>Git代理</h3><p>代理是SS/SSR的话可以用socks5，下面两种方法本质上一样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 鼠标停留在状态栏的小火箭上会显示端口</span><br><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:7890&#x27;</span><br><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:7890&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>也可以直接编辑文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.gitconfig</span><br><span class="line"># [http]</span><br><span class="line">#     proxy = http://&lt;主机ip&gt;:&lt;7890&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="npm淘宝源"><a href="#npm淘宝源" class="headerlink" title="npm淘宝源"></a><code>npm</code>淘宝源</h3><p><code>npm install</code>在ssr设置了全局代理的情况下还是会下载卡死，<code>npm config</code>配置代理实测并不能解决问题。可以配置淘宝源结局，如果
+已经设置了代理要<code>npm config edit</code>把代理相关的行删掉，再</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set registry http://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h2><p>以前用过VirtualBox和Mac的Parallel Desktop，总体来说Parallel Desktop的体验要好一些，毕竟收费，但还是存在一些比较烦人的
+bug。这次尝新了VMware Workstation。VMware也是付费程序，但由于不重视保护版权，激活码在网上很多，商用的话还是要支持正版。</p>
+<p>用VMware在Windows下安装Ubuntu的<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/41940739">手把手教程</a>。</p>
+<h3 id="配置虚拟机的代理"><a href="#配置虚拟机的代理" class="headerlink" title="配置虚拟机的代理"></a>配置虚拟机的代理</h3><ul>
+<li>假设主机上番茄软件用的是<a target="_blank" rel="noopener" href="https://github.com/Fndroid/clash_for_windows_pkg/releases">Clash for win</a>，General &gt; 勾选Allow LAN（允许局域网的连接），记录下Port端口（默认7890）</li>
+<li>切换到Ubuntu，Settings&gt;Network，Network Proxy设置为Manual</li>
+<li>四个选项都设置为<code>&lt;主机ip&gt;:7890</code></li>
+</ul>
+<p>VMware的网络模式最好是桥接模式，不推荐用NAT模式，虚拟机上的web服务会没办法广播到全局域网，给同事demo东西会不方便。桥接
+模式下，虚拟机和主机是并列关系，有自己的独立ip。但估计是权限的原因虚拟机虽然可以上网但是不能独立配置代理，只能通过主机
+的LAN连接走主机的代理。</p>
+<h3 id="配置apt-get使用代理"><a href="#配置apt-get使用代理" class="headerlink" title="配置apt-get使用代理"></a>配置<code>apt-get</code>使用代理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/apt.conf</span><br></pre></td></tr></table></figure>
+
+<p>内容为<code>Acquire::http::proxy &quot;http://&lt;主机ip&gt;:7890&quot;</code></p>
+<h2 id="在Win和Linux之间共享文件"><a href="#在Win和Linux之间共享文件" class="headerlink" title="在Win和Linux之间共享文件"></a>在Win和Linux之间共享文件</h2><p>出于安全考虑，VMware默认是打开文件共享，关机后在虚拟机设置菜单打开，选择主机上需要共享的目录。这里有个bug，重启虚拟机
+会导致虚拟机丢失共享的路径，需要再次手动锚定。</p>
+<p>把这一段放在你的<code>.bashrc</code>或者<code>.zshrc</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> mount=<span class="string">&#x27;/usr/bin/vmhgfs-fuse .host:/ /home/yangrq/share -o subtype=vmhgfs-fuse,allow_other&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>每次重启在shell里运行<code>mount</code>。</p>
+<p>##远程办公
+公司配了蒲公英的内网穿透服务，其实就是个各个大学都有的校园网vpn服务。下载蒲公英的客户端（全平台都有，包括ios），挂上代
+理，可以访问内网上的共享文件，web服务，或者远程桌面。远程桌面的软件可以用微软自己的Remote Desktop，或者蒲公英的产品向日葵。</p>
+<p>后来去了九坤之后，发现大公司用的是完全不一样的一套东西。出于合规方面的原因，投研部门的所有代码的开发和部署都在公司的
+服务器上进行，服务器不允许和个人电脑传输任何数，需要通过堡垒机ssh到服务器上进行工作。</p>
+<p>对于数据库架设在局域网内的环境，有这个内网穿透在家可以持续开发调试，还是很方便的。</p>
+<h2 id="Oracle数据库"><a href="#Oracle数据库" class="headerlink" title="Oracle数据库"></a>Oracle数据库</h2><p>因为现在写的东西可视化用的是eCharts（Python封装调用）+ Flask的组合，prototype当然要用一个开发足够快的数据库，
+选了non-SQL的数据库mongoDB，第一次使用非关系数据库，不过很好上手，eCharts本体又是个JS写的库（百度程序员很猛），
+这一套前后端交互用起来省不少心。</p>
+<p>等IT把Oracle数据库弄好，转债和股票的数据就上生产环境了。以前在工行实习的时候，学了python怎么开发Oracle数据库。Oracle
+那套东西体型太臃肿，80%的东西都是BAT这种体量的公司才用得上的。感谢我坑的DBM课，SQL还是会写一点的😤。</p>
+<ol>
+<li>图形化工具</li>
+</ol>
+<p>我推荐DBeaver，这是一个universal database manager，社区版本是免费的，可以连接所有支持jdbc接口的数据库。除了需要知道
+数据库的host, schema (username), password, service之外，还需要一个跟数据库版本对应的ojdbc包，我们公司的数据库是
+Oracle 11g，要用ojdbc6.jar，用更高级的会兼容不了。</p>
+<ol start="2">
+<li>python driver</li>
+</ol>
+<p><code>cx_Oracle</code>是Oracle的python封装借口，除了<code>pip install cx_Oracle</code>外呢，你还要在电脑上安装Oracle Instant Client（除非你的数
+据库是在自己电脑上），商用数据库就是这么事儿妈。不同系统的安装方法有所不同，参考<a target="_blank" rel="noopener" href="https://www.oracle.com/database/technologies/instant-client/macos-intel-x86-downloads.html">Oracle</a>。下载之后要让python能找到这个客户端，对于泛UNIX系统来说，在系统<code>$PATH</code>上建立软symlink是最方便的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s ~/instantclient_19_3/libclntsh.dylib /usr/local/lib</span><br><span class="line"><span class="built_in">ln</span> -s ~/instantclient_19_3/libclntsh.dylib.12.1 /usr/local/lib</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Elastic-amp-amp-Kibana"><a href="#Elastic-amp-amp-Kibana" class="headerlink" title="Elastic &amp;&amp; Kibana"></a>Elastic &amp;&amp; Kibana</h2><p>经常性出现Kibana的docker服务挂掉的情况</p>
+<p>检查es的index健康</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&#x27;http://10.168.1.185:9200/_cat/shards?h=index,shard,prirep,state,unassigned.reason&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>如果看到有kibana_task_manager的primary shard处于unassigned状态，那就是es的分片挂掉导致kibana无法启动了。</p>
+<p>解释shard未分配的原因</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&#x27;http://10.168.1.185:9200/_cluster/allocation/explain?pretty&#x27;</span> -H <span class="string">&#x27;Content-Type:application/json&#x27;</span> -d<span class="string">&#x27;&#123;&quot;index&quot;: &quot;.kibana_task_manager_7.15.2_001&quot;, &quot;shard&quot;: 0, &quot;primary&quot;:true&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>提到文件损坏，hash无法匹配问题。</p>
+<p>使用es的命令行工具删除损坏的数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/elasticsearch-shard remove-corrupted-data</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用这种方法可能会遇到需要停止集群才能移除损毁数据的警告，笔者还没发现解决办法。</p>
+</blockquote>
+<p>或者使用RESUTful API删除index</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE  <span class="string">&#x27;http://&lt;elastic&gt;:9200/.kibana_task_manager_7.15.2_001&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>curl可能不会返回，但是稍等一下Ctrl+C终端即可，损坏的index会被删除，然后Kibana就可以继续用了，不需要重启容器。</p>
+</blockquote>
+<p>重新启动Kibana容器</p>
+<h2 id="SSH使用私钥免密码登录"><a href="#SSH使用私钥免密码登录" class="headerlink" title="SSH使用私钥免密码登录"></a>SSH使用私钥免密码登录</h2><ol>
+<li><p>如果SSH from的机器上还没有生成RSA私钥，使用SSH工具生成一对公钥私钥，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+<p>生成一对密钥（公钥和私钥）到<code>~/.ssh/</code>目录下</p>
+</li>
+<li><p>复制公钥到SSH to机器上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_rsa.pub | ssh user@hostname <span class="string">&#x27;cat &gt;&gt; .ssh/authorized_key&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>然后就可以直接使用ssh命令登录了，不需要输入密码。</p>
+</li>
+</ol>
+<h2 id="NGINX-websocket-域名反向代理"><a href="#NGINX-websocket-域名反向代理" class="headerlink" title="NGINX websocket 域名反向代理"></a>NGINX websocket 域名反向代理</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">map</span> <span class="variable">$http_upgrade</span> <span class="variable">$connection_upgrade</span> &#123;</span><br><span class="line">    <span class="attribute">default</span> upgrade;</span><br><span class="line">    &#x27;&#x27; close;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span>  &#123;</span><br><span class="line">    <span class="attribute">server_name</span> emby.xuanlingasset.com;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">    <span class="attribute">ssl</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_certificate</span> /home/xlc1/ca/site/site.crt;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /home/xlc1/ca/site/site.key;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:8096;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_read_timeout</span> <span class="number">300s</span>;</span><br><span class="line">        <span class="attribute">proxy_send_timeout</span> <span class="number">300s</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="variable">$connection_upgrade</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关键是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">proxy_set_header Connection $connection_upgrade;</span><br></pre></td></tr></table></figure>
+<p>使用了map指令，自动根据客户端请求是否有<code>Upgrade</code>头来判断是否要传递<code>Connection</code>头，这样比全部传递upgrade要优雅.</p>
+<p>修改之后重启nginx，服务器返回的响应头为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 101 Switching Protocols</span><br><span class="line">Server: nginx/1.18.0 (Ubuntu)</span><br><span class="line">Date: Wed, 15 Dec 2021 14:29:29 GMT</span><br><span class="line">Connection: upgrade</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Sec-WebSocket-Accept: eFA5kG7ymK/WCHSre7godV54+2Y=</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="解压-tar-gz文件"><a href="#解压-tar-gz文件" class="headerlink" title="解压.tar.gz文件"></a>解压<code>.tar.gz</code>文件</h2><p><code>.tar.gz</code>是Linux系统上很常见的压缩文件格式，很多以二进制形式发行的软件下载下来是<code>*.tar.gz</code>的形式</p>
+<p><code>tar -xvf abc.tar.gz</code></p>
+<p>简单来说，压缩文件</p>
+<p><code>tar -czvf abc.tar.gz folder/</code></p>
+<p>解压文件</p>
+<p><code>tar -xzvf abc.tar.gz</code></p>
+<p>参数:</p>
+<ul>
+<li><code>-x</code> extract解压</li>
+<li><code>-c</code> create压缩</li>
+<li><code>-z</code> filter through gzip, i.e. compress or decompress with gunzip</li>
+<li><code>-v</code> verbose mode, e.g. print file names while decompressing</li>
+<li><code>-f</code> specify archive file name</li>
+<li><code>-t</code> list the contents of an archive</li>
+</ul>
+<h2 id="cURL-Get以GBK格式编码的网页"><a href="#cURL-Get以GBK格式编码的网页" class="headerlink" title="cURL Get以GBK格式编码的网页"></a><code>cURL</code> Get以GBK格式编码的网页</h2><p>在从深交所网站爬取<strong>ETF基金申赎清单</strong>的过程中，遇到了一点问题。运行Go程序从<a target="_blank" rel="noopener" href="http://reportdocs.static.szse.cn/files/text/etf/ETF15991820220527.txt">地址</a>请求一个文本文件
+（内容是基金159918的申赎成分），返现返回内容是403 Forbidden，但是用<code>curl</code>命令可以。</p>
+<p><code>curl -XGET http://reportdocs.static.szse.cn/files/text/etf/ETF15991820220527.txt</code></p>
+<p>返回的结果是乱码，很容易判断是因为该文本文件是以<code>GBK</code>格式编码的。在如今的绝大部分金融机构都是使用这样一个古怪的编码，而不是拥抱更现代化的<code>UTF-8</code>。那么如何显示正确的内容呢，可惜的是，<code>curl</code>本身并不支持配置网页返回的编码格式，但是可以用Linux的<code>iconv</code>命令，用pipeline的形式处理<code>curl</code>的输出</p>
+<p><code>curl -XGET http://reportdocs.static.szse.cn/files/text/etf/ETF15991820220527.txt | iconv -f gbk -t utf8</code></p>
+<p><code>iconv</code>命令的<code>-f</code>参数是<code>from_code</code>，指输入字符串的编码格式，<code>-t</code>是输出编码格式，绝大多数的命令行环境都是标准的<code>utf-8</code>编码，所以输出指定为<code>-t utf-8</code>。</p>
+<h2 id="显示磁盘占用情况，和计算文件夹体积"><a href="#显示磁盘占用情况，和计算文件夹体积" class="headerlink" title="显示磁盘占用情况，和计算文件夹体积"></a>显示磁盘占用情况，和计算文件夹体积</h2><p><code>du -sh *</code> 列出当前路径下的每个文件夹/</p>
+<h2 id="TMUX"><a href="#TMUX" class="headerlink" title="TMUX"></a>TMUX</h2><p><code>tmux</code>是Linux平台上一个常用的终端复用器，通过<code>tmux</code>命令创建的session，在ssh连接断开后仍然保持运行，在下次连接可以重新
+回复的任意session。相对于裸连<code>ssh</code>，其优越性在于当由于网络不稳定或者超时连接断开时，正在运行的程序并不会中断丢失，这对于
+需要很长时间的计算密集型程序或者Web Server类的程序，是十分重要的，毕竟谁也不想在服务器跑了几个小时的程序因为电脑休眠了
+白跑了。</p>
+<p>在使用TMUX之前，做一些必要的配置。TMUX的默认行为会有些古怪，比如鼠标滚轮不能上下滚动输出，快捷键<code>CTRL+B</code>的组合按起来对手
+小的人十分不友好，还有分屏的快捷键居然是莫名其妙的<code>%</code>，而不是跟vim类似的<code>-</code>和<code>|</code>键。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># 修改prefix为跨度更小的Alt+B</span><br><span class="line">set-option -g prefix M-b</span><br><span class="line"># 允许鼠标滚轮滚动输出</span><br><span class="line">set -g mouse on</span><br><span class="line"></span><br><span class="line"># 更合理的分屏</span><br><span class="line">bind | split-window -h</span><br><span class="line">bind - split-window -v</span><br><span class="line">unbind &#x27;&quot;&#x27;</span><br><span class="line">unbind %</span><br><span class="line"></span><br><span class="line"># Smart pane switching with awareness of Vim splits.</span><br><span class="line"># See: https://github.com/christoomey/vim-tmux-navigator</span><br><span class="line">is_vim=&quot;ps -o state= -o comm= -t &#x27;#&#123;pane_tty&#125;&#x27; \</span><br><span class="line">    | grep -iqE &#x27;^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$&#x27;&quot;</span><br><span class="line">bind-key -n &#x27;C-h&#x27; if-shell &quot;$is_vim&quot; &#x27;send-keys C-h&#x27;  &#x27;select-pane -L&#x27;</span><br><span class="line">bind-key -n &#x27;C-j&#x27; if-shell &quot;$is_vim&quot; &#x27;send-keys C-j&#x27;  &#x27;select-pane -D&#x27;</span><br><span class="line">bind-key -n &#x27;C-k&#x27; if-shell &quot;$is_vim&quot; &#x27;send-keys C-k&#x27;  &#x27;select-pane -U&#x27;</span><br><span class="line">bind-key -n &#x27;C-l&#x27; if-shell &quot;$is_vim&quot; &#x27;send-keys C-l&#x27;  &#x27;select-pane -R&#x27;</span><br><span class="line">tmux_version=&#x27;$(tmux -V | sed -En &quot;s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p&quot;)&#x27;</span><br><span class="line">if-shell -b &#x27;[ &quot;$(echo &quot;$tmux_version &lt; 3.0&quot; | bc)&quot; = 1  ]&#x27; \</span><br><span class="line">	&quot;bind-key -n &#x27;C-\\&#x27; if-shell \&quot;$is_vim\&quot; &#x27;send-keys C-\\&#x27; &#x27;select-pane -l&#x27;&quot;</span><br><span class="line">if-shell -b &#x27;[ &quot;$(echo &quot;$tmux_version &gt;= 3.0&quot; | bc)&quot; = 1  ]&#x27; \</span><br><span class="line">	&quot;bind-key -n &#x27;C-\\&#x27; if-shell \&quot;$is_vim\&quot; &#x27;send-keys C-\\\\&#x27; &#x27;select-pane -l&#x27;&quot;</span><br><span class="line"></span><br><span class="line">bind-key -T copy-mode-vi &#x27;C-h&#x27; select-pane -L</span><br><span class="line">bind-key -T copy-mode-vi &#x27;C-j&#x27; select-pane -D</span><br><span class="line">bind-key -T copy-mode-vi &#x27;C-k&#x27; select-pane -U</span><br><span class="line">bind-key -T copy-mode-vi &#x27;C-l&#x27; select-pane -R</span><br><span class="line">bind-key -T copy-mode-vi &#x27;C-\&#x27; select-pane -l</span><br></pre></td></tr></table></figure>
+
+<p><code>vim-tmux-navigator</code> 的功能需要搭配vim插件使用，如果你的vim plugin manager是<code>vim-plug</code>，在vimrc中安装该插件
+<code>Plug &#39;christoomey/vim-tmux-navigator&#39;</code>。配合该插件，你可以使用一套快捷键，比如<code>Ctrl</code> + <code>hjkl</code>无缝地在vim的分屏和
+tmux的分屏之间切换。</p>
+<ul>
+<li>列出session <code>tmux ls</code></li>
+<li>新建session <code>tmux new -s &quot;session name&quot;</code></li>
+<li>进入session <code>tmux attach -t &quot;session name&quot;</code></li>
+<li>在session内，切换到其他session <code>&lt;prefix&gt; s</code></li>
+<li>分屏，<code>&lt;prefix&gt; -</code> (水平), <code>&lt;prefix&gt; |</code> (垂直)</li>
+<li>在分屏时，对调pane，<code>&lt;prefix&gt; Ctrl-o</code></li>
+<li>强制关闭当前session, <code>&lt;prefix&gt; x</code></li>
+<li>重命名当前session, <code>&lt;prefix&gt; $</code></li>
+<li>从水平分屏切换成垂直分屏，<code>&lt;prefix&gt; &lt;space&gt;</code> (cycle through available layouts)</li>
+<li>修改<code>.tmux.conf</code>之后重载配置 <code>tmux source-file ~/.tmux.conf</code></li>
+<li>退出TMUX <code>&lt;prefix&gt; d</code></li>
+</ul>
+<p>在使用中，发现有事电脑自动休眠导致ssh断开后，<code>tmux ls</code>有几率出现报错，无法显示session也无法attach。原因可能是<code>tmux</code>的
+socket被意外删除了。解决方法是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkill -USR1 tmux</span><br></pre></td></tr></table></figure>
+<p>发送<code>USR1</code>信号给<code>tmux</code>进程，<code>tmux</code>会自动重新创建。</p>
+<h3 id="tmux-vim-italics"><a href="#tmux-vim-italics" class="headerlink" title="tmux + vim italics"></a>tmux + vim italics</h3><p>我的<code>vim</code>使用的是类似Jetbrain家族IDE的<code>darcula</code> theme, 主题把编程语言中的如<code>true</code>/<code>false</code>之类的关键字使用斜体
+（italic）高亮。该行为在terminal启动的vim是正常现实的，但是在tmux中启动的vim，高亮以背景颜色的反色显示，字体并非是
+斜体。原因很显然是tmux无法支持显示斜体字体导致的。</p>
+<p>tmux默认使用的screen terminal对斜体字符串的escape序列<code>[3m</code>和<code>[23m</code>支持有问题，参考了<a target="_blank" rel="noopener" href="https://gist.github.com/gutoyr/4192af1aced7a1b555df06bd3781a722">原文</a>
+的解决方案。</p>
+<p>1.
+在终端<br><code>echo -e &quot;\e[3mitalic\e[23m&quot;&quot;]]&quot;</code><br>检查能否正常显示斜体</p>
+<p>2.
+创建一个文本文件<code>screen-256color.terminfo</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># A screen-256color based TERMINFO that adds the escape sequences for italic.</span><br><span class="line">#</span><br><span class="line"># Install:</span><br><span class="line">#</span><br><span class="line">#   tic screen-256color.terminfo</span><br><span class="line">#</span><br><span class="line"># Usage:</span><br><span class="line">#</span><br><span class="line">#   export TERM=screen-256color</span><br><span class="line">#</span><br><span class="line">screen-256color|screen with 256 colors and italic,</span><br><span class="line">        sitm=\E[3m, ritm=\E[23m,</span><br><span class="line">                use=screen-256color,]]</span><br></pre></td></tr></table></figure>
+
+<p>执行
+<code>tic screen-256color.terminfo</code></p>
+<ol start="3">
+<li>编辑<code>.vimrc</code>，增加如下两行<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let &amp;t_ZH=&quot;\e[3m&quot;</span><br><span class="line">let &amp;t_ZR=&quot;\e[23m&quot;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>编辑<code>.tmux.conf</code>，增加如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set -g default-terminal &quot;screen-256color&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>启动tmux之前，需要设置环境变量，否则是无法生效的
+<code>$ env TERM=screen-256color tmux</code></li>
+</ol>
+<p>可以把<code>export TERM=screen-256color</code>写入<code>.zshrc</code>中，避免每次使用tmux都要设置环境变量。
+但这么操作有一个副作用就是会影响terminal本身，造成一些意想不到的效果。比如笔者在家用的电脑上设置<code>TERM=screen-256color</code>
+之后，光标变回了cursor（一条竖线）而不是原本配置好的block形式。因为在操作vim的时候还是block样子的光标比较舒适，这个
+副作用显然是不可接受的。</p>
+<p>为<code>tmux</code>命令设置一个别名即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> tmux=<span class="string">&quot;env TERM=screen-256color tmux&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Ubuntu-22-04-中文输入法-Pinyin"><a href="#Ubuntu-22-04-中文输入法-Pinyin" class="headerlink" title="Ubuntu 22.04 中文输入法(Pinyin)"></a>Ubuntu 22.04 中文输入法(Pinyin)</h3><p>IME: fcitx5
+简繁切换, C+S+F, gui won’t work
+wiki-pinyin dictionary version rebuild
+should delete libfcitx5utils after building and replacing libIMEPinyin.so,
+or dependecies .so can’t be found after reboot</p>
+<h4 id="字典文件无法加载问题"><a href="#字典文件无法加载问题" class="headerlink" title="字典文件无法加载问题"></a>字典文件无法加载问题</h4><p>dict files, patch libIMEPinyin.so to 1.1.4</p>
+<h3 id="资源监视器"><a href="#资源监视器" class="headerlink" title="资源监视器"></a>资源监视器</h3><p><code>btop</code></p>
+<h3 id="Git美化"><a href="#Git美化" class="headerlink" title="Git美化"></a>Git美化</h3><p>lazygit</p>
+<h3 id="文件管理器"><a href="#文件管理器" class="headerlink" title="文件管理器"></a>文件管理器</h3><p><code>ranger</code></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>给Jerry买一个罐头</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="马赫东 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/mac-setup/" rel="prev" title="Mac程序环境初始设置指南">
+                  <i class="fa fa-angle-left"></i> Mac程序环境初始设置指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/shanghai-july/" rel="next" title="魔都六七月">
+                  魔都六七月 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">马赫东</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">145k</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/yangrq1018" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"yangrq1018/hexo_blog_comment","issue_term":"pathname","theme":"github-dark"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+  
+  <script async src="/js/cursor/love.min.js"></script>
+  
+
+</body>
+</html>
