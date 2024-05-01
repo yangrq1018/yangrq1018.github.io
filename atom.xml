@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://yangruoqi.site/"/>
   <updated>2024-04-09T17:32:30.000Z</updated>
-  <id>http://example.com/</id>
+  <id>https://yangruoqi.site/</id>
   
   <author>
     <name>马赫东</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Archlinux Package System</title>
-    <link href="http://example.com/archlinux/package/"/>
-    <id>http://example.com/archlinux/package/</id>
+    <link href="https://yangruoqi.site/archlinux/package/"/>
+    <id>https://yangruoqi.site/archlinux/package/</id>
     <published>2024-04-09T17:32:30.000Z</published>
     <updated>2024-04-09T17:32:30.000Z</updated>
     
@@ -38,8 +38,8 @@ This post discusses about how the package creating, hosting and installing work.
   
   <entry>
     <title>Archlinux Techniques</title>
-    <link href="http://example.com/archlinux/technique/"/>
-    <id>http://example.com/archlinux/technique/</id>
+    <link href="https://yangruoqi.site/archlinux/technique/"/>
+    <id>https://yangruoqi.site/archlinux/technique/</id>
     <published>2024-04-04T09:31:31.000Z</published>
     <updated>2024-04-04T09:31:31.000Z</updated>
     
@@ -57,8 +57,8 @@ This post discusses about how the package creating, hosting and installing work.
   
   <entry>
     <title>Archlinux System Tools, Mechanism and Configurations</title>
-    <link href="http://example.com/archlinux/system/"/>
-    <id>http://example.com/archlinux/system/</id>
+    <link href="https://yangruoqi.site/archlinux/system/"/>
+    <id>https://yangruoqi.site/archlinux/system/</id>
     <published>2024-04-04T09:26:29.000Z</published>
     <updated>2024-04-04T09:26:29.000Z</updated>
     
@@ -76,8 +76,8 @@ This post discusses about how the package creating, hosting and installing work.
   
   <entry>
     <title>Archlinux User Softwares</title>
-    <link href="http://example.com/archlinux/software/"/>
-    <id>http://example.com/archlinux/software/</id>
+    <link href="https://yangruoqi.site/archlinux/software/"/>
+    <id>https://yangruoqi.site/archlinux/software/</id>
     <published>2024-04-04T09:18:30.000Z</published>
     <updated>2024-04-04T09:18:30.000Z</updated>
     
@@ -95,8 +95,8 @@ This post discusses about how the package creating, hosting and installing work.
   
   <entry>
     <title>LaTeX Up!</title>
-    <link href="http://example.com/latex/"/>
-    <id>http://example.com/latex/</id>
+    <link href="https://yangruoqi.site/latex/"/>
+    <id>https://yangruoqi.site/latex/</id>
     <published>2024-02-23T17:56:20.000Z</published>
     <updated>2024-02-23T17:56:20.000Z</updated>
     
@@ -110,19 +110,19 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="tools" scheme="http://example.com/categories/tools/"/>
+      <category term="tools" scheme="https://yangruoqi.site/categories/tools/"/>
     
     
-      <category term="LaTeX" scheme="http://example.com/tags/LaTeX/"/>
+      <category term="LaTeX" scheme="https://yangruoqi.site/tags/LaTeX/"/>
     
-      <category term="Arch Linux" scheme="http://example.com/tags/Arch-Linux/"/>
+      <category term="Arch Linux" scheme="https://yangruoqi.site/tags/Arch-Linux/"/>
     
   </entry>
   
   <entry>
     <title>Arch Linux Installation Guide</title>
-    <link href="http://example.com/archlinux/installation/"/>
-    <id>http://example.com/archlinux/installation/</id>
+    <link href="https://yangruoqi.site/archlinux/installation/"/>
+    <id>https://yangruoqi.site/archlinux/installation/</id>
     <published>2024-01-19T14:47:17.000Z</published>
     <updated>2024-01-19T14:47:17.000Z</updated>
     
@@ -135,19 +135,19 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://yangruoqi.site/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="linux" scheme="http://example.com/tags/linux/"/>
+      <category term="linux" scheme="https://yangruoqi.site/tags/linux/"/>
     
-      <category term="arch" scheme="http://example.com/tags/arch/"/>
+      <category term="arch" scheme="https://yangruoqi.site/tags/arch/"/>
     
   </entry>
   
   <entry>
     <title>Neovim方案</title>
-    <link href="http://example.com/neovim/"/>
-    <id>http://example.com/neovim/</id>
+    <link href="https://yangruoqi.site/neovim/"/>
+    <id>https://yangruoqi.site/neovim/</id>
     <published>2023-12-24T14:48:18.000Z</published>
     <updated>2023-12-24T14:48:18.000Z</updated>
     
@@ -160,19 +160,19 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="笔记" scheme="http://example.com/categories/%E7%AC%94%E8%AE%B0/"/>
+      <category term="笔记" scheme="https://yangruoqi.site/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="Vim" scheme="http://example.com/tags/Vim/"/>
+      <category term="Vim" scheme="https://yangruoqi.site/tags/Vim/"/>
     
-      <category term="Neovim" scheme="http://example.com/tags/Neovim/"/>
+      <category term="Neovim" scheme="https://yangruoqi.site/tags/Neovim/"/>
     
   </entry>
   
   <entry>
     <title>Vim配置</title>
-    <link href="http://example.com/vim/"/>
-    <id>http://example.com/vim/</id>
+    <link href="https://yangruoqi.site/vim/"/>
+    <id>https://yangruoqi.site/vim/</id>
     <published>2023-12-21T18:01:30.000Z</published>
     <updated>2023-12-21T18:01:30.000Z</updated>
     
@@ -190,8 +190,8 @@ vim workflow, real time viewers and more!&lt;/p&gt;
   
   <entry>
     <title>Boost Python编译Extension module</title>
-    <link href="http://example.com/cpp-boost-python/"/>
-    <id>http://example.com/cpp-boost-python/</id>
+    <link href="https://yangruoqi.site/cpp-boost-python/"/>
+    <id>https://yangruoqi.site/cpp-boost-python/</id>
     <published>2023-10-07T13:50:45.000Z</published>
     <updated>2023-10-07T13:50:45.000Z</updated>
     
@@ -204,23 +204,23 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://yangruoqi.site/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="cpp" scheme="http://example.com/tags/cpp/"/>
+      <category term="cpp" scheme="https://yangruoqi.site/tags/cpp/"/>
     
-      <category term="ExtensionModule" scheme="http://example.com/tags/ExtensionModule/"/>
+      <category term="ExtensionModule" scheme="https://yangruoqi.site/tags/ExtensionModule/"/>
     
-      <category term="xmake" scheme="http://example.com/tags/xmake/"/>
+      <category term="xmake" scheme="https://yangruoqi.site/tags/xmake/"/>
     
-      <category term="Python" scheme="http://example.com/tags/Python/"/>
+      <category term="Python" scheme="https://yangruoqi.site/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>Windows小技巧</title>
-    <link href="http://example.com/win-tips/"/>
-    <id>http://example.com/win-tips/</id>
+    <link href="https://yangruoqi.site/win-tips/"/>
+    <id>https://yangruoqi.site/win-tips/</id>
     <published>2022-12-20T05:59:08.000Z</published>
     <updated>2022-12-20T05:59:08.000Z</updated>
     
@@ -238,8 +238,8 @@ vim workflow, real time viewers and more!&lt;/p&gt;
   
   <entry>
     <title>XueXi自动刷分Docker部署</title>
-    <link href="http://example.com/xuexiqiangguo/"/>
-    <id>http://example.com/xuexiqiangguo/</id>
+    <link href="https://yangruoqi.site/xuexiqiangguo/"/>
+    <id>https://yangruoqi.site/xuexiqiangguo/</id>
     <published>2022-10-08T08:53:00.000Z</published>
     <updated>2022-10-08T08:53:00.000Z</updated>
     
@@ -252,19 +252,19 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://yangruoqi.site/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="docker" scheme="http://example.com/tags/docker/"/>
+      <category term="docker" scheme="https://yangruoqi.site/tags/docker/"/>
     
-      <category term="python" scheme="http://example.com/tags/python/"/>
+      <category term="python" scheme="https://yangruoqi.site/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>超好用的游戏开黑软件-Teamspeak</title>
-    <link href="http://example.com/teamspeak/"/>
-    <id>http://example.com/teamspeak/</id>
+    <link href="https://yangruoqi.site/teamspeak/"/>
+    <id>https://yangruoqi.site/teamspeak/</id>
     <published>2022-05-16T18:02:36.000Z</published>
     <updated>2022-05-16T18:02:36.000Z</updated>
     
@@ -277,17 +277,17 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="software" scheme="http://example.com/categories/software/"/>
+      <category term="software" scheme="https://yangruoqi.site/categories/software/"/>
     
     
-      <category term="teamspeak" scheme="http://example.com/tags/teamspeak/"/>
+      <category term="teamspeak" scheme="https://yangruoqi.site/tags/teamspeak/"/>
     
   </entry>
   
   <entry>
     <title>搭建/管理CSGO社区服务器</title>
-    <link href="http://example.com/csgo-server/"/>
-    <id>http://example.com/csgo-server/</id>
+    <link href="https://yangruoqi.site/csgo-server/"/>
+    <id>https://yangruoqi.site/csgo-server/</id>
     <published>2022-05-16T15:03:27.000Z</published>
     <updated>2022-05-16T15:03:27.000Z</updated>
     
@@ -300,19 +300,19 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="笔记" scheme="http://example.com/categories/%E7%AC%94%E8%AE%B0/"/>
+      <category term="笔记" scheme="https://yangruoqi.site/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="csgo" scheme="http://example.com/tags/csgo/"/>
+      <category term="csgo" scheme="https://yangruoqi.site/tags/csgo/"/>
     
-      <category term="linux" scheme="http://example.com/tags/linux/"/>
+      <category term="linux" scheme="https://yangruoqi.site/tags/linux/"/>
     
   </entry>
   
   <entry>
     <title>安装Docker Oracle 11g镜像</title>
-    <link href="http://example.com/oracle-in-docker/"/>
-    <id>http://example.com/oracle-in-docker/</id>
+    <link href="https://yangruoqi.site/oracle-in-docker/"/>
+    <id>https://yangruoqi.site/oracle-in-docker/</id>
     <published>2021-12-24T05:29:29.000Z</published>
     <updated>2021-12-24T05:29:29.000Z</updated>
     
@@ -331,8 +331,8 @@ vim workflow, real time viewers and more!&lt;/p&gt;
   
   <entry>
     <title>Python笔记</title>
-    <link href="http://example.com/python-tips/"/>
-    <id>http://example.com/python-tips/</id>
+    <link href="https://yangruoqi.site/python-tips/"/>
+    <id>https://yangruoqi.site/python-tips/</id>
     <published>2021-11-04T05:35:20.000Z</published>
     <updated>2021-11-04T05:35:20.000Z</updated>
     
@@ -345,17 +345,17 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="笔记" scheme="http://example.com/categories/%E7%AC%94%E8%AE%B0/"/>
+      <category term="笔记" scheme="https://yangruoqi.site/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="Python" scheme="http://example.com/tags/Python/"/>
+      <category term="Python" scheme="https://yangruoqi.site/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>Docker笔记</title>
-    <link href="http://example.com/docker-tips/"/>
-    <id>http://example.com/docker-tips/</id>
+    <link href="https://yangruoqi.site/docker-tips/"/>
+    <id>https://yangruoqi.site/docker-tips/</id>
     <published>2021-11-02T04:25:51.000Z</published>
     <updated>2021-11-02T04:25:51.000Z</updated>
     
@@ -368,15 +368,15 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="笔记" scheme="http://example.com/categories/%E7%AC%94%E8%AE%B0/"/>
+      <category term="笔记" scheme="https://yangruoqi.site/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
   </entry>
   
   <entry>
     <title>Golang笔记</title>
-    <link href="http://example.com/golang-web-tips/"/>
-    <id>http://example.com/golang-web-tips/</id>
+    <link href="https://yangruoqi.site/golang-web-tips/"/>
+    <id>https://yangruoqi.site/golang-web-tips/</id>
     <published>2021-10-26T02:46:31.000Z</published>
     <updated>2021-10-26T02:46:31.000Z</updated>
     
@@ -389,17 +389,17 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://yangruoqi.site/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="Golang" scheme="http://example.com/tags/Golang/"/>
+      <category term="Golang" scheme="https://yangruoqi.site/tags/Golang/"/>
     
   </entry>
   
   <entry>
     <title>Git笔记</title>
-    <link href="http://example.com/git-tips/"/>
-    <id>http://example.com/git-tips/</id>
+    <link href="https://yangruoqi.site/git-tips/"/>
+    <id>https://yangruoqi.site/git-tips/</id>
     <published>2021-10-22T15:30:29.000Z</published>
     <updated>2021-10-22T15:30:29.000Z</updated>
     
@@ -412,17 +412,17 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="笔记" scheme="http://example.com/categories/%E7%AC%94%E8%AE%B0/"/>
+      <category term="笔记" scheme="https://yangruoqi.site/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="git" scheme="http://example.com/tags/git/"/>
+      <category term="git" scheme="https://yangruoqi.site/tags/git/"/>
     
   </entry>
   
   <entry>
     <title>自定义iCloud邮箱域名</title>
-    <link href="http://example.com/icloud-email-domain/"/>
-    <id>http://example.com/icloud-email-domain/</id>
+    <link href="https://yangruoqi.site/icloud-email-domain/"/>
+    <id>https://yangruoqi.site/icloud-email-domain/</id>
     <published>2021-10-16T06:29:40.000Z</published>
     <updated>2021-10-16T06:29:40.000Z</updated>
     
@@ -435,21 +435,21 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="技术" scheme="http://example.com/categories/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://yangruoqi.site/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="icloud" scheme="http://example.com/tags/icloud/"/>
+      <category term="icloud" scheme="https://yangruoqi.site/tags/icloud/"/>
     
-      <category term="email" scheme="http://example.com/tags/email/"/>
+      <category term="email" scheme="https://yangruoqi.site/tags/email/"/>
     
-      <category term="domain" scheme="http://example.com/tags/domain/"/>
+      <category term="domain" scheme="https://yangruoqi.site/tags/domain/"/>
     
   </entry>
   
   <entry>
     <title>Golang HTTP逆向Splatoon 2上传战绩</title>
-    <link href="http://example.com/golang-tips/"/>
-    <id>http://example.com/golang-tips/</id>
+    <link href="https://yangruoqi.site/golang-tips/"/>
+    <id>https://yangruoqi.site/golang-tips/</id>
     <published>2021-10-07T03:12:48.000Z</published>
     <updated>2021-10-07T03:12:48.000Z</updated>
     
@@ -462,7 +462,7 @@ vim workflow, real time viewers and more!&lt;/p&gt;
     </summary>
     
     
-      <category term="笔记" scheme="http://example.com/categories/%E7%AC%94%E8%AE%B0/"/>
+      <category term="笔记" scheme="https://yangruoqi.site/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
   </entry>
