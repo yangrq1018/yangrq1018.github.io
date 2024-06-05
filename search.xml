@@ -855,8 +855,8 @@ this and trigger deployment manually.</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> target = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="built_in">decodeURI</span>(event.<span class="property">currentTarget</span>.<span class="title function_">getAttribute</span>(<span class="string">&#x27;href&#x27;</span>).<span class="title function_">replace</span>(<span class="string">&#x27;#&#x27;</span>, <span class="string">&#x27;&#x27;</span>)));</span><br></pre></td></tr></table></figure>
 
 <p>其实借助Chrome的调试工具，不难发现这个bug的原因。<code>event.currentTarget.getAttribute(&#39;href&#39;)</code>返回的是锚点的链接地址，其中的中文被URI转义了，如<code>href=&quot;#Splatoon-2%E9%A1%B9%E7%9B%AE&quot;</code>，而目标段落的id还是中文，如<code>#Splatoon-2项目</code>，自然<code>getElementById</code>返回空。用<code>decodeURI</code>转义回去就行了。</p>
-<h2 id="npm权限问题"><a href="#npm权限问题" class="headerlink" title="npm权限问题"></a>npm权限问题</h2><p>在Linux上安装hexo，<code>npm install -g hexo</code>时，可能会遇到报错说没有足够的权限创建文件。
-这时不一定非要安装hexo或者hexo-cli到系统路径下，把hexo依赖写在packages.json里，在项目内安装，<code>npm install</code>，
+<h2 id="npm-Install-Package-Permission-Error"><a href="#npm-Install-Package-Permission-Error" class="headerlink" title="npm Install Package Permission Error"></a>npm Install Package Permission Error</h2><p>在Linux上安装hexo，<code>npm install -g hexo</code>时，可能会遇到报错说没有足够的权限创建文件。
+这时不一定非要安装hexo或者hexo-cli到系统路径下，把hexo依赖写在package.json里，在项目内安装，<code>npm install</code>，
 然后<code>npx hexo &lt;command&gt;</code>，比如<code>npx hexo serve</code>，就可以正常使用hexo的相关命令行功能了。</p>
 <p><code>npx</code> is just a simple script that adds <code>node_modules/.bin/</code> to <code>$PATH</code> and executes the command
 after it. The hexo package puts a symlink to the <code>hexo</code> script in the module directory,
@@ -2260,6 +2260,13 @@ examined by developers and compiled for users to download.</p>
 <p>You are able to install any AUR package from scratch. <code>makepkg</code>, a script included in the standard
 Arch installation, is all you need. AUR helpers like <code>yay</code> (Yet Another Yogurt) will make your life
 easier. <code>yay</code> automates the process of searching, pulling, resolving dependencies and building.</p>
+<h3 id="Debug-Package"><a href="#Debug-Package" class="headerlink" title="Debug Package"></a>Debug Package</h3><p>While building package with <code>makepkg</code>, it by default strips debug symbols away from the binary. A
+separate package is created and installed containing the debug symbols.</p>
+<p>Since a recent update of pacman, the default values for option <code>strip</code> and <code>debug</code> have changed. For
+example, installing wlogout via AUR will also give you a <code>wlogout-debug</code> package installed. The
+default value of <code>debug</code> has become true.</p>
+<p>You may disable such behaviour by tweaking makepkg.conf. The system default file is at
+<code>/etc/makepkg.conf</code>. Override the default in user config file at <code>~/.config/pacman/makepkg.conf</code>.</p>
 ]]></content>
   </entry>
   <entry>
@@ -2305,9 +2312,9 @@ cook up a shell script and launch neovide there, like this</p>
 <p>Create a new desktop entry under <code>~/.local/share/applications/</code></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Type=Application</span><br><span class="line">Exec=/home/martin/shell/neovide.sh</span><br><span class="line">Icon=neovide</span><br><span class="line">Name=Neovide</span><br><span class="line">Keywords=Text;Editor;</span><br><span class="line">Categories=Utility;TextEditor;</span><br><span class="line">Comment=No Nonsense Neovim Client in Rust</span><br><span class="line">MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;</span><br></pre></td></tr></table></figure>
 
-<p>The entry is put under user directory because even if you editted the
+<p>The entry is put under user directory because even if you edited the
 the default entry file that comes with Neovide, on the next system
-upgrade like <code>pacman -Syu</code>, it will be overwritten and your change is gone.</p>
+upgrade like <code>pacman -Syu</code>, it would be overwritten and your change is gone.</p>
 <h3 id="Fcitx5-chinese-IME-pinyin"><a href="#Fcitx5-chinese-IME-pinyin" class="headerlink" title="Fcitx5 (chinese IME pinyin)"></a>Fcitx5 (chinese IME pinyin)</h3><p>Install packages
 <code>pacman -S fcitx5-im fcitx5-chinese-addons gtk4</code></p>
 <p>Set environment variable</p>
@@ -2612,6 +2619,24 @@ apply to root user. To get back to the account before the cooling period ends, l
 <li><code>fail_interval</code>: the window in which failed logins can cause a lockout</li>
 <li><code>deny</code>: the number of chances you have before lockout</li>
 </ul>
+<h3 id="Desktop-Entry"><a href="#Desktop-Entry" class="headerlink" title="Desktop Entry"></a>Desktop Entry</h3><p>Commonly, the package installed can come with a desktop entry file for the app to integrate with the
+desktop environment. You may need to alter this entry file, for example to add some startup
+parameters. Editing the system file owned by the package is not a good idea, because the change
+would be gone as soon as you upgrade the package.</p>
+<p>The entry files usually reside under these locations:</p>
+<ul>
+<li><code>/usr/share/applications/</code></li>
+<li><code>/usr/local/share/applications/</code></li>
+<li><code>~/.local/share/applications/</code></li>
+</ul>
+<p>User entries take precedence over system entries. Copy the original .desktop file to the third
+directory and make the necessary changes there.</p>
+<h3 id="Managing-Networks"><a href="#Managing-Networks" class="headerlink" title="Managing Networks"></a>Managing Networks</h3><p>I use <code>netctl</code> to manage my WiFi networks, <code>wifi-menu</code> to pick a network to connect and
+authenticate. Normally, the task is quite trivial: networks are organized as “profiles”. Starting a
+profile connects to that.</p>
+<p>Sometimes you leave a place so the network gets disconnected, but the system still thinks it is
+connected. You cannot activate another network due to errors like “the interface is already up”. In
+that case, explicitly <code>netctl switch-to &lt;profile&gt;</code>.</p>
 ]]></content>
   </entry>
   <entry>
