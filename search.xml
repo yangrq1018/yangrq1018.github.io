@@ -112,6 +112,40 @@
       </tags>
   </entry>
   <entry>
+    <title>博客迁移到Cloudflare部署</title>
+    <url>//cloud-flare-hexo/</url>
+    <content><![CDATA[<p>原来博客的部署逻辑是：源代码（和文章）托管在Github上，使用第三方服务Travis CI自动构建部署到项目的master分支上，开启Github Page服务，Github拉取master分支上的文件更新服务器上的网页。可以通过Github Page分配的域名，<code>yangrq1018.github.io</code>访问博客，也可以通过阿里云购买的自有域名<code>yangruoqi.site</code>访问，原理是在阿里云的DNS服务器上添加了CNAME类型的解析，是对<code>yangruoqi.site</code>的请求重定向到<code>yangrq1018.github.io</code>。</p>
+<p>了解到了Github+Cloudflare Page的免费白嫖服务之后，决定尝试一下。结果效果不错，无论有没有科学上网，在境内打开博客的速度都大幅度提升。</p>
+<p>简单记录一下流程：</p>
+<p>关闭Github Pages，查了一下无法在账户默认的repo，也就是yangrq1018.github.io这个repo禁用Github Pages，只能删除该repo，新建一个repo，把本地的git文件夹再push上去，只需要保留源代码分支，<code>public/</code>文件夹的分支可以删除。Cloudflare Page会直接编译，不需要把<code>public</code>文件夹托管Github上。新的repo叫<code>yangruoqi.site</code>。</p>
+<p>登入<a href="dash.cloudflare.com">Dashboard</a>, <code>Create a project</code>，链接你的Github账号之后可以直接选择<code>yangruoqi.site</code>仓库。构建设置，选择含有源代码的分支<code>master</code>，不需要指定框架，因为我们用的是很简单的静态博客框架，构建命令<code>hexo generate</code>，构建输出目录是<code>/public</code>，点击保存并运行Cloudflare Page进行第一次编译。</p>
+<blockquote>
+<p>经过测试，仓库可以是Public或者Private，在Cloudflare连接Github的时候只要给足了权限，就可以拉取Private repo，这样可以放心上传一些敏感数据，后续的修改不用担心git commits会暴露。</p>
+</blockquote>
+<p>如果编译没问题，网站就自动部署好了，在<code>https://yangruoqi-site.pages.dev/</code>就可以看到博客了。之后只需要编辑源代码分支上的post，把修改commit，push到github上，commit可以自动触发部署，更新网站。</p>
+<blockquote>
+<p>博客上次维护是比较久之前了，现在运行<code>hexo generate</code>会编译失败，报错是有某些文件已经存在，无法写入，排查了一下，是front-matter里的<code>permalink</code>标签导致的，暂时移除全部<code>permalink</code>，编译顺利通过。</p>
+</blockquote>
+<p>接下来，我们锦上添花，如果有自己拥有的域名，希望通过自己的域名而不是Cloudflare分配给你的免费<code>*.pages.dev</code>访问博客，那就要自定义domain。在Dashboard里点击项目名 - 自定义域 - 设置自定义域 - 输入<code>yangruoqi.site</code> （自己拥有的域名），下一步配置DNS。</p>
+<p>如果要启用自定义域，Cloudflare会要求你将DNS转移到Cloudflare。阿里云控制台 - 域名 - yangruoqi.site - DNS修改，删除阿里云分配的hichina.com类似的服务器，贴上Cloudflare提供的DNS服务器，如<code>chelsea.ns.cloudflare.com</code>，可能需要一会等待全球的DNS同步变更。</p>
+<p><code>yangruoqi.site</code>是从阿里云购买的，最先使用阿云里默认的自有DNS服务器进行解析。在把DNS解析转交给Cloudflare之前，需要解除阿里云的DNS服务。这样的好处是显而易见的：Cloudflare可以掌握对博客的请求的全部流程，从访问我的自有域名，DNS解析到Cloudflare分配给项目的实际IP地址，然后从Cloudflare服务器上返回数据。阿里云和域名只管理，不负责任何实际解析。之前的模式：Github提供服务器，使用CNAME域名解析（重定向），现在的模式Cloudflare应该是直接接管DNS把yangruoqi.site解析到IP上了</p>
+<p>可以验证
+<code>nslookup yangruoqi.site</code>
+结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Non-authoritative answer:</span><br><span class="line">Name:	yangruoqi.site</span><br><span class="line">Address: 104.21.91.200</span><br><span class="line">Name:	yangruoqi.site</span><br><span class="line">Address: 172.67.179.53</span><br></pre></td></tr></table></figure>
+<p>其中的两个IP都是Cloudflare拥有，在新泽西州的IP。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>Cloudflare</tag>
+        <tag>DNS</tag>
+        <tag>web</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Boost Python编译Extension module</title>
     <url>//cpp-boost-python/</url>
     <content><![CDATA[<p>[[Boost]]是C++一个广泛使用的第三方库，虽然是第三方库，但是实际上已经成为一个不亚于标准库的标准实现，其中包含了容器、算法、日期、序列化等多种功能的子模块。<code>&lt;boost/python.hpp&gt;</code>是Boost提供的C++和Python的紧密互操作性的模块。</p>
@@ -230,40 +264,6 @@
       </tags>
   </entry>
   <entry>
-    <title>博客迁移到Cloudflare部署</title>
-    <url>//cloud-flare-hexo/</url>
-    <content><![CDATA[<p>原来博客的部署逻辑是：源代码（和文章）托管在Github上，使用第三方服务Travis CI自动构建部署到项目的master分支上，开启Github Page服务，Github拉取master分支上的文件更新服务器上的网页。可以通过Github Page分配的域名，<code>yangrq1018.github.io</code>访问博客，也可以通过阿里云购买的自有域名<code>yangruoqi.site</code>访问，原理是在阿里云的DNS服务器上添加了CNAME类型的解析，是对<code>yangruoqi.site</code>的请求重定向到<code>yangrq1018.github.io</code>。</p>
-<p>了解到了Github+Cloudflare Page的免费白嫖服务之后，决定尝试一下。结果效果不错，无论有没有科学上网，在境内打开博客的速度都大幅度提升。</p>
-<p>简单记录一下流程：</p>
-<p>关闭Github Pages，查了一下无法在账户默认的repo，也就是yangrq1018.github.io这个repo禁用Github Pages，只能删除该repo，新建一个repo，把本地的git文件夹再push上去，只需要保留源代码分支，<code>public/</code>文件夹的分支可以删除。Cloudflare Page会直接编译，不需要把<code>public</code>文件夹托管Github上。新的repo叫<code>yangruoqi.site</code>。</p>
-<p>登入<a href="dash.cloudflare.com">Dashboard</a>, <code>Create a project</code>，链接你的Github账号之后可以直接选择<code>yangruoqi.site</code>仓库。构建设置，选择含有源代码的分支<code>master</code>，不需要指定框架，因为我们用的是很简单的静态博客框架，构建命令<code>hexo generate</code>，构建输出目录是<code>/public</code>，点击保存并运行Cloudflare Page进行第一次编译。</p>
-<blockquote>
-<p>经过测试，仓库可以是Public或者Private，在Cloudflare连接Github的时候只要给足了权限，就可以拉取Private repo，这样可以放心上传一些敏感数据，后续的修改不用担心git commits会暴露。</p>
-</blockquote>
-<p>如果编译没问题，网站就自动部署好了，在<code>https://yangruoqi-site.pages.dev/</code>就可以看到博客了。之后只需要编辑源代码分支上的post，把修改commit，push到github上，commit可以自动触发部署，更新网站。</p>
-<blockquote>
-<p>博客上次维护是比较久之前了，现在运行<code>hexo generate</code>会编译失败，报错是有某些文件已经存在，无法写入，排查了一下，是front-matter里的<code>permalink</code>标签导致的，暂时移除全部<code>permalink</code>，编译顺利通过。</p>
-</blockquote>
-<p>接下来，我们锦上添花，如果有自己拥有的域名，希望通过自己的域名而不是Cloudflare分配给你的免费<code>*.pages.dev</code>访问博客，那就要自定义domain。在Dashboard里点击项目名 - 自定义域 - 设置自定义域 - 输入<code>yangruoqi.site</code> （自己拥有的域名），下一步配置DNS。</p>
-<p>如果要启用自定义域，Cloudflare会要求你将DNS转移到Cloudflare。阿里云控制台 - 域名 - yangruoqi.site - DNS修改，删除阿里云分配的hichina.com类似的服务器，贴上Cloudflare提供的DNS服务器，如<code>chelsea.ns.cloudflare.com</code>，可能需要一会等待全球的DNS同步变更。</p>
-<p><code>yangruoqi.site</code>是从阿里云购买的，最先使用阿云里默认的自有DNS服务器进行解析。在把DNS解析转交给Cloudflare之前，需要解除阿里云的DNS服务。这样的好处是显而易见的：Cloudflare可以掌握对博客的请求的全部流程，从访问我的自有域名，DNS解析到Cloudflare分配给项目的实际IP地址，然后从Cloudflare服务器上返回数据。阿里云和域名只管理，不负责任何实际解析。之前的模式：Github提供服务器，使用CNAME域名解析（重定向），现在的模式Cloudflare应该是直接接管DNS把yangruoqi.site解析到IP上了</p>
-<p>可以验证
-<code>nslookup yangruoqi.site</code>
-结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Non-authoritative answer:</span><br><span class="line">Name:	yangruoqi.site</span><br><span class="line">Address: 104.21.91.200</span><br><span class="line">Name:	yangruoqi.site</span><br><span class="line">Address: 172.67.179.53</span><br></pre></td></tr></table></figure>
-<p>其中的两个IP都是Cloudflare拥有，在新泽西州的IP。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>Cloudflare</tag>
-        <tag>DNS</tag>
-        <tag>web</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>搭建/管理CSGO社区服务器</title>
     <url>//csgo-server/</url>
     <content><![CDATA[<p>简单讲下自建CSGO社区服的问题。</p>
@@ -312,58 +312,6 @@ CSGO服务器的更新需要手动完成，未更新的服务器游戏端无法�
         <tag>csgo</tag>
         <tag>linux</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Docker笔记</title>
-    <url>//docker-tips/</url>
-    <content><![CDATA[<p>…</p>
-<span id="more"></span>
-<h2 id="Linux无法以用户身份运行docker"><a href="#Linux无法以用户身份运行docker" class="headerlink" title="Linux无法以用户身份运行docker"></a>Linux无法以用户身份运行docker</h2><p>在shell里以用户登录，<code>docker pull</code>报错</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo groupadd docker <span class="comment"># 添加docker用户组</span></span><br><span class="line">sudo gpasswd -a <span class="variable">$USER</span> docker <span class="comment"># 添加当前用户到docker用户组</span></span><br><span class="line">newgrp docker <span class="comment"># 更新docker用户组</span></span><br></pre></td></tr></table></figure>
-
-<p>然后可以以普通用户身份运行<code>docker</code>命令</p>
-<h2 id="Alpine容器内设置时区"><a href="#Alpine容器内设置时区" class="headerlink" title="Alpine容器内设置时区"></a>Alpine容器内设置时区</h2><p>标签<code>alpine:latest</code>的容器内，时区默认是UTC，不受宿主机的时区设置影响。所以打印出来的日志中的时间戳是错误的。</p>
-<p>Golang标准库<code>time.LoadLocation</code>之类的函数依赖操作系统的实现，而alpine镜像没有安装对应的库</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">time.LoadLocation(<span class="string">&quot;Asia/Shanghai&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>会提示无法找到”Asia/Shanghai”时区</p>
-<p>解决方法</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dockerfile</span></span><br><span class="line"><span class="keyword">FROM</span> alpine:latest</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apk add --no-cache tzdata</span></span><br></pre></td></tr></table></figure>
-
-<p>在docker-compose或者启动容器时指定<code>TZ</code>环境变量</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">jerry:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">yangrq1018/jerry</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>时间戳显示正确</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">❯ docker logs jerry</span><br><span class="line">2021/11/14 11:13:38 bot version: jerry/1.0.2 (dirty), built on 2021-11-14, last commit f33e14e@master</span><br><span class="line">[INFO]  | LOG | 2021/11/14/ 11:13:39 | Logger initialised.</span><br><span class="line">2021/11/14 11:13:41 check bot network</span><br><span class="line">2021/11/14 11:13:41 Network env &quot;http_proxy&quot;: </span><br><span class="line">2021/11/14 11:13:41 Network env &quot;https_proxy&quot;: </span><br><span class="line">2021/11/14 11:13:41 Network env &quot;HTTP_PROXY&quot;: http://host.docker.internal:7890</span><br><span class="line">2021/11/14 11:13:41 Network env &quot;HTTPS_PROXY&quot;: http://host.docker.internal:7890</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="容器访问主机的端口-amp-amp-使用主机网络代理"><a href="#容器访问主机的端口-amp-amp-使用主机网络代理" class="headerlink" title="容器访问主机的端口 &amp;&amp; 使用主机网络代理"></a>容器访问主机的端口 &amp;&amp; 使用主机网络代理</h2><p>在墙内环境下，docker build里的包下载很慢而且容易卡住失败，这时我们想要在容器内部设置代理。
-容器的网络流量可以使用主机提供代理服务，或者通过docker container networking，使用运行在另一个容器内的代理服务，如clash。</p>
-<p>方法1：最简单粗暴，在Dockerfile里hardcode</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="keyword">ENV</span> HTTP_PROXY http://host:<span class="number">7890</span></span><br></pre></td></tr></table></figure>
-<p>缺点也是显而易见的，其他人拉取的镜像中也会有这个环境变量，而且无法消除或者更改。如果更换了代理地址，镜像也需要重新编译。这个方法只适合需要走公司的proxy server上网的环境，镜像只是内部使用。</p>
-<p>方法2：配置<code>~/.docker/config.json</code></p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;proxies&quot;</span><span class="punctuation">:</span></span><br><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;httpProxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://host-ip:7890&quot;</span><span class="punctuation">,</span></span><br><span class="line">     <span class="attr">&quot;httpsProxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://host-ip:7890&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>这里的值会直接被设置为容器内部的<code>HTTP_PROXY</code>环境变量的值，所以需要填写主机的局域网IP地址而不是<code>127..0.0.1</code>或者<code>localhost</code>。这种方法对所有在本机上<code>docker build</code>的容器都有效，不影响其他人拉取的镜像，适合在开发环境上使用。</p>
-<blockquote>
-<p>警告：如果你在使用docker-compose的Container Networking，需要service容器之间通过容器组网通信，<strong>不要使用方法1或2</strong>！会和容器的组网冲突，导致无法使用其他容器的container name进行dns寻址。这种情况下建议只在编译过程中走代理，容器运行时不要走任何代理，参考方法3</p>
-</blockquote>
-<p>方法3：使用<code>build_args</code>编译时变量
-<code>docker-compose.yml</code></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">     <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">     <span class="attr">dockerfile:</span> <span class="string">./trade/scraper/Dockerfile</span></span><br><span class="line">     <span class="attr">args:</span></span><br><span class="line">       <span class="attr">http_proxy:</span> <span class="string">&quot;http://172.17.0.1:7890&quot;</span></span><br><span class="line">       <span class="attr">https_proxy:</span> <span class="string">&quot;http://172.17.0.1:7890&quot;</span></span><br></pre></td></tr></table></figure>
-<p>用Docker Desktop的情况可以不用默认的静态IP，用<code>host.docker.internal</code>，但Linux Docker不支持，还
-是填写docker default network里宿主机的默认IP 172.17.0.1。但经检测，在容器运行环境里，所以平台都可以正常使用<code>host.docker.internal</code>域名来引用宿主机。</p>
-<p>用<code>docker build</code>命令，同理<code>docker build --build-arg http_proxy=&quot;...&quot;</code>。</p>
-<h2 id="Windows-Docker-Desktop"><a href="#Windows-Docker-Desktop" class="headerlink" title="Windows Docker Desktop"></a>Windows Docker Desktop</h2><p>WSL2版本的Windows Docker Desktop，容器配置存储在<code>\\wsl.localhost\docker-desktop-data\data\docker\containers</code>（直接在
-文件资源管理器的地址栏里粘贴即可）。例如想要修改已经启动的容器的Network port mapping，
-编辑<code>\\wsl.localhost\docker-desktop-data\data\docker\containers\&#123;id&#125;\hostconfig.json</code>
-中的<code>PortBindings</code>字段，注意要关闭docker service，否则修改会被覆盖，修改保存后重启docker，启动容器，就可以在Docker
-Desktop里看到Port Binding更新啦。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
   </entry>
   <entry>
     <title>Git笔记</title>
@@ -431,6 +379,58 @@ commits，这些commits不在你的fork上存在，你要把原项目的新的co
       <tags>
         <tag>git</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Docker笔记</title>
+    <url>//docker-tips/</url>
+    <content><![CDATA[<p>…</p>
+<span id="more"></span>
+<h2 id="Linux无法以用户身份运行docker"><a href="#Linux无法以用户身份运行docker" class="headerlink" title="Linux无法以用户身份运行docker"></a>Linux无法以用户身份运行docker</h2><p>在shell里以用户登录，<code>docker pull</code>报错</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo groupadd docker <span class="comment"># 添加docker用户组</span></span><br><span class="line">sudo gpasswd -a <span class="variable">$USER</span> docker <span class="comment"># 添加当前用户到docker用户组</span></span><br><span class="line">newgrp docker <span class="comment"># 更新docker用户组</span></span><br></pre></td></tr></table></figure>
+
+<p>然后可以以普通用户身份运行<code>docker</code>命令</p>
+<h2 id="Alpine容器内设置时区"><a href="#Alpine容器内设置时区" class="headerlink" title="Alpine容器内设置时区"></a>Alpine容器内设置时区</h2><p>标签<code>alpine:latest</code>的容器内，时区默认是UTC，不受宿主机的时区设置影响。所以打印出来的日志中的时间戳是错误的。</p>
+<p>Golang标准库<code>time.LoadLocation</code>之类的函数依赖操作系统的实现，而alpine镜像没有安装对应的库</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">time.LoadLocation(<span class="string">&quot;Asia/Shanghai&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>会提示无法找到”Asia/Shanghai”时区</p>
+<p>解决方法</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dockerfile</span></span><br><span class="line"><span class="keyword">FROM</span> alpine:latest</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apk add --no-cache tzdata</span></span><br></pre></td></tr></table></figure>
+
+<p>在docker-compose或者启动容器时指定<code>TZ</code>环境变量</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">jerry:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">yangrq1018/jerry</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>时间戳显示正确</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">❯ docker logs jerry</span><br><span class="line">2021/11/14 11:13:38 bot version: jerry/1.0.2 (dirty), built on 2021-11-14, last commit f33e14e@master</span><br><span class="line">[INFO]  | LOG | 2021/11/14/ 11:13:39 | Logger initialised.</span><br><span class="line">2021/11/14 11:13:41 check bot network</span><br><span class="line">2021/11/14 11:13:41 Network env &quot;http_proxy&quot;: </span><br><span class="line">2021/11/14 11:13:41 Network env &quot;https_proxy&quot;: </span><br><span class="line">2021/11/14 11:13:41 Network env &quot;HTTP_PROXY&quot;: http://host.docker.internal:7890</span><br><span class="line">2021/11/14 11:13:41 Network env &quot;HTTPS_PROXY&quot;: http://host.docker.internal:7890</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="容器访问主机的端口-amp-amp-使用主机网络代理"><a href="#容器访问主机的端口-amp-amp-使用主机网络代理" class="headerlink" title="容器访问主机的端口 &amp;&amp; 使用主机网络代理"></a>容器访问主机的端口 &amp;&amp; 使用主机网络代理</h2><p>在墙内环境下，docker build里的包下载很慢而且容易卡住失败，这时我们想要在容器内部设置代理。
+容器的网络流量可以使用主机提供代理服务，或者通过docker container networking，使用运行在另一个容器内的代理服务，如clash。</p>
+<p>方法1：最简单粗暴，在Dockerfile里hardcode</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="keyword">ENV</span> HTTP_PROXY http://host:<span class="number">7890</span></span><br></pre></td></tr></table></figure>
+<p>缺点也是显而易见的，其他人拉取的镜像中也会有这个环境变量，而且无法消除或者更改。如果更换了代理地址，镜像也需要重新编译。这个方法只适合需要走公司的proxy server上网的环境，镜像只是内部使用。</p>
+<p>方法2：配置<code>~/.docker/config.json</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;proxies&quot;</span><span class="punctuation">:</span></span><br><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;httpProxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://host-ip:7890&quot;</span><span class="punctuation">,</span></span><br><span class="line">     <span class="attr">&quot;httpsProxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://host-ip:7890&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这里的值会直接被设置为容器内部的<code>HTTP_PROXY</code>环境变量的值，所以需要填写主机的局域网IP地址而不是<code>127..0.0.1</code>或者<code>localhost</code>。这种方法对所有在本机上<code>docker build</code>的容器都有效，不影响其他人拉取的镜像，适合在开发环境上使用。</p>
+<blockquote>
+<p>警告：如果你在使用docker-compose的Container Networking，需要service容器之间通过容器组网通信，<strong>不要使用方法1或2</strong>！会和容器的组网冲突，导致无法使用其他容器的container name进行dns寻址。这种情况下建议只在编译过程中走代理，容器运行时不要走任何代理，参考方法3</p>
+</blockquote>
+<p>方法3：使用<code>build_args</code>编译时变量
+<code>docker-compose.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">     <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">     <span class="attr">dockerfile:</span> <span class="string">./trade/scraper/Dockerfile</span></span><br><span class="line">     <span class="attr">args:</span></span><br><span class="line">       <span class="attr">http_proxy:</span> <span class="string">&quot;http://172.17.0.1:7890&quot;</span></span><br><span class="line">       <span class="attr">https_proxy:</span> <span class="string">&quot;http://172.17.0.1:7890&quot;</span></span><br></pre></td></tr></table></figure>
+<p>用Docker Desktop的情况可以不用默认的静态IP，用<code>host.docker.internal</code>，但Linux Docker不支持，还
+是填写docker default network里宿主机的默认IP 172.17.0.1。但经检测，在容器运行环境里，所以平台都可以正常使用<code>host.docker.internal</code>域名来引用宿主机。</p>
+<p>用<code>docker build</code>命令，同理<code>docker build --build-arg http_proxy=&quot;...&quot;</code>。</p>
+<h2 id="Windows-Docker-Desktop"><a href="#Windows-Docker-Desktop" class="headerlink" title="Windows Docker Desktop"></a>Windows Docker Desktop</h2><p>WSL2版本的Windows Docker Desktop，容器配置存储在<code>\\wsl.localhost\docker-desktop-data\data\docker\containers</code>（直接在
+文件资源管理器的地址栏里粘贴即可）。例如想要修改已经启动的容器的Network port mapping，
+编辑<code>\\wsl.localhost\docker-desktop-data\data\docker\containers\&#123;id&#125;\hostconfig.json</code>
+中的<code>PortBindings</code>字段，注意要关闭docker service，否则修改会被覆盖，修改保存后重启docker，启动容器，就可以在Docker
+Desktop里看到Port Binding更新啦。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
   </entry>
   <entry>
     <title>Gitlab CI 使用笔记</title>
@@ -2142,7 +2142,7 @@ rather than using the root user. You may create user by</p>
 <p><code>useradd -m &lt;username&gt;</code></p>
 <p><code>passwd &lt;username&gt;</code> to set his password.</p>
 <p>To make him <code>sudoer</code>s, type <code>visudo</code> to edit the sudoer file. Add a line under the root line</p>
-<p><code>&lt;username&gt; ALL=(ALL)ALL&gt;</code></p>
+<p><code>&lt;username&gt; ALL=(ALL) ALL</code></p>
 <h4 id="Install-a-Boot-Loader-GRUB"><a href="#Install-a-Boot-Loader-GRUB" class="headerlink" title="Install a Boot Loader (GRUB)"></a>Install a Boot Loader (GRUB)</h4><p><code>pacman -S grub efibootmgr os-prober</code></p>
 <p><code>vim /etc/default/grub</code> uncomment the last line, <code>GRUB_DISABLE_OS_PROBER</code>.</p>
 <p>Mount GRUB at <code>/boot</code><br><code>grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB</code></p>

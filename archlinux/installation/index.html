@@ -458,7 +458,7 @@ rather than using the root user. You may create user by</p>
 <p><code>useradd -m &lt;username&gt;</code></p>
 <p><code>passwd &lt;username&gt;</code> to set his password.</p>
 <p>To make him <code>sudoer</code>s, type <code>visudo</code> to edit the sudoer file. Add a line under the root line</p>
-<p><code>&lt;username&gt; ALL=(ALL)ALL&gt;</code></p>
+<p><code>&lt;username&gt; ALL=(ALL) ALL</code></p>
 <h4 id="Install-a-Boot-Loader-GRUB"><a href="#Install-a-Boot-Loader-GRUB" class="headerlink" title="Install a Boot Loader (GRUB)"></a>Install a Boot Loader (GRUB)</h4><p><code>pacman -S grub efibootmgr os-prober</code></p>
 <p><code>vim /etc/default/grub</code> uncomment the last line, <code>GRUB_DISABLE_OS_PROBER</code>.</p>
 <p>Mount GRUB at <code>/boot</code><br><code>grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB</code></p>
