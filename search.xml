@@ -314,6 +314,58 @@ CSGO服务器的更新需要手动完成，未更新的服务器游戏端无法�
       </tags>
   </entry>
   <entry>
+    <title>Docker笔记</title>
+    <url>//docker-tips/</url>
+    <content><![CDATA[<p>…</p>
+<span id="more"></span>
+<h2 id="Linux无法以用户身份运行docker"><a href="#Linux无法以用户身份运行docker" class="headerlink" title="Linux无法以用户身份运行docker"></a>Linux无法以用户身份运行docker</h2><p>在shell里以用户登录，<code>docker pull</code>报错</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo groupadd docker <span class="comment"># 添加docker用户组</span></span><br><span class="line">sudo gpasswd -a <span class="variable">$USER</span> docker <span class="comment"># 添加当前用户到docker用户组</span></span><br><span class="line">newgrp docker <span class="comment"># 更新docker用户组</span></span><br></pre></td></tr></table></figure>
+
+<p>然后可以以普通用户身份运行<code>docker</code>命令</p>
+<h2 id="Alpine容器内设置时区"><a href="#Alpine容器内设置时区" class="headerlink" title="Alpine容器内设置时区"></a>Alpine容器内设置时区</h2><p>标签<code>alpine:latest</code>的容器内，时区默认是UTC，不受宿主机的时区设置影响。所以打印出来的日志中的时间戳是错误的。</p>
+<p>Golang标准库<code>time.LoadLocation</code>之类的函数依赖操作系统的实现，而alpine镜像没有安装对应的库</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">time.LoadLocation(<span class="string">&quot;Asia/Shanghai&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>会提示无法找到”Asia/Shanghai”时区</p>
+<p>解决方法</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dockerfile</span></span><br><span class="line"><span class="keyword">FROM</span> alpine:latest</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apk add --no-cache tzdata</span></span><br></pre></td></tr></table></figure>
+
+<p>在docker-compose或者启动容器时指定<code>TZ</code>环境变量</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">jerry:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">yangrq1018/jerry</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>时间戳显示正确</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">❯ docker logs jerry</span><br><span class="line">2021/11/14 11:13:38 bot version: jerry/1.0.2 (dirty), built on 2021-11-14, last commit f33e14e@master</span><br><span class="line">[INFO]  | LOG | 2021/11/14/ 11:13:39 | Logger initialised.</span><br><span class="line">2021/11/14 11:13:41 check bot network</span><br><span class="line">2021/11/14 11:13:41 Network env &quot;http_proxy&quot;: </span><br><span class="line">2021/11/14 11:13:41 Network env &quot;https_proxy&quot;: </span><br><span class="line">2021/11/14 11:13:41 Network env &quot;HTTP_PROXY&quot;: http://host.docker.internal:7890</span><br><span class="line">2021/11/14 11:13:41 Network env &quot;HTTPS_PROXY&quot;: http://host.docker.internal:7890</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="容器访问主机的端口-amp-amp-使用主机网络代理"><a href="#容器访问主机的端口-amp-amp-使用主机网络代理" class="headerlink" title="容器访问主机的端口 &amp;&amp; 使用主机网络代理"></a>容器访问主机的端口 &amp;&amp; 使用主机网络代理</h2><p>在墙内环境下，docker build里的包下载很慢而且容易卡住失败，这时我们想要在容器内部设置代理。
+容器的网络流量可以使用主机提供代理服务，或者通过docker container networking，使用运行在另一个容器内的代理服务，如clash。</p>
+<p>方法1：最简单粗暴，在Dockerfile里hardcode</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="keyword">ENV</span> HTTP_PROXY http://host:<span class="number">7890</span></span><br></pre></td></tr></table></figure>
+<p>缺点也是显而易见的，其他人拉取的镜像中也会有这个环境变量，而且无法消除或者更改。如果更换了代理地址，镜像也需要重新编译。这个方法只适合需要走公司的proxy server上网的环境，镜像只是内部使用。</p>
+<p>方法2：配置<code>~/.docker/config.json</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;proxies&quot;</span><span class="punctuation">:</span></span><br><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;httpProxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://host-ip:7890&quot;</span><span class="punctuation">,</span></span><br><span class="line">     <span class="attr">&quot;httpsProxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://host-ip:7890&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这里的值会直接被设置为容器内部的<code>HTTP_PROXY</code>环境变量的值，所以需要填写主机的局域网IP地址而不是<code>127..0.0.1</code>或者<code>localhost</code>。这种方法对所有在本机上<code>docker build</code>的容器都有效，不影响其他人拉取的镜像，适合在开发环境上使用。</p>
+<blockquote>
+<p>警告：如果你在使用docker-compose的Container Networking，需要service容器之间通过容器组网通信，<strong>不要使用方法1或2</strong>！会和容器的组网冲突，导致无法使用其他容器的container name进行dns寻址。这种情况下建议只在编译过程中走代理，容器运行时不要走任何代理，参考方法3</p>
+</blockquote>
+<p>方法3：使用<code>build_args</code>编译时变量
+<code>docker-compose.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">     <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">     <span class="attr">dockerfile:</span> <span class="string">./trade/scraper/Dockerfile</span></span><br><span class="line">     <span class="attr">args:</span></span><br><span class="line">       <span class="attr">http_proxy:</span> <span class="string">&quot;http://172.17.0.1:7890&quot;</span></span><br><span class="line">       <span class="attr">https_proxy:</span> <span class="string">&quot;http://172.17.0.1:7890&quot;</span></span><br></pre></td></tr></table></figure>
+<p>用Docker Desktop的情况可以不用默认的静态IP，用<code>host.docker.internal</code>，但Linux Docker不支持，还
+是填写docker default network里宿主机的默认IP 172.17.0.1。但经检测，在容器运行环境里，所以平台都可以正常使用<code>host.docker.internal</code>域名来引用宿主机。</p>
+<p>用<code>docker build</code>命令，同理<code>docker build --build-arg http_proxy=&quot;...&quot;</code>。</p>
+<h2 id="Windows-Docker-Desktop"><a href="#Windows-Docker-Desktop" class="headerlink" title="Windows Docker Desktop"></a>Windows Docker Desktop</h2><p>WSL2版本的Windows Docker Desktop，容器配置存储在<code>\\wsl.localhost\docker-desktop-data\data\docker\containers</code>（直接在
+文件资源管理器的地址栏里粘贴即可）。例如想要修改已经启动的容器的Network port mapping，
+编辑<code>\\wsl.localhost\docker-desktop-data\data\docker\containers\&#123;id&#125;\hostconfig.json</code>
+中的<code>PortBindings</code>字段，注意要关闭docker service，否则修改会被覆盖，修改保存后重启docker，启动容器，就可以在Docker
+Desktop里看到Port Binding更新啦。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Git笔记</title>
     <url>//git-tips/</url>
     <content><![CDATA[<p>本文记录一些常用的git操作和设置技巧。</p>
@@ -379,58 +431,6 @@ commits，这些commits不在你的fork上存在，你要把原项目的新的co
       <tags>
         <tag>git</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Docker笔记</title>
-    <url>//docker-tips/</url>
-    <content><![CDATA[<p>…</p>
-<span id="more"></span>
-<h2 id="Linux无法以用户身份运行docker"><a href="#Linux无法以用户身份运行docker" class="headerlink" title="Linux无法以用户身份运行docker"></a>Linux无法以用户身份运行docker</h2><p>在shell里以用户登录，<code>docker pull</code>报错</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo groupadd docker <span class="comment"># 添加docker用户组</span></span><br><span class="line">sudo gpasswd -a <span class="variable">$USER</span> docker <span class="comment"># 添加当前用户到docker用户组</span></span><br><span class="line">newgrp docker <span class="comment"># 更新docker用户组</span></span><br></pre></td></tr></table></figure>
-
-<p>然后可以以普通用户身份运行<code>docker</code>命令</p>
-<h2 id="Alpine容器内设置时区"><a href="#Alpine容器内设置时区" class="headerlink" title="Alpine容器内设置时区"></a>Alpine容器内设置时区</h2><p>标签<code>alpine:latest</code>的容器内，时区默认是UTC，不受宿主机的时区设置影响。所以打印出来的日志中的时间戳是错误的。</p>
-<p>Golang标准库<code>time.LoadLocation</code>之类的函数依赖操作系统的实现，而alpine镜像没有安装对应的库</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">time.LoadLocation(<span class="string">&quot;Asia/Shanghai&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>会提示无法找到”Asia/Shanghai”时区</p>
-<p>解决方法</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dockerfile</span></span><br><span class="line"><span class="keyword">FROM</span> alpine:latest</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apk add --no-cache tzdata</span></span><br></pre></td></tr></table></figure>
-
-<p>在docker-compose或者启动容器时指定<code>TZ</code>环境变量</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">jerry:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">yangrq1018/jerry</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>时间戳显示正确</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">❯ docker logs jerry</span><br><span class="line">2021/11/14 11:13:38 bot version: jerry/1.0.2 (dirty), built on 2021-11-14, last commit f33e14e@master</span><br><span class="line">[INFO]  | LOG | 2021/11/14/ 11:13:39 | Logger initialised.</span><br><span class="line">2021/11/14 11:13:41 check bot network</span><br><span class="line">2021/11/14 11:13:41 Network env &quot;http_proxy&quot;: </span><br><span class="line">2021/11/14 11:13:41 Network env &quot;https_proxy&quot;: </span><br><span class="line">2021/11/14 11:13:41 Network env &quot;HTTP_PROXY&quot;: http://host.docker.internal:7890</span><br><span class="line">2021/11/14 11:13:41 Network env &quot;HTTPS_PROXY&quot;: http://host.docker.internal:7890</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="容器访问主机的端口-amp-amp-使用主机网络代理"><a href="#容器访问主机的端口-amp-amp-使用主机网络代理" class="headerlink" title="容器访问主机的端口 &amp;&amp; 使用主机网络代理"></a>容器访问主机的端口 &amp;&amp; 使用主机网络代理</h2><p>在墙内环境下，docker build里的包下载很慢而且容易卡住失败，这时我们想要在容器内部设置代理。
-容器的网络流量可以使用主机提供代理服务，或者通过docker container networking，使用运行在另一个容器内的代理服务，如clash。</p>
-<p>方法1：最简单粗暴，在Dockerfile里hardcode</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="keyword">ENV</span> HTTP_PROXY http://host:<span class="number">7890</span></span><br></pre></td></tr></table></figure>
-<p>缺点也是显而易见的，其他人拉取的镜像中也会有这个环境变量，而且无法消除或者更改。如果更换了代理地址，镜像也需要重新编译。这个方法只适合需要走公司的proxy server上网的环境，镜像只是内部使用。</p>
-<p>方法2：配置<code>~/.docker/config.json</code></p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;proxies&quot;</span><span class="punctuation">:</span></span><br><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span></span><br><span class="line">   <span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;httpProxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://host-ip:7890&quot;</span><span class="punctuation">,</span></span><br><span class="line">     <span class="attr">&quot;httpsProxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://host-ip:7890&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>这里的值会直接被设置为容器内部的<code>HTTP_PROXY</code>环境变量的值，所以需要填写主机的局域网IP地址而不是<code>127..0.0.1</code>或者<code>localhost</code>。这种方法对所有在本机上<code>docker build</code>的容器都有效，不影响其他人拉取的镜像，适合在开发环境上使用。</p>
-<blockquote>
-<p>警告：如果你在使用docker-compose的Container Networking，需要service容器之间通过容器组网通信，<strong>不要使用方法1或2</strong>！会和容器的组网冲突，导致无法使用其他容器的container name进行dns寻址。这种情况下建议只在编译过程中走代理，容器运行时不要走任何代理，参考方法3</p>
-</blockquote>
-<p>方法3：使用<code>build_args</code>编译时变量
-<code>docker-compose.yml</code></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">     <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">     <span class="attr">dockerfile:</span> <span class="string">./trade/scraper/Dockerfile</span></span><br><span class="line">     <span class="attr">args:</span></span><br><span class="line">       <span class="attr">http_proxy:</span> <span class="string">&quot;http://172.17.0.1:7890&quot;</span></span><br><span class="line">       <span class="attr">https_proxy:</span> <span class="string">&quot;http://172.17.0.1:7890&quot;</span></span><br></pre></td></tr></table></figure>
-<p>用Docker Desktop的情况可以不用默认的静态IP，用<code>host.docker.internal</code>，但Linux Docker不支持，还
-是填写docker default network里宿主机的默认IP 172.17.0.1。但经检测，在容器运行环境里，所以平台都可以正常使用<code>host.docker.internal</code>域名来引用宿主机。</p>
-<p>用<code>docker build</code>命令，同理<code>docker build --build-arg http_proxy=&quot;...&quot;</code>。</p>
-<h2 id="Windows-Docker-Desktop"><a href="#Windows-Docker-Desktop" class="headerlink" title="Windows Docker Desktop"></a>Windows Docker Desktop</h2><p>WSL2版本的Windows Docker Desktop，容器配置存储在<code>\\wsl.localhost\docker-desktop-data\data\docker\containers</code>（直接在
-文件资源管理器的地址栏里粘贴即可）。例如想要修改已经启动的容器的Network port mapping，
-编辑<code>\\wsl.localhost\docker-desktop-data\data\docker\containers\&#123;id&#125;\hostconfig.json</code>
-中的<code>PortBindings</code>字段，注意要关闭docker service，否则修改会被覆盖，修改保存后重启docker，启动容器，就可以在Docker
-Desktop里看到Port Binding更新啦。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
   </entry>
   <entry>
     <title>Gitlab CI 使用笔记</title>
@@ -1948,6 +1948,73 @@ counterparts in IDEs. For example, NERDTree’s windows are not synced across vi
       </tags>
   </entry>
   <entry>
+    <title>Archlinux Package System</title>
+    <url>//archlinux/package/</url>
+    <content><![CDATA[<p>In some sense, Archlinux is just a minimal Debian with nice package managers.
+This post discusses about how the package creating, hosting and installing work.</p>
+<span id="more"></span>
+
+<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>In the daily use of Archlinux, you will inevitably need to install packages.
+Package managers let you do that. Package manager is an important feature for
+any Linux system.</p>
+<h3 id="Pacman"><a href="#Pacman" class="headerlink" title="Pacman"></a>Pacman</h3><p>Archlinux presents <code>pacman</code>. <code>pacman</code> lets
+you install the “official” packages from
+<a href="https://archlinux.org/packages/">packages</a> with just one command.</p>
+<p>Common pacman commands are</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pacman -S &lt;package&gt;</span><br><span class="line">pacman -Ss &lt;regexp&gt;</span><br><span class="line">pacman -Sy</span><br><span class="line">pacman -Syu</span><br><span class="line"></span><br><span class="line">pacman -Q &lt;package&gt;</span><br><span class="line">pacman -Qi &lt;package&gt;</span><br><span class="line">pacman -Qo &lt;package&gt;</span><br><span class="line">pacman -Qu</span><br><span class="line">pacman -Qe</span><br><span class="line">pacman -Qm</span><br><span class="line">pacman -Qn</span><br><span class="line"></span><br><span class="line">pacman -R &lt;package&gt;</span><br><span class="line">pacman -Rs &lt;package&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Cleaning pacman cache:</p>
+<p>After a few <code>pacman -Syu</code>s, you would have downloaded a ton of compressed package binaries. Cache is
+stored under <code>/var/cache/pacman/pkg</code>. You have to clean up the cache directory so it won’t grow
+infinitely in size.</p>
+<p><code>paccache</code> is a script included in the <code>pacman-contrib</code> package. It is not a dependency of pacman, you
+have to install manually. <code>pacman</code> has its built-in way to clean up cache as well, which is too
+aggressive and not as flexible as <code>paccache</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">paccache -r</span><br><span class="line">paccache -rk1</span><br><span class="line">paccache -ruk0</span><br></pre></td></tr></table></figure>
+
+<p>By default, <code>paccache</code> removes all cached versions for all installed and uninstalled packages,
+except for the most recent three. (Command 1)</p>
+<p>You can override the number of versions to keep by option <code>-k</code>. (Command 2)</p>
+<p>You can limit the target packages to uninstalled. (Command 3)</p>
+<h3 id="Makepkg"><a href="#Makepkg" class="headerlink" title="Makepkg"></a>Makepkg</h3><p><code>makepkg</code> is a central script to Archlinux packaging. The normal workflow is that you write a
+<code>PKGBUILD</code> file that keeps all the build commands and metadata for software. Execute <code>makepkg</code> on it,
+then it automatically pulls the source, runs build commands and bundles the output into a single
+compressed tarball (in <code>.pkg.tar.zst</code> extension). The tarball can be installed to the system by
+<code>pacman -U</code>.</p>
+<p>Some packages include PGP signatures alongside their source file. In such case, <code>makepkg</code> will
+automatically verify its integrity. But if the needed public key is not found in user’s keyring
+(pacman’s keyring is not used), it tries to import the missing PGP key via <code>gpg</code>. <code>gpg</code> searches
+keyservers it knows for the provided fingerprint. However, it reads <code>/etc/resolv.conf</code> directly.
+If you happen to have an empty one, import will fail and so will build of the package.</p>
+<p>According to <a href="https://wiki.archlinux.org/title/Systemd-resolved#DNS">wiki</a>, the recommended way is
+to set <code>/etc/resolv.conf</code> as a soft link to <code>/run/systemd/resolve/stub-resolv.conf</code>. This propagates
+the systemd-resolved managed configuration to all clients. <code>stub-resolv.conf</code> contains the local
+stub <code>127.0.0.53</code> as the only DNS server.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="AUR"><a href="#AUR" class="headerlink" title="AUR"></a>AUR</h3><p>Having pacman is good engough. Even better, there is AUR (Arch User Repository), a community repository
+that hosts a diverse range of packages upgrading at a much faster pace than the official repository.
+AUR packages are uploaded by users. Anyone can submit a package with just a few steps.</p>
+<p>Pacman packages are precompiled binary tarballs. An AUR package contains only the build instructions
+(PKGBUILD). You will build and install the package on your own system. Thus, you should be careful
+about what you are installing, and audit the build script if needed. The AUR and the repos are not
+fundamentally different in the way how they were built. They all rely on <code>makepkg</code> and <code>PKGBUILD</code>
+files. It is just that the repos packages are somehow more standard packages. They are already
+examined by developers and compiled for users to download.</p>
+<p>You are able to install any AUR package from scratch. <code>makepkg</code>, a script included in the standard
+Arch installation, is all you need. AUR helpers like <code>yay</code> (Yet Another Yogurt) will make your life
+easier. <code>yay</code> automates the process of searching, pulling, resolving dependencies and building.</p>
+<h3 id="Debug-Package"><a href="#Debug-Package" class="headerlink" title="Debug Package"></a>Debug Package</h3><p>While building package with <code>makepkg</code>, it by default strips debug symbols away from the binary. A
+separate package is created and installed containing the debug symbols.</p>
+<p>Since a recent update of pacman, the default values for option <code>strip</code> and <code>debug</code> have changed. For
+example, installing wlogout via AUR will also give you a <code>wlogout-debug</code> package installed. The
+default value of <code>debug</code> has become true.</p>
+<p>You may disable such behaviour by tweaking makepkg.conf. The system default file is at
+<code>/etc/makepkg.conf</code>. Override the default in user config file at <code>~/.config/pacman/makepkg.conf</code>.</p>
+]]></content>
+  </entry>
+  <entry>
     <title>Arch Linux Installation Guide</title>
     <url>//archlinux/installation/</url>
     <content><![CDATA[<p>A full guide to help you install a fresh Arch Linux distribution on your computer.</p>
@@ -2201,73 +2268,6 @@ you to choose a different boot option as it can’t find grub to start with.</p>
         <tag>linux</tag>
         <tag>arch</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Archlinux Package System</title>
-    <url>//archlinux/package/</url>
-    <content><![CDATA[<p>In some sense, Archlinux is just a minimal Debian with nice package managers.
-This post discusses about how the package creating, hosting and installing work.</p>
-<span id="more"></span>
-
-<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>In the daily use of Archlinux, you will inevitably need to install packages.
-Package managers let you do that. Package manager is an important feature for
-any Linux system.</p>
-<h3 id="Pacman"><a href="#Pacman" class="headerlink" title="Pacman"></a>Pacman</h3><p>Archlinux presents <code>pacman</code>. <code>pacman</code> lets
-you install the “official” packages from
-<a href="https://archlinux.org/packages/">packages</a> with just one command.</p>
-<p>Common pacman commands are</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pacman -S &lt;package&gt;</span><br><span class="line">pacman -Ss &lt;regexp&gt;</span><br><span class="line">pacman -Sy</span><br><span class="line">pacman -Syu</span><br><span class="line"></span><br><span class="line">pacman -Q &lt;package&gt;</span><br><span class="line">pacman -Qi &lt;package&gt;</span><br><span class="line">pacman -Qo &lt;package&gt;</span><br><span class="line">pacman -Qu</span><br><span class="line">pacman -Qe</span><br><span class="line">pacman -Qm</span><br><span class="line">pacman -Qn</span><br><span class="line"></span><br><span class="line">pacman -R &lt;package&gt;</span><br><span class="line">pacman -Rs &lt;package&gt;</span><br></pre></td></tr></table></figure>
-
-<p>Cleaning pacman cache:</p>
-<p>After a few <code>pacman -Syu</code>s, you would have downloaded a ton of compressed package binaries. Cache is
-stored under <code>/var/cache/pacman/pkg</code>. You have to clean up the cache directory so it won’t grow
-infinitely in size.</p>
-<p><code>paccache</code> is a script included in the <code>pacman-contrib</code> package. It is not a dependency of pacman, you
-have to install manually. <code>pacman</code> has its built-in way to clean up cache as well, which is too
-aggressive and not as flexible as <code>paccache</code>.</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">paccache -r</span><br><span class="line">paccache -rk1</span><br><span class="line">paccache -ruk0</span><br></pre></td></tr></table></figure>
-
-<p>By default, <code>paccache</code> removes all cached versions for all installed and uninstalled packages,
-except for the most recent three. (Command 1)</p>
-<p>You can override the number of versions to keep by option <code>-k</code>. (Command 2)</p>
-<p>You can limit the target packages to uninstalled. (Command 3)</p>
-<h3 id="Makepkg"><a href="#Makepkg" class="headerlink" title="Makepkg"></a>Makepkg</h3><p><code>makepkg</code> is a central script to Archlinux packaging. The normal workflow is that you write a
-<code>PKGBUILD</code> file that keeps all the build commands and metadata for software. Execute <code>makepkg</code> on it,
-then it automatically pulls the source, runs build commands and bundles the output into a single
-compressed tarball (in <code>.pkg.tar.zst</code> extension). The tarball can be installed to the system by
-<code>pacman -U</code>.</p>
-<p>Some packages include PGP signatures alongside their source file. In such case, <code>makepkg</code> will
-automatically verify its integrity. But if the needed public key is not found in user’s keyring
-(pacman’s keyring is not used), it tries to import the missing PGP key via <code>gpg</code>. <code>gpg</code> searches
-keyservers it knows for the provided fingerprint. However, it reads <code>/etc/resolv.conf</code> directly.
-If you happen to have an empty one, import will fail and so will build of the package.</p>
-<p>According to <a href="https://wiki.archlinux.org/title/Systemd-resolved#DNS">wiki</a>, the recommended way is
-to set <code>/etc/resolv.conf</code> as a soft link to <code>/run/systemd/resolve/stub-resolv.conf</code>. This propagates
-the systemd-resolved managed configuration to all clients. <code>stub-resolv.conf</code> contains the local
-stub <code>127.0.0.53</code> as the only DNS server.</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="AUR"><a href="#AUR" class="headerlink" title="AUR"></a>AUR</h3><p>Having pacman is good engough. Even better, there is AUR (Arch User Repository), a community repository
-that hosts a diverse range of packages upgrading at a much faster pace than the official repository.
-AUR packages are uploaded by users. Anyone can submit a package with just a few steps.</p>
-<p>Pacman packages are precompiled binary tarballs. An AUR package contains only the build instructions
-(PKGBUILD). You will build and install the package on your own system. Thus, you should be careful
-about what you are installing, and audit the build script if needed. The AUR and the repos are not
-fundamentally different in the way how they were built. They all rely on <code>makepkg</code> and <code>PKGBUILD</code>
-files. It is just that the repos packages are somehow more standard packages. They are already
-examined by developers and compiled for users to download.</p>
-<p>You are able to install any AUR package from scratch. <code>makepkg</code>, a script included in the standard
-Arch installation, is all you need. AUR helpers like <code>yay</code> (Yet Another Yogurt) will make your life
-easier. <code>yay</code> automates the process of searching, pulling, resolving dependencies and building.</p>
-<h3 id="Debug-Package"><a href="#Debug-Package" class="headerlink" title="Debug Package"></a>Debug Package</h3><p>While building package with <code>makepkg</code>, it by default strips debug symbols away from the binary. A
-separate package is created and installed containing the debug symbols.</p>
-<p>Since a recent update of pacman, the default values for option <code>strip</code> and <code>debug</code> have changed. For
-example, installing wlogout via AUR will also give you a <code>wlogout-debug</code> package installed. The
-default value of <code>debug</code> has become true.</p>
-<p>You may disable such behaviour by tweaking makepkg.conf. The system default file is at
-<code>/etc/makepkg.conf</code>. Override the default in user config file at <code>~/.config/pacman/makepkg.conf</code>.</p>
-]]></content>
   </entry>
   <entry>
     <title>Archlinux User Softwares</title>
