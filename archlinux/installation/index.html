@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"yangruoqi.site","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.xncc.top","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="A full guide to help you install a fresh Arch Linux distribution on your computer.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Arch Linux Installation Guide">
-<meta property="og:url" content="https://yangruoqi.site/archlinux/installation/index.html">
+<meta property="og:url" content="https://blog.xncc.top/archlinux/installation/index.html">
 <meta property="og:site_name" content="Niu&#39;s Store">
 <meta property="og:description" content="A full guide to help you install a fresh Arch Linux distribution on your computer.">
 <meta property="og:locale" content="zh_CN">
@@ -35,11 +35,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://yangruoqi.site/archlinux/installation/">
+<link rel="canonical" href="https://blog.xncc.top/archlinux/installation/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://yangruoqi.site/archlinux/installation/","path":"/archlinux/installation/","title":"Arch Linux Installation Guide"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.xncc.top/archlinux/installation/","path":"/archlinux/installation/","title":"Arch Linux Installation Guide"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Arch Linux Installation Guide | Niu's Store</title>
@@ -201,7 +201,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yangruoqi.site/archlinux/installation/">
+    <link itemprop="mainEntityOfPage" href="https://blog.xncc.top/archlinux/installation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -295,21 +295,22 @@ preinstalled many softwares, tools and services to ease your installation proces
 remember that <strong>nothing</strong> will be copied from the live system to the target system you
 would use in the future. You would be able to install necessary things before booting
 the target system shortly, though.</p>
-<p>First, check your keyboard layout. The default layout for US. If yours is not, set by</p>
-<p><code>loadkeys delatin1</code>.</p>
+<p>First, check your keyboard layout. The default layout for US.</p>
+<p>For example, set German keyboard layout by
+<code>loadkeys de-latin1</code>.</p>
 <p>Pick a suitable font for the terminal. For HiDPI monitors, the largest font available</p>
 <p><code>setfont ter-132b</code></p>
 <p>Check the system is 64-bit</p>
 <p><code>cat /sys/firmware/efi/fw_platform_size</code></p>
 <p>should give you 64.</p>
-<p>Next, connect to the internet. I am working on a laptop without a place to LAN cable,
+<p>Next, connect to the internet. I am working on a laptop with no place to plug in LAN cable,
 so I’m gonna demonstrate how to connect to wireless networks (WiFi).</p>
 <p><code>ip link</code> to print the network interface. If it’s not up</p>
 <p><code>ip link set wlan0 up</code></p>
 <blockquote>
 <p>Your network interface may not have exactly the same name as <code>wlan0</code>.</p>
 </blockquote>
-<p>If that failed, it’s most likely that <code>rfkill</code> has block the device.</p>
+<p>If that failed, it’s most likely that <code>rfkill</code> has blocked the device.</p>
 <p><code>rfkill unblock wlan0</code></p>
 <p>The we shall use <code>iwctl</code> to connect to a hotspot. Type <code>iwctl</code> to enter an interactive
 session. Then these commands can help you connect to your home WiFi. Replace
@@ -465,9 +466,12 @@ rather than using the root user. You may create user by</p>
 <p>Generate GRUB config file
 <code>grub-mkconfig -o /boot/grub/grub.cfg</code></p>
 <p><code>exit</code> to leave the <code>chroot</code> shell and <code>reboot</code> to restart the machine.</p>
-<p>After seeing the GRUB interface you should be logged on into the new system.</p>
+<p>After seeing the GRUB interface you can log in the new system.</p>
 <h3 id="4-Post-Installation-Configuration"><a href="#4-Post-Installation-Configuration" class="headerlink" title="4. Post Installation Configuration"></a>4. Post Installation Configuration</h3><p>Enable and start <code>systemd-resolved</code> service for DNS, otherwise you might encounter errors
 using <code>netctl</code> to connect to the internet.</p>
+<p>For wired network connection, start/enable services <code>systemd-networkd</code> and <code>systemd-resolved</code>
+of the installed system. Ethernet network interface may have to be started manually by</p>
+<p><code>ip link set &lt;interface&gt; up</code></p>
 <p>If you installed <code>dialog</code> before, you can type <code>wifi-menu</code> to get into a graphical UI to
 pick WiFi hotspot to connect to.</p>
 <p>Here are some sane things to install</p>
