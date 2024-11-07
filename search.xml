@@ -1979,7 +1979,7 @@ preinstalled many softwares, tools and services to ease your installation proces
 remember that <strong>nothing</strong> will be copied from the live system to the target system you
 would use in the future. You would be able to install necessary things before booting
 the target system shortly, though.</p>
-<p>First, check your keyboard layout. The default layout for US.</p>
+<p>First, check your keyboard layout. The default layout is for US.</p>
 <p>For example, set German keyboard layout by
 <code>loadkeys de-latin1</code>.</p>
 <p>Pick a suitable font for the terminal. For HiDPI monitors, the largest font available</p>
