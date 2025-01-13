@@ -1954,7 +1954,7 @@ counterparts in IDEs. For example, NERDTree’s windows are not synced across vi
 <span id="more"></span>
 
 
-<p>If you have heard about static blog website engines, you should known hexo.</p>
+
 <h2 id="1-Prepare-Installation-Media"><a href="#1-Prepare-Installation-Media" class="headerlink" title="1. Prepare Installation Media"></a>1. Prepare Installation Media</h2><p>For Chinese users, download iso image file from Tsinghua
 <a href="https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/2024.01.01">mirror</a>.</p>
 <p>It is highly recommended to validate the GPG signature of the file. Whether you are downloading the
@@ -2063,9 +2063,11 @@ vital functionalities.</p>
 <p>Edit the source servers for <code>pacman</code>, <code>vim /etc/pacman.d/mirrorlist</code>,
 add the following line to the top.</p>
 <p><code>Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch</code></p>
+<blockquote>
 <p>This is the mirror ArchLinux package repo maintained by Tsing Hua University. They provide mirror
 sites for a number of programing languages and operating system package manager, such as Python
 (PyPI), <code>npm</code> and <code>apt</code>.</p>
+</blockquote>
 <p>When searching for packages, pacman reads the URLs from top to bottom. The generated mirrorlist
 included in the installation image already contains servers all over the world. You can check them
 and copy-paste an URL from the region close to your physical location. For that precedence reason,
@@ -2076,7 +2078,7 @@ has a section that summarizes available sites all over the world.</p>
 </blockquote>
 <p><code>pacstrap -K /mnt base linux linux-firmware base-devel</code></p>
 <p><code>base</code> is a minimal toolset for Arch. <code>linux</code> is the linux kernel. <code>linux-firmware</code>
-provdies hardware drivers. <code>base-devel</code>, a set of tools to build Arch Linux packages, is
+provides hardware drivers. <code>base-devel</code>, a set of tools to build Arch Linux packages, is
 optional but recommended to install before we boot into the new system.</p>
 <blockquote>
 <p>You could add more packages to the end of the command as long as you wish, such as <code>vim</code>
@@ -2108,10 +2110,11 @@ is <strong>only</strong> available on the live system. Nothing (actually one thi
 <code>mirrorlist</code> file we editted before) will be copied from the live system to the new system.</p>
 <p>Therefore, if you haven’t install any network management tools, and you reboot right now, also
 unfortunately you are with a wireless connection (a wired connection probably works out-of-the-box),
-then you are in trouble. You could find yourself in dead lock that you can’t connect to
+then you are in trouble. You could find yourself in deadlock that you can’t connect to
 the internet and pacman can’t install more packages for you, including network managers.</p>
 <p>For a complete list of network managers available and their pros and cons, check out
 <a href="https://wiki.archlinux.org/title/Network_configuration#Network_managers">wiki</a>.</p>
+<p>A. Wireless Network</p>
 <p>Typically speaking, you have two major choices: <code>networkmanager</code> or <code>netctl</code>. Installing either of
 them should do. I <strong>strongly suggest</strong> not installing or enabling both of them. If you enable
 <code>networkmanager</code> by <code>systemctl enable NetworkManager</code>, you will see some weird errors when you use
@@ -2131,6 +2134,19 @@ managing network profiles.</p>
 </blockquote>
 <p>Optionally, install <code>wireless_tools</code> for some utility tools to monitor wireless connections</p>
 <p><code>pacman -S wireless_tools</code></p>
+<p>B. Wired Network</p>
+<p>You do not need to install extra packages to make wired network work. You could of course install
+alternatives like <code>dhcpcd</code> to get DHCP configuration, but it is fine to use the default tools
+that come with standard Arch installation.</p>
+<p>First, start/enable <code>systemd-networkd</code> and <code>systemd-resolved</code> services.</p>
+<p>Point <code>/etc/resolv.conf</code> to the stub file managed by <code>systemd-resolved</code>,</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf</span><br></pre></td></tr></table></figure>
+
+<p>Write a configuration file for <code>systemd-networkd</code>, example for wired adapter using DHCP</p>
+<p><code>/etc/systemd/network/20-wired.network</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Match]</span><br><span class="line">Name=enp1s0</span><br><span class="line"></span><br><span class="line">[Link]</span><br><span class="line">RequiredForOnline=routable</span><br><span class="line"></span><br><span class="line">[Network]</span><br><span class="line">DHCP=yes</span><br></pre></td></tr></table></figure>
+
+<p>Restart <code>systemd-networkd</code> service to refresh the updates.</p>
 <p>It’s a good idea to install more packages via <code>pacman</code> at this point, consider stuff like</p>
 <ul>
 <li><code>sof-firmware</code> if you have an intel sound card</li>
